@@ -1,19 +1,18 @@
-from django.conf import settings
 from octoai.client import Client
 from octoai.errors import OctoAIClientError, OctoAIServerError, OctoAIValidationError
 
-from prem.gateway import exceptions
-from prem.gateway.connectors.base import BaseConnector
+from prem_utils import errors
+from prem_utils.connectors.base import BaseConnector
 
 
 class OctoAIConnector(BaseConnector):
-    def __init__(self, prompt_template: str = None):
+    def __init__(self, api_key: str, prompt_template: str = None):
         super().__init__(prompt_template=prompt_template)
-        self.client = Client(token=settings.OCTO_AI_API_KEY)
+        self.client = Client(token=api_key)
         self.exception_mapping = {
-            OctoAIClientError: exceptions.PremProviderPermissionDeniedError,
-            OctoAIValidationError: exceptions.PremProviderUnprocessableEntityError,
-            OctoAIServerError: exceptions.PremProviderInternalServerError,
+            OctoAIClientError: errors.PremProviderPermissionDeniedError,
+            OctoAIValidationError: errors.PremProviderUnprocessableEntityError,
+            OctoAIServerError: errors.PremProviderInternalServerError,
         }
 
     def parse_chunk(self, chunk):
@@ -67,7 +66,7 @@ class OctoAIConnector(BaseConnector):
                 top_p=top_p,
             )
         except (OctoAIClientError, OctoAIServerError, OctoAIValidationError) as error:
-            custom_exception = self.exception_mapping.get(type(error), exceptions.PremProviderError)
+            custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="octoai", model=model, provider_message=str(error))
 
         if stream:

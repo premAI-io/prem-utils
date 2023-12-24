@@ -2,22 +2,21 @@ import json
 import logging
 
 import requests
-from django.conf import settings
-from django.utils import timezone
 
-from prem.gateway import exceptions
-from prem.gateway.connectors.base import BaseConnector
+from prem_utils import errors
+from prem_utils.connectors.base import BaseConnector
 
 logger = logging.getLogger(__name__)
 
 
 class CloudflareConnector(BaseConnector):
-    def __init__(self, prompt_template: str = None):
+    def __init__(self, account_id: str, api_key: str, prompt_template: str = None):
         super().__init__(prompt_template=prompt_template)
-        self.base_url = f"https://api.cloudflare.com/client/v4/accounts/{settings.CLOUDFLARE_ACCOUNT_ID}/ai/run/"
+        self.base_url = f"https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/run/"
+        self.api_key = api_key
 
     def get_headers(self):
-        return {"Authorization": f"Bearer {settings.CLOUDFLARE_API_KEY}"}
+        return {"Authorization": f"Bearer {self.api_key}"}
 
     def parse_chunk(self, chunk):
         try:
@@ -30,7 +29,7 @@ class CloudflareConnector(BaseConnector):
             "id": None,
             "model": None,
             "object": None,
-            "created": str(timezone.now()),
+            "created": None,
             "choices": [
                 {
                     "delta": {"content": value, "role": "assistant"},
@@ -63,7 +62,7 @@ class CloudflareConnector(BaseConnector):
         try:
             response = requests.post(f"{self.base_url}{model}", headers=self.get_headers(), json=input, stream=True)
         except Exception as error:
-            raise exceptions.PremProviderAPIConnectionError(
+            raise errors.PremProviderAPIConnectionError(
                 error, provider="cloudflare", model=model, provider_message=str(error)
             )
 
@@ -74,7 +73,7 @@ class CloudflareConnector(BaseConnector):
                 )
             else:
                 logger.error(f"Unknown error from Cloudflare: {response.text} ({response.status_code})")
-                raise exceptions.PremProviderError(
+                raise errors.PremProviderError(
                     response.text, provider="cloudflare", model=model, provider_message=str(response.text)
                 )
 
@@ -88,7 +87,7 @@ class CloudflareConnector(BaseConnector):
                     "message": {"content": response.json()["result"]["response"], "role": "assistant"},
                 }
             ],
-            "created": str(timezone.now()),
+            "created": None,
             "model": model,
             "provider_name": "Cloudflare",
             "provider_id": "cloudflare",

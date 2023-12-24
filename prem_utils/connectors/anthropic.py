@@ -17,32 +17,30 @@ from anthropic import (
     RateLimitError,
     UnprocessableEntityError,
 )
-from django.conf import settings
-from django.utils import timezone
 
-from prem.gateway import exceptions
-from prem.gateway.connectors.base import BaseConnector
+from prem_utils import errors
+from prem_utils.connectors.base import BaseConnector
 
 # https://docs.anthropic.com/claude/reference/errors-and-rate-limits
 
 
 class AnthropicConnector(BaseConnector):
-    def __init__(self, prompt_template: str = None):
+    def __init__(self, api_key: str, prompt_template: str = None):
         super().__init__(prompt_template=prompt_template)
-        self.client = Anthropic(api_key=settings.ANTHROPIC_API_KEY)
+        self.client = Anthropic(api_key=api_key)
         self.exception_mapping = {
-            PermissionDeniedError: exceptions.PremProviderPermissionDeniedError,
-            UnprocessableEntityError: exceptions.PremProviderUnprocessableEntityError,
-            InternalServerError: exceptions.PremProviderInternalServerError,
-            AuthenticationError: exceptions.PremProviderAuthenticationError,
-            BadRequestError: exceptions.PremProviderBadRequestError,
-            NotFoundError: exceptions.PremProviderNotFoundError,
-            RateLimitError: exceptions.PremProviderRateLimitError,
-            APIResponseValidationError: exceptions.PremProviderAPIResponseValidationError,
-            ConflictError: exceptions.PremProviderConflictError,
-            APIStatusError: exceptions.PremProviderAPIStatusError,
-            APITimeoutError: exceptions.PremProviderAPITimeoutError,
-            APIConnectionError: exceptions.PremProviderAPIConnectionError,
+            PermissionDeniedError: errors.PremProviderPermissionDeniedError,
+            UnprocessableEntityError: errors.PremProviderUnprocessableEntityError,
+            InternalServerError: errors.PremProviderInternalServerError,
+            AuthenticationError: errors.PremProviderAuthenticationError,
+            BadRequestError: errors.PremProviderBadRequestError,
+            NotFoundError: errors.PremProviderNotFoundError,
+            RateLimitError: errors.PremProviderRateLimitError,
+            APIResponseValidationError: errors.PremProviderAPIResponseValidationError,
+            ConflictError: errors.PremProviderConflictError,
+            APIStatusError: errors.PremProviderAPIStatusError,
+            APITimeoutError: errors.PremProviderAPITimeoutError,
+            APIConnectionError: errors.PremProviderAPIConnectionError,
         }
 
     def parse_chunk(self, chunk):
@@ -50,7 +48,7 @@ class AnthropicConnector(BaseConnector):
             "id": chunk.log_id,
             "model": chunk.model,
             "object": None,
-            "created": str(timezone.now()),
+            "created": None,
             "choices": [
                 {
                     "delta": {"content": chunk.completion, "role": "assistant"},
@@ -114,7 +112,7 @@ class AnthropicConnector(BaseConnector):
             PermissionDeniedError,
             UnprocessableEntityError,
         ) as error:
-            custom_exception = self.exception_mapping.get(type(error), exceptions.PremProviderError)
+            custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="anthropic", model=model, provider_message=str(error))
 
         if stream:
@@ -129,7 +127,7 @@ class AnthropicConnector(BaseConnector):
                     "message": {"content": response.completion, "role": "assistant"},
                 }
             ],
-            "created": str(timezone.now()),
+            "created": None,
             "model": response.model,
             "provider_name": "Anthropic",
             "provider_id": "anthropic",

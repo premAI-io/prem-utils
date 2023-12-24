@@ -1,27 +1,24 @@
 import cohere
 from cohere.error import CohereAPIError, CohereConnectionError
-from django.conf import settings
-from django.utils import timezone
 
-from prem.gateway import exceptions
-from prem.gateway.connectors.base import BaseConnector
+from prem_utils import errors
+from prem_utils.connectors.base import BaseConnector
 
 
 class CohereConnector(BaseConnector):
-    def __init__(self, prompt_template: str = None):
+    def __init__(self, api_key: str, prompt_template: str = None):
         super().__init__(prompt_template=prompt_template)
-        self.client = cohere.Client(settings.COHERE_API_KEY)
+        self.client = cohere.Client(api_key)
         self.exception_mapping = {
-            CohereAPIError: exceptions.PremProviderAPIErrror,
-            CohereConnectionError: exceptions.PremProviderAPIConnectionError,
+            CohereAPIError: errors.PremProviderAPIErrror,
+            CohereConnectionError: errors.PremProviderAPIConnectionError,
         }
 
     def preprocess_messages(self, messages):
-        message = messages[-1]["content"]
         chat_history = []
         user_messages = []
         system_prompt = []
-        for message in messages[:-1]:
+        for message in messages:
             if message["role"] == "user":
                 user_messages.append(message["content"])
                 chat_history.append({"user_name": "User", "text": message["content"]})
@@ -40,7 +37,7 @@ class CohereConnector(BaseConnector):
             "id": chunk.id,
             "model": None,
             "object": None,
-            "created": str(timezone.now()),
+            "created": None,
             "choices": [
                 {
                     "delta": {"content": text, "role": "assistant"},
@@ -72,7 +69,7 @@ class CohereConnector(BaseConnector):
                 chat_history=chat_history, message=message, model="command", temperature=temperature, stream=stream
             )
         except (CohereAPIError, CohereConnectionError) as error:
-            custom_exception = self.exception_mapping.get(type(error), exceptions.PremProviderError)
+            custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="cohere", model=model, provider_message=str(error))
 
         if stream:
@@ -86,7 +83,7 @@ class CohereConnector(BaseConnector):
                     "message": {"content": response.text, "role": "assistant"},
                 }
             ],
-            "created": str(timezone.now()),
+            "created": None,
             "model": model,
             "provider_name": "Cohere",
             "provider_id": "cohere",

@@ -2,21 +2,21 @@ from collections.abc import Sequence
 
 import tiktoken
 
-from prem.gateway import exceptions
+from prem_utils import errors
 
 
 class BaseConnector:
     def __init__(self, prompt_template: str = None):
         self.prompt_template = prompt_template
         self.status_code_exception_mapping = {
-            403: exceptions.PremProviderPermissionDeniedError,
-            422: exceptions.PremProviderUnprocessableEntityError,
-            500: exceptions.PremProviderInternalServerError,
-            401: exceptions.PremProviderAuthenticationError,
-            400: exceptions.PremProviderBadRequestError,
-            404: exceptions.PremProviderNotFoundError,
-            429: exceptions.PremProviderRateLimitError,
-            409: exceptions.PremProviderConflictError,
+            403: errors.PremProviderPermissionDeniedError,
+            422: errors.PremProviderUnprocessableEntityError,
+            500: errors.PremProviderInternalServerError,
+            401: errors.PremProviderAuthenticationError,
+            400: errors.PremProviderBadRequestError,
+            404: errors.PremProviderNotFoundError,
+            429: errors.PremProviderRateLimitError,
+            409: errors.PremProviderConflictError,
         }
 
     def apply_prompt_template(self, messages):

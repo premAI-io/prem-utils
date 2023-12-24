@@ -1,6 +1,5 @@
 from collections.abc import Sequence
 
-from django.conf import settings
 from openai import (
     APIConnectionError,
     APIError,
@@ -18,32 +17,32 @@ from openai import (
     UnprocessableEntityError,
 )
 
-from prem.gateway import exceptions
-from prem.gateway.connectors.base import BaseConnector
+from prem_utils import errors
+from prem_utils.connectors.base import BaseConnector
 
 
 class OpenAIConnector(BaseConnector):
     def __init__(self, api_key: str = None, base_url: str = None, prompt_template: str = None):
         super().__init__(prompt_template=prompt_template)
         self.exception_mapping = {
-            APIError: exceptions.PremProviderAPIErrror,
-            PermissionDeniedError: exceptions.PremProviderPermissionDeniedError,
-            UnprocessableEntityError: exceptions.PremProviderUnprocessableEntityError,
-            InternalServerError: exceptions.PremProviderInternalServerError,
-            AuthenticationError: exceptions.PremProviderAuthenticationError,
-            BadRequestError: exceptions.PremProviderBadRequestError,
-            NotFoundError: exceptions.PremProviderNotFoundError,
-            RateLimitError: exceptions.PremProviderRateLimitError,
-            APIResponseValidationError: exceptions.PremProviderAPIResponseValidationError,
-            ConflictError: exceptions.PremProviderConflictError,
-            APIStatusError: exceptions.PremProviderAPIStatusError,
-            APITimeoutError: exceptions.PremProviderAPITimeoutError,
-            APIConnectionError: exceptions.PremProviderAPIConnectionError,
+            APIError: errors.PremProviderAPIErrror,
+            PermissionDeniedError: errors.PremProviderPermissionDeniedError,
+            UnprocessableEntityError: errors.PremProviderUnprocessableEntityError,
+            InternalServerError: errors.PremProviderInternalServerError,
+            AuthenticationError: errors.PremProviderAuthenticationError,
+            BadRequestError: errors.PremProviderBadRequestError,
+            NotFoundError: errors.PremProviderNotFoundError,
+            RateLimitError: errors.PremProviderRateLimitError,
+            APIResponseValidationError: errors.PremProviderAPIResponseValidationError,
+            ConflictError: errors.PremProviderConflictError,
+            APIStatusError: errors.PremProviderAPIStatusError,
+            APITimeoutError: errors.PremProviderAPITimeoutError,
+            APIConnectionError: errors.PremProviderAPIConnectionError,
         }
-        if api_key is not None and base_url is not None:
+        if base_url is not None:
             self.client = OpenAI(api_key=api_key, base_url=base_url)
         else:
-            self.client = OpenAI(api_key=settings.OPENAI_API_KEY, base_url=settings.OPENAI_BASE_URL)
+            self.client = OpenAI(api_key=api_key)
 
     def parse_chunk(self, chunk):
         return {
@@ -115,7 +114,7 @@ class OpenAIConnector(BaseConnector):
             PermissionDeniedError,
             UnprocessableEntityError,
         ) as error:
-            custom_exception = self.exception_mapping.get(type(error), exceptions.PremProviderError)
+            custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="openai", model=model, provider_message=str(error))
 
         if stream:
@@ -179,7 +178,7 @@ class OpenAIConnector(BaseConnector):
             PermissionDeniedError,
             UnprocessableEntityError,
         ) as error:
-            custom_exception = self.exception_mapping.get(type(error), exceptions.PremProviderError)
+            custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="openai", model=model, provider_message=str(error))
         return {
             "data": [embedding.embedding for embedding in response.data],

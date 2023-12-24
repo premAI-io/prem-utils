@@ -1,20 +1,18 @@
-from django.conf import settings
-from django.utils import timezone
 from mistralai.client import MistralClient
 from mistralai.exceptions import MistralAPIException, MistralConnectionException
 from mistralai.models.chat_completion import ChatMessage
 
-from prem.gateway import exceptions
-from prem.gateway.connectors.base import BaseConnector
+from prem_utils import errors
+from prem_utils.connectors.base import BaseConnector
 
 
 class MistralConnector(BaseConnector):
-    def __init__(self, prompt_template: str = None):
+    def __init__(self, api_key: str, prompt_template: str = None):
         super().__init__(prompt_template=prompt_template)
-        self.client = MistralClient(api_key=settings.MISTRAL_AI_API_KEY)
+        self.client = MistralClient(api_key=api_key)
         self.exception_mapping = {
-            MistralAPIException: exceptions.PremProviderAPIStatusError,
-            MistralConnectionException: exceptions.PremProviderAPIConnectionError,
+            MistralAPIException: errors.PremProviderAPIStatusError,
+            MistralConnectionException: errors.PremProviderAPIConnectionError,
         }
 
     def parse_chunk(self, chunk):
@@ -78,7 +76,7 @@ class MistralConnector(BaseConnector):
                         }
                         for choice in response.choices
                     ],
-                    "created": str(timezone.now()),
+                    "created": None,
                     "model": response.model,
                     "provider_name": "Anthropic",
                     "provider_id": "anthropic",
@@ -90,5 +88,5 @@ class MistralConnector(BaseConnector):
                 }
                 return plain_response
         except (MistralAPIException, MistralConnectionException) as error:
-            custom_exception = self.exception_mapping.get(type(error), exceptions.PremProviderError)
+            custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="mistralai", model=model, provider_message=str(error))

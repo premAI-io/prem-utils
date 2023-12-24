@@ -8,3 +8,4 @@ monsterapi==1.0.5.post1
 together==0.2.9
 fireworks-ai==0.9.0
 mistralai==0.0.8
+python-dotenv==1.0.0 

@@ -1,5 +1,4 @@
 import fireworks.client
-from django.conf import settings
 from fireworks.client.error import (
     AuthenticationError,
     BadGatewayError,
@@ -10,22 +9,22 @@ from fireworks.client.error import (
     ServiceUnavailableError,
 )
 
-from prem.gateway import exceptions
-from prem.gateway.connectors.base import BaseConnector
+from prem_utils import errors
+from prem_utils.connectors.base import BaseConnector
 
 
 class FireworksAIConnector(BaseConnector):
-    def __init__(self, prompt_template: str = None):
+    def __init__(self, api_key: str, prompt_template: str = None):
         super().__init__(prompt_template=prompt_template)
-        fireworks.client.api_key = settings.FIREWORKS_AI_API_KEY
+        fireworks.client.api_key = api_key
         self.exception_mapping = {
-            PermissionError: exceptions.PremProviderPermissionDeniedError,
-            InvalidRequestError: exceptions.PremProviderUnprocessableEntityError,
-            InternalServerError: exceptions.PremProviderInternalServerError,
-            AuthenticationError: exceptions.PremProviderAuthenticationError,
-            RateLimitError: exceptions.PremProviderRateLimitError,
-            ServiceUnavailableError: exceptions.PremProviderAPIStatusError,
-            BadGatewayError: exceptions.PremProviderAPIConnectionError,
+            PermissionError: errors.PremProviderPermissionDeniedError,
+            InvalidRequestError: errors.PremProviderUnprocessableEntityError,
+            InternalServerError: errors.PremProviderInternalServerError,
+            AuthenticationError: errors.PremProviderAuthenticationError,
+            RateLimitError: errors.PremProviderRateLimitError,
+            ServiceUnavailableError: errors.PremProviderAPIStatusError,
+            BadGatewayError: errors.PremProviderAPIConnectionError,
         }
 
     def preprocess_request(self, messages):
@@ -132,5 +131,5 @@ class FireworksAIConnector(BaseConnector):
             ServiceUnavailableError,
             BadGatewayError,
         ) as error:
-            custom_exception = self.exception_mapping.get(type(error), exceptions.PremProviderError)
+            custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="fireworksai", model=model, provider_message=str(error))

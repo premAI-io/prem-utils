@@ -1,0 +1,459 @@
+{
+    "connectors" : [
+        {
+            "provider":"anthropic",
+            "models":
+            [
+                {
+                    "slug" : "claude-2",
+                    "model_type" : "text2text",
+                    "context_window" : 200000,
+                    "input_cost_per_token": 0.000008,
+                    "output_cost_per_token": 0.000024
+                },
+                {
+                    "slug" : "claude-instant-1",
+                    "model_type" : "text2text",
+                    "context_window" : 100000,
+                    "input_cost_per_token": 0.00000163,
+                    "output_cost_per_token": 0.00000551
+                }
+            ]
+        },
+        {
+            "provider":"cohere",
+            "models":
+            [
+                {
+                    "slug" : "coral",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.000001,
+                    "output_cost_per_token": 0.000002
+                }
+            ]
+        },
+        {
+            "provider" : "azure",
+            "models":
+            [
+                {
+                    "slug" : "gpt-4-32k-azure",
+                    "model_type" : "text2text",
+                    "context_window" : 32768,
+                    "input_cost_per_token": 0.00006,
+                    "output_cost_per_token": 0.00012
+                },
+                {
+                    "slug" : "gpt-4-azure",
+                    "model_type" : "text2text",
+                    "context_window" : 8192,
+                    "input_cost_per_token": 0.00003,
+                    "output_cost_per_token": 0.00006
+                },
+                {
+                    "slug":"gpt-35-turbo-azure",
+                    "model_type" : "text2text",
+                    "context_window": 4096,
+                    "input_cost_per_token": 0.0000015,
+                    "output_cost_per_token": 0.000002
+                },
+                {
+                    "slug" : "gpt-35-turbo-16k-azure",
+                    "model_type" : "text2text",
+                    "context_window": 16385,
+                    "input_cost_per_token": 0.0000015,
+                    "output_cost_per_token": 0.000002
+                }
+            ]
+        },
+        {
+            "provider" : "openai",
+            "models":
+            [
+                {
+                    "slug" : "gpt-4-1106-preview",
+                    "model_type" : "text2text",
+                    "context_window" : 128000,
+                    "input_cost_per_token": 0.00006,
+                    "output_cost_per_token": 0.00012
+                },
+                {
+                    "slug" : "gpt-4",
+                    "model_type" : "text2text",
+                    "context_window" : 8192,
+                    "input_cost_per_token": 0.00003,
+                    "output_cost_per_token": 0.00006
+                },
+                {
+                    "slug": "gpt-3.5-turbo-1106",
+                    "model_type" : "text2text",
+                    "context_window": 16385,
+                    "input_cost_per_token": 0.0000015,
+                    "output_cost_per_token": 0.000002
+                },
+                {
+                    "slug":"gpt-3.5-turbo",
+                    "model_type" : "text2text",
+                    "context_window": 4096,
+                    "input_cost_per_token": 0.0000015,
+                    "output_cost_per_token": 0.000002
+                },
+                {
+                    "slug" : "gpt-3.5-turbo-16k",
+                    "model_type" : "text2text",
+                    "context_window": 16385,
+                    "input_cost_per_token": 0.0000015,
+                    "output_cost_per_token": 0.000002
+                },
+                {
+                    "slug" : "text-embedding-ada-002",
+                    "model_type" : "text2vector",
+                    "context_window" : 8191,
+                    "input_cost_per_token": 0.0000004,
+                    "output_cost_per_token": 0.0000004
+                }
+            ]
+        },
+        {
+            "provider" : "cloudflare",
+            "models":
+            [
+                {
+                    "slug" : "@cf/meta/llama-2-7b-chat-fp16",
+                    "model_type" : "text2text",
+                    "context_window" : 3072
+                },
+                {
+                    "slug" : "@cf/meta/llama-2-7b-chat-int8",
+                    "model_type" : "text2text",
+                    "context_window" : 2048
+                },
+                {
+                    "slug" : "@cf/mistral/mistral-7b-instruct-v0.1",
+                    "model_type" : "text2text",
+                    "context_window" : 4096
+                },
+                {
+                    "slug" : "@hf/thebloke/codellama-7b-instruct-awq",
+                    "model_type" : "text2text",
+                    "context_window" : 4096
+                }
+            ]
+        },
+        {
+            "provider" : "deepinfra",
+            "models":
+            [
+                {
+                    "slug" : "deepinfra/meta-llama/Llama-2-7b-chat-hf",
+                    "model_type" : "text2text",
+                    "context_window" : 4096
+                },
+                {
+                    "slug" : "deepinfra/meta-llama/Llama-2-70b-chat-hf",
+                    "model_type" : "text2text",
+                    "context_window" : 4096
+                },
+                {
+                    "slug" : "deepinfra/codellama/CodeLlama-34b-Instruct-hf",
+                    "model_type" : "text2text",
+                    "context_window" : 4096
+                },
+                {
+                    "slug" : "deepinfra/meta-llama/Llama-2-13b-chat-hf",
+                    "model_type" : "text2text",
+                    "context_window" : 4096
+                },
+                {
+                    "slug" : "deepinfra/deepinfra/airoboros-70b",
+                    "model_type" : "text2text",
+                    "context_window" : 4096
+                },
+                {
+                    "slug" : "deepinfra/mistralai/Mistral-7B-Instruct-v0.1",
+                    "model_type" : "text2text",
+                    "context_window" : 4096
+                }
+            ]
+        },
+        {
+            "provider" : "fireworksai",
+            "models":
+            [
+                {
+                    "slug" : "accounts/fireworks/models/mixtral-8x7b-instruct",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000002,
+                    "output_cost_per_token": 0.0000008
+                },
+                {
+                    "slug" : "accounts/fireworks/models/yi-34b-200k-capybara",
+                    "model_type" : "text2text",
+                    "context_window" : 204800,
+                    "input_cost_per_token": 0.0000007,
+                    "output_cost_per_token": 0.0000028
+                },
+                {
+                    "slug" : "accounts/fireworks/models/mistral-7b-instruct-4k",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000002,
+                    "output_cost_per_token": 0.0000008
+                },
+                {
+                    "slug" : "accounts/fireworks/models/llama-v2-13b-code-instruct",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000002,
+                    "output_cost_per_token": 0.0000008
+                },
+                {
+                    "slug" : "accounts/fireworks/models/llama-v2-34b-code-instruct",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000007,
+                    "output_cost_per_token": 0.0000028
+                },
+                {
+                    "slug" : "accounts/fireworks/models/llama-v2-7b-chat",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000002,
+                    "output_cost_per_token": 0.0000008
+                },
+                {
+                    "slug" : "accounts/fireworks/models/llama-v2-13b-chat",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000002,
+                    "output_cost_per_token": 0.0000008
+                },
+                {
+                    "slug" : "accounts/fireworks/models/llama-v2-70b-chat",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000007,
+                    "output_cost_per_token": 0.0000028
+                }
+            ]
+        },
+        {
+            "provider" : "octoai",
+            "models":
+            [
+                {
+                    "slug" : "octoai/mistral-7b-instruct-fp16",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000001,
+                    "output_cost_per_token": 0.0000025
+                },
+                {
+                    "slug" : "octoai/llama-2-13b-chat-fp16",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000002,
+                    "output_cost_per_token": 0.000005
+                },
+                {
+                    "slug" : "octoai/llama-2-70b-chat-fp16",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000006,
+                    "output_cost_per_token": 0.000019
+                },
+                {
+                    "slug" : "octoai/llama-2-70b-chat-int4",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000006,
+                    "output_cost_per_token": 0.000012
+                },
+                {
+                    "slug" : "octoai/codellama-7b-instruct-fp16",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000001,
+                    "output_cost_per_token": 0.000025
+                },
+                {
+                    "slug" : "octoai/codellama-13b-instruct-fp16",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000002,
+                    "output_cost_per_token": 0.000005
+                },
+                {
+                    "slug" : "octoai/codellama-34b-instruct-fp16",
+                    "model_type" : "text2text",
+                    "context_window" : 16384,
+                    "input_cost_per_token": 0.0000005,
+                    "output_cost_per_token": 0.00000115
+                },
+                {
+                    "slug" : "octoai/codellama-34b-instruct-int4",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000005,
+                    "output_cost_per_token": 0.0000008
+                }
+            ]
+        },
+        {
+            "provider" : "replicate",
+            "models":
+            [
+                {
+                    "slug" : "meta/llama-2-70b-chat:02e509c789964a7ea8736978a43525956ef40397be9033abf9fd2badfe68c9e3",
+                    "model_type" : "text2text",
+                    "context_window" : 4096
+                },
+                {
+                    "slug" : "meta/llama-2-13b-chat:f4e2de70d66816a838a89eeeb621910adffb0dd0baba3976c96980970978018d",
+                    "model_type" : "text2text",
+                    "context_window" : 4096
+                },
+                {
+                    "slug" : "meta/llama-2-7b-chat:13c3cdee13ee059ab779f0291d29054dab00a47dad8261375654de5540165fb0",
+                    "model_type" : "text2text",
+                    "context_window" : 4096
+                },
+                {
+                    "slug" : "mistralai/mistral-7b-instruct-v0.1:83b6a56e7c828e667f21fd596c338fd4f0039b46bcfa18d973e8e70e455fda70",
+                    "model_type" : "text2text",
+                    "context_window" : 4096
+                },
+                {
+                    "slug" : "mistralai/mistral-7b-v0.1:3e8a0fb6d7812ce30701ba597e5080689bef8a013e5c6a724fafb108cc2426a0",
+                    "model_type" : "text2text",
+                    "context_window" : 4096
+                }
+            ]
+        },
+        {
+            "provider" : "together",
+            "models":
+            [
+                {
+                    "slug" : "togethercomputer/CodeLlama-13b-Instruct",
+                    "model_type" : "text2text",
+                    "context_window" : 8192,
+                    "input_cost_per_token": 0.00000022,
+                    "output_cost_per_token": 0.00000022
+                },
+                {
+                    "slug" : "togethercomputer/CodeLlama-34b-Instruct",
+                    "model_type" : "text2text",
+                    "context_window" : 8192,
+                    "input_cost_per_token": 0.0000008,
+                    "output_cost_per_token": 0.0000008
+                },
+                {
+                    "slug" : "togethercomputer/CodeLlama-7b-Instruct",
+                    "model_type" : "text2text",
+                    "context_window" : 8192,
+                    "input_cost_per_token": 0.0000002,
+                    "output_cost_per_token": 0.0000002
+                },
+                {
+                    "slug" : "togethercomputer/llama-2-13b-chat",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.00000022,
+                    "output_cost_per_token": 0.00000022
+                },
+                {
+                    "slug" : "togethercomputer/llama-2-70b-chat",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000009,
+                    "output_cost_per_token": 0.0000009
+                },
+                {
+                    "slug" : "ogethercomputer/llama-2-7b-chat",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000002,
+                    "output_cost_per_token": 0.0000002
+                },
+                {
+                    "slug" : "togethercomputer/Llama-2-7B-32K-Instruct",
+                    "model_type" : "text2text",
+                    "context_window" : 32768,
+                    "input_cost_per_token": 0.0000002,
+                    "output_cost_per_token": 0.0000002
+                },
+                {
+                    "slug" : "mistralai/Mistral-7B-Instruct-v0.1",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000002,
+                    "output_cost_per_token": 0.0000002
+                },
+                {
+                    "slug" : "NousResearch/Nous-Hermes-llama-2-7b",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000002,
+                    "output_cost_per_token": 0.0000002
+                },
+                {
+                    "slug" : "NousResearch/Nous-Hermes-Llama2-13b",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000003,
+                    "output_cost_per_token": 0.0000003
+                },
+                {
+                    "slug" : "NousResearch/Nous-Hermes-Llama2-70b",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000009,
+                    "output_cost_per_token": 0.0000009
+                },
+                {
+                    "slug" : "Open-Orca/Mistral-7B-OpenOrca",
+                    "model_type" : "text2text",
+                    "context_window" : 8192,
+                    "input_cost_per_token": 0.0000002,
+                    "output_cost_per_token": 0.0000002
+                }
+            ]
+        },
+        {
+            "provider" : "mistralai",
+            "models":
+            [
+                {
+                    "slug" : "mistral-tiny",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.00000014,
+                    "output_cost_per_token": 0.00000042
+                },
+                {
+                    "slug" : "mistral-small",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000006,
+                    "output_cost_per_token": 0.0000018
+                },
+                {
+                    "slug" : "mistral-medium",
+                    "model_type" : "text2text",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.0000025,
+                    "output_cost_per_token": 0.0000075
+                },
+                {
+                    "slug" : "mistral-embed",
+                    "model_type" : "text2vec",
+                    "context_window" : 4096,
+                    "input_cost_per_token": 0.00000001
+                }
+            ]
+        }
+    ]
+}

@@ -1,23 +1,21 @@
 import together
-from django.conf import settings
-from django.utils import timezone
 from together.error import AttributeError, AuthenticationError, InstanceError, JSONError, RateLimitError, ResponseError
 
-from prem.gateway import exceptions
-from prem.gateway.connectors.base import BaseConnector
+from prem_utils import errors
+from prem_utils.connectors.base import BaseConnector
 
 
 class TogetherConnector(BaseConnector):
-    def __init__(self, prompt_template: str = None):
+    def __init__(self, api_key: str, prompt_template: str = None):
         super().__init__(prompt_template=prompt_template)
-        together.api_key = settings.TOGETHER_AI_API_KEY
+        together.api_key = api_key
         self.exception_mapping = {
-            AuthenticationError: exceptions.PremProviderAuthenticationError,
-            ResponseError: exceptions.PremProviderResponseValidationError,
-            JSONError: exceptions.PremProviderResponseValidationError,
-            InstanceError: exceptions.PremProviderAPIStatusError,
-            RateLimitError: exceptions.PremProviderRateLimitError,
-            AttributeError: exceptions.PremProviderResponseValidationError,
+            AuthenticationError: errors.PremProviderAuthenticationError,
+            ResponseError: errors.PremProviderResponseValidationError,
+            JSONError: errors.PremProviderResponseValidationError,
+            InstanceError: errors.PremProviderAPIStatusError,
+            RateLimitError: errors.PremProviderRateLimitError,
+            AttributeError: errors.PremProviderResponseValidationError,
         }
 
     def parse_chunk(self, chunk):
@@ -25,7 +23,7 @@ class TogetherConnector(BaseConnector):
             "id": None,
             "model": None,
             "object": None,
-            "created": str(timezone.now()),
+            "created": None,
             "choices": [
                 {
                     "delta": {"content": str(chunk), "role": "assistant"},
@@ -86,12 +84,12 @@ class TogetherConnector(BaseConnector):
                         }
                         for choice in response["output"]["choices"]
                     ],
-                    "created": str(timezone.now()),
+                    "created": None,
                     "model": model,
                     "provider_name": "Together",
                     "provider_id": "together",
                 }
                 return plain_response
         except (AuthenticationError, ResponseError, JSONError, InstanceError, RateLimitError, AttributeError) as error:
-            custom_exception = self.exception_mapping.get(type(error), exceptions.PremProviderError)
+            custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="together", model=model, provider_message=str(error))
