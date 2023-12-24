@@ -45,7 +45,10 @@ class FireworksAIConnector(BaseConnector):
             "created": chunk.created,
             "choices": [
                 {
-                    "delta": {"content": choice.delta.content, "role": choice.delta.role},
+                    "delta": {
+                        "content": choice.delta.content,
+                        "role": choice.delta.role,
+                    },
                     "finish_reason": choice.finish_reason,
                 }
                 for choice in chunk.choices
@@ -107,7 +110,10 @@ class FireworksAIConnector(BaseConnector):
                         {
                             "finish_reason": choice.finish_reason,
                             "index": choice.index,
-                            "message": {"content": choice.message.content, "role": choice.message.role},
+                            "message": {
+                                "content": choice.message.content,
+                                "role": choice.message.role,
+                            },
                         }
                         for choice in response.choices
                     ],

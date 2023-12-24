@@ -1,11 +1,22 @@
 import json
 import logging
-import pathlib
 import os
+import pathlib
 
 from dotenv import load_dotenv
 
-from prem_utils.connectors import anthropic, azure, fireworksai, openai, octoai, together, replicate, azure, cloudflare, cohere, mistral
+from prem_utils.connectors import (
+    anthropic,
+    azure,
+    cloudflare,
+    cohere,
+    fireworksai,
+    mistral,
+    octoai,
+    openai,
+    replicate,
+    together,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +35,6 @@ def load_models_file():
 
 
 def main():
-
     models_file = load_models_file()
 
     for connector in models_file["connectors"]:
@@ -32,7 +42,9 @@ def main():
             connector_object = anthropic.AnthropicConnector(api_key=os.environ["ANTHROPIC_API_KEY"])
         elif connector["provider"] == "azure":
             connector_object = azure.AzureOpenAIConnector(
-                api_key=os.environ["AZURE_OPENAI_API_KEY"], base_url=os.environ["AZURE_OPENAI_BASE_URL"])
+                api_key=os.environ["AZURE_OPENAI_API_KEY"],
+                base_url=os.environ["AZURE_OPENAI_BASE_URL"],
+            )
         elif connector["provider"] == "cohere":
             connector_object = cohere.CohereConnector(api_key=os.environ["COHERE_API_KEY"])
         elif connector["provider"] == "fireworksai":
@@ -47,12 +59,16 @@ def main():
             connector_object = together.TogetherConnector(api_key=os.environ["TOGETHER_AI_API_KEY"])
         elif connector["provider"] == "cloudflare":
             connector_object = cloudflare.CloudflareConnector(
-                api_key=os.environ["CLOUDFLARE_API_KEY"], account_id=os.environ["CLOUDFLARE_ACCOUNT_ID"])
+                api_key=os.environ["CLOUDFLARE_API_KEY"],
+                account_id=os.environ["CLOUDFLARE_ACCOUNT_ID"],
+            )
         elif connector["provider"] == "mistralai":
             connector_object = mistral.MistralConnector(api_key=os.environ["MISTRAL_AI_API_KEY"])
         elif connector["provider"] == "deepinfra":
             connector_object = openai.OpenAIConnector(
-                api_key=os.environ["DEEP_INFRA_API_KEY"], base_url="https://api.deepinfra.com/v1/openai")
+                api_key=os.environ["DEEP_INFRA_API_KEY"],
+                base_url="https://api.deepinfra.com/v1/openai",
+            )
         else:
             print(f"No connector for {connector['provider']}")
 

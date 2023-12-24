@@ -90,6 +90,13 @@ class TogetherConnector(BaseConnector):
                     "provider_id": "together",
                 }
                 return plain_response
-        except (AuthenticationError, ResponseError, JSONError, InstanceError, RateLimitError, AttributeError) as error:
+        except (
+            AuthenticationError,
+            ResponseError,
+            JSONError,
+            InstanceError,
+            RateLimitError,
+            AttributeError,
+        ) as error:
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="together", model=model, provider_message=str(error))

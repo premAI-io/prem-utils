@@ -66,7 +66,11 @@ class CohereConnector(BaseConnector):
         chat_history, message = self.preprocess_messages(messages)
         try:
             response = self.client.chat(
-                chat_history=chat_history, message=message, model="command", temperature=temperature, stream=stream
+                chat_history=chat_history,
+                message=message,
+                model="command",
+                temperature=temperature,
+                stream=stream,
             )
         except (CohereAPIError, CohereConnectionError) as error:
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)

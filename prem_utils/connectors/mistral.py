@@ -23,7 +23,10 @@ class MistralConnector(BaseConnector):
             "created": chunk.created,
             "choices": [
                 {
-                    "delta": {"content": choice.delta.content, "role": choice.delta.role},
+                    "delta": {
+                        "content": choice.delta.content,
+                        "role": choice.delta.role,
+                    },
                     "finish_reason": None,
                 }
                 for choice in chunk.choices
@@ -59,12 +62,20 @@ class MistralConnector(BaseConnector):
         try:
             if stream:
                 response = self.client.chat_stream(
-                    model=model, messages=messages, max_tokens=max_tokens, temperature=temperature, top_p=top_p
+                    model=model,
+                    messages=messages,
+                    max_tokens=max_tokens,
+                    temperature=temperature,
+                    top_p=top_p,
                 )
                 return response
             else:
                 response = self.client.chat(
-                    model=model, messages=messages, max_tokens=max_tokens, temperature=temperature, top_p=top_p
+                    model=model,
+                    messages=messages,
+                    max_tokens=max_tokens,
+                    temperature=temperature,
+                    top_p=top_p,
                 )
                 plain_response = {
                     "id": response.id,
@@ -72,7 +83,10 @@ class MistralConnector(BaseConnector):
                         {
                             "finish_reason": str(choice.finish_reason),
                             "index": choice.index,
-                            "message": {"content": choice.message.content, "role": choice.message.role},
+                            "message": {
+                                "content": choice.message.content,
+                                "role": choice.message.role,
+                            },
                         }
                         for choice in response.choices
                     ],

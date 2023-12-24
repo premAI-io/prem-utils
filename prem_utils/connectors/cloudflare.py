@@ -60,7 +60,12 @@ class CloudflareConnector(BaseConnector):
 
         input = {"messages": messages, "stream": stream}
         try:
-            response = requests.post(f"{self.base_url}{model}", headers=self.get_headers(), json=input, stream=True)
+            response = requests.post(
+                f"{self.base_url}{model}",
+                headers=self.get_headers(),
+                json=input,
+                stream=True,
+            )
         except Exception as error:
             raise errors.PremProviderAPIConnectionError(
                 error, provider="cloudflare", model=model, provider_message=str(error)
@@ -69,12 +74,18 @@ class CloudflareConnector(BaseConnector):
         if response.status_code != 200:
             if response.status_code in self.status_code_exception_mapping:
                 raise self.status_code_exception_mapping[response.status_code](
-                    response.text, provider="cloudflare", model=model, provider_message=str(response.text)
+                    response.text,
+                    provider="cloudflare",
+                    model=model,
+                    provider_message=str(response.text),
                 )
             else:
                 logger.error(f"Unknown error from Cloudflare: {response.text} ({response.status_code})")
                 raise errors.PremProviderError(
-                    response.text, provider="cloudflare", model=model, provider_message=str(response.text)
+                    response.text,
+                    provider="cloudflare",
+                    model=model,
+                    provider_message=str(response.text),
                 )
 
         if stream:
@@ -84,7 +95,10 @@ class CloudflareConnector(BaseConnector):
             "id": None,
             "choices": [
                 {
-                    "message": {"content": response.json()["result"]["response"], "role": "assistant"},
+                    "message": {
+                        "content": response.json()["result"]["response"],
+                        "role": "assistant",
+                    },
                 }
             ],
             "created": None,

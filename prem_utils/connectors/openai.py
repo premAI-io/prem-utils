@@ -52,7 +52,10 @@ class OpenAIConnector(BaseConnector):
             "created": chunk.created,
             "choices": [
                 {
-                    "delta": {"content": choice.delta.content, "role": choice.delta.role},
+                    "delta": {
+                        "content": choice.delta.content,
+                        "role": choice.delta.role,
+                    },
                     "finish_reason": choice.finish_reason,
                 }
                 for choice in chunk.choices
