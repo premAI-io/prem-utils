@@ -1,9 +1,15 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=42", "setuptools_scm[toml]>=3.4"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+
+[project.urls]
+Homepage = "https://github.com/premAI-io/prem-utils"
+Releases = "https://github.com/premAI-io/prem-utils/tags"
 
 [tool.poetry]
 name = "prem-utils"
-version = "0.1.0"
 description = "Prem generic utils to use across Prem Components."
 authors = ["Filippo Pedrazzini <filippo@premai.io>"]
 
