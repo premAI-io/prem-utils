@@ -8,10 +8,17 @@ build-backend = "setuptools.build_meta"
 Homepage = "https://github.com/premAI-io/prem-utils"
 Releases = "https://github.com/premAI-io/prem-utils/tags"
 
-[tool.poetry]
+[project]
 name = "prem-utils"
+dynamic = ["version", "dependencies"]
+authors = [{name = "Filippo Pedrazzini", email = "filippo@premai.io"}]
 description = "Prem generic utils to use across Prem Components."
-authors = ["Filippo Pedrazzini <filippo@premai.io>"]
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "Apache-2.0"}
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Programming Language :: Python :: 3 :: Only"]
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
