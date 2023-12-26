@@ -72,23 +72,41 @@ def main():
         else:
             print(f"No connector for {connector['provider']}")
 
-        model_object = connector["models"][0]
-        if model_object["model_type"] == "text2text":
-            parameters = {}
-            parameters["model"] = model_object["slug"]
-            messages = [{"role": "user", "content": "Hello, how is it going?"}]
-            messages.append({"role": "system", "content": "Behave like Rick Sanchez."})
-            parameters["messages"] = messages
+        llm = False
+        diffuser = False
+        for model_object in connector["models"]:
+            if model_object["model_type"] == "text2text" and llm is False:
+                parameters = {}
+                parameters["model"] = model_object["slug"]
+                messages = [{"role": "user", "content": "Hello, how is it going?"}]
+                messages.append({"role": "system", "content": "Behave like Rick Sanchez."})
+                parameters["messages"] = messages
 
-            print(f"Testing model {model_object['slug']} from {connector['provider']} connector \n\n\n")
-            response = connector_object.chat_completion(stream=False, **parameters)
-            print(response)
-            print(f"\n\n\n Model {model_object['slug']} succeeed 🚀 \n\n\n")
+                print(f"Testing model {model_object['slug']} from {connector['provider']} connector \n\n\n")
+                response = connector_object.chat_completion(stream=False, **parameters)
+                print(response)
+                print(f"\n\n\n Model {model_object['slug']} succeeed 🚀 \n\n\n")
 
-            response = connector_object.chat_completion(stream=True, **parameters)
-            for text in response:
-                print(connector_object.parse_chunk(text))
-            print(f"\n\n\n Model {model_object['slug']} succeeed with streaming 🚀 \n\n\n")
+                response = connector_object.chat_completion(stream=True, **parameters)
+                for text in response:
+                    print(connector_object.parse_chunk(text))
+                print(f"\n\n\n Model {model_object['slug']} succeeed with streaming 🚀 \n\n\n")
+
+                llm = True
+
+            if model_object["model_type"] == "text2image" and diffuser is False:
+                parameters = {}
+                parameters["model"] = model_object["slug"]
+                parameters["prompt"] = "A cute baby sea otter"
+                parameters["size"] = "1024x1024"
+                parameters["n"] = 1
+
+                print(f"Testing model {model_object['slug']} from {connector['provider']} connector \n\n\n")
+                response = connector_object.generate_image(**parameters)
+                print(response)
+                print(f"\n\n\n Model {model_object['slug']} succeeed 🚀 \n\n\n")
+
+                diffuser = True
 
 
 main()

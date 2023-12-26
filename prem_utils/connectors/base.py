@@ -67,3 +67,6 @@ class BaseConnector:
             "provider_name": "Cohere",
             "provider_id": "cohere",
         }
+
+    def generate_image(self):
+        raise NotImplementedError
