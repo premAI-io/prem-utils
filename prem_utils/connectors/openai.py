@@ -197,13 +197,8 @@ class OpenAIConnector(BaseConnector):
         }
 
     def finetuning(
-        self,
-        model: str,
-        training_data: list[dict],
-        validation_data: list[dict] | None = None,
-        num_epochs: int = 3,
-        openai_api_key: str = "your_openai_api_key",
-    ):
+        self, model: str, training_data: list[dict], validation_data: list[dict] | None = None, num_epochs: int = 3
+    ) -> str:
         training_file_id = self._upload_and_transform_data(training_data, size=10)
 
         validation_file_id = None
@@ -219,9 +214,30 @@ class OpenAIConnector(BaseConnector):
         if validation_file_id:
             fine_tuning_params["validation_file"] = validation_file_id
 
-        response = self.client.fine_tuning.jobs.create(**fine_tuning_params)
+        try:
+            response = self.client.fine_tuning.jobs.create(**fine_tuning_params)
+        except (
+            NotFoundError,
+            APIResponseValidationError,
+            ConflictError,
+            APIStatusError,
+            APITimeoutError,
+            RateLimitError,
+            BadRequestError,
+            APIConnectionError,
+            AuthenticationError,
+            InternalServerError,
+            PermissionDeniedError,
+            UnprocessableEntityError,
+        ) as error:
+            custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
+            raise custom_exception(error, provider="openai", model=model, provider_message=str(error))
 
-        return response
+        return {
+            "provider_name": "OpenAI",
+            "provider_id": "openai",
+            "id": response.id,
+        }
 
     def get_finetuning_job(self, job_id) -> dict[str, any]:
         response = self.client.fine_tuning.jobs.retrieve(job_id)
@@ -232,6 +248,8 @@ class OpenAIConnector(BaseConnector):
             "finished_at": response.finished_at,
             "status": response.status,
             "error": response.error,
+            "provider_name": "OpenAI",
+            "provider_id": "openai",
         }
 
     def _upload_and_transform_data(self, data: list[dict], size: int) -> str:
@@ -264,6 +282,22 @@ class OpenAIConnector(BaseConnector):
                 temp_file.write(json.dumps(item).encode("utf-8"))
                 temp_file.write(b"\n")
 
-            response = self.client.files.create(file=temp_file.file, purpose="fine-tune")
-
+            try:
+                response = self.client.files.create(file=temp_file.file, purpose="fine-tune")
+            except (
+                NotFoundError,
+                APIResponseValidationError,
+                ConflictError,
+                APIStatusError,
+                APITimeoutError,
+                RateLimitError,
+                BadRequestError,
+                APIConnectionError,
+                AuthenticationError,
+                InternalServerError,
+                PermissionDeniedError,
+                UnprocessableEntityError,
+            ) as error:
+                custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
+                raise custom_exception(error, provider="openai", model=None, provider_message=str(error))
         return response.id
