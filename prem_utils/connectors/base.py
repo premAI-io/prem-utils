@@ -67,3 +67,15 @@ class BaseConnector:
             "provider_name": "Cohere",
             "provider_id": "cohere",
         }
+
+    def finetuning(
+        self,
+        model: str,
+        training_file: dict,
+        validation_file: dict | None = None,
+        num_epochs: int = 3,
+    ):
+        raise NotImplementedError
+
+    def get_finetuning_job(self, job_id) -> dict[str, any]:
+        raise NotImplementedError
