@@ -72,8 +72,10 @@ def main():
         else:
             print(f"No connector for {connector['provider']}")
 
-        model_object = connector["models"][0]
-        if model_object["model_type"] == "text2text":
+        text2text_models = [model for model in connector["models"] if model["model_type"] == "text2text"]
+        text2vector_models = [model for model in connector["models"] if model["model_type"] == "text2vector"]
+        if len(text2text_models) > 0:
+            model_object = text2text_models[0]
             parameters = {}
             parameters["model"] = model_object["slug"]
             messages = [{"role": "user", "content": "Hello, how is it going?"}]
@@ -89,6 +91,14 @@ def main():
             for text in response:
                 print(connector_object.parse_chunk(text))
             print(f"\n\n\n Model {model_object['slug']} succeeed with streaming 🚀 \n\n\n")
+
+        if len(text2vector_models) > 0:
+            model_object = text2vector_models[0]
+            input = "Hello, how is it going?"
+            print(f"Testing model {model_object['slug']} from {connector['provider']} connector")
+            response = connector_object.embeddings(model=model_object["slug"], input=input)
+            print(f"Embeddings: {len(response['data'][0])}")
+            print(f"Model {model_object['slug']} succeeed 🚀 \n\n\n")
 
 
 main()

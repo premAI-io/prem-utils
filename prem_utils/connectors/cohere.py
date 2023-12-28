@@ -1,3 +1,5 @@
+from collections.abc import Sequence
+
 import cohere
 from cohere.error import CohereAPIError, CohereConnectionError
 
@@ -98,3 +100,24 @@ class CohereConnector(BaseConnector):
             },
         }
         return plain_response
+
+    def embeddings(
+        self,
+        model: str,
+        input: str | Sequence[str] | Sequence[int] | Sequence[Sequence[int]],
+        encoding_format: str = "float",
+        user: str = None,
+    ):
+        try:
+            texts = input if isinstance(input, list) else [input]
+            response = self.client.embed(texts=texts, model=model, input_type="search_document")
+        except (CohereAPIError, CohereConnectionError) as error:
+            custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
+            raise custom_exception(error, provider="cohere", model=model, provider_message=str(error))
+        return {
+            "data": response.embeddings,
+            "model": model,
+            "usage": None,
+            "provider_name": "Cohere",
+            "provider_id": "cohere",
+        }

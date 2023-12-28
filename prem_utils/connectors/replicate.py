@@ -165,3 +165,27 @@ class ReplicateConnector(BaseConnector):
             os.remove(temp_file.name)
 
         return serving_url
+
+    def embeddings(
+        self,
+        model: str,
+        input: str,
+        encoding_format: str = "float",
+        user: str = None,
+    ):
+        if type(input) is not str:
+            raise ValueError("Input 'input' must be a string.")
+        try:
+            response = self.client.run(
+                ref=model,
+                input={"text": input},
+            )
+            return {
+                "data": [response[0]["embedding"]],
+                "model": model,
+                "provider_name": "Replicate",
+                "provider_id": "replicate",
+            }
+        except (ReplicateError, ModelError) as error:
+            custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
+            raise custom_exception(error, provider="replicate", model=model, provider_message=str(error))
