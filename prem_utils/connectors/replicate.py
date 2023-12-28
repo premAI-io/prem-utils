@@ -1,3 +1,9 @@
+import json
+import os
+import tempfile
+import time
+
+import requests
 from replicate import Client
 from replicate.exceptions import ModelError, ReplicateError
 
@@ -9,6 +15,7 @@ class ReplicateConnector(BaseConnector):
     def __init__(self, api_key: str, prompt_template: str = None):
         super().__init__(prompt_template=prompt_template)
         self.client = Client(api_token=api_key)
+        self.api_key = api_key
         self.exception_mapping = {
             ReplicateError: errors.PremProviderInternalServerError,
             ModelError: errors.PremProviderAPIStatusError,
@@ -81,3 +88,80 @@ class ReplicateConnector(BaseConnector):
             "provider_id": "replicate",
         }
         return plain_response
+
+    def finetuning(self, model: str, training_data: dict, validation_data: dict | None = None, num_epochs: int = 3):
+        training_url = self._upload_and_transform_data(training_data, n_samples=25)
+        model_name = f"{model.split(':')[0].split('/')[1]}-{int(time.time())}"
+        fine_tuned_model = self.client.models.create(
+            owner="filopedraz",
+            name=model_name,
+            visibility="private",
+            hardware="cpu",
+        )
+        if validation_data:
+            validation_url = self._upload_and_transform_data(validation_data, n_samples=5)
+        else:
+            validation_url = None
+        training = self.client.trainings.create(
+            version=model,
+            input={
+                "train_data": training_url,
+                "validation_data": validation_url,
+                "num_train_epochs": num_epochs,
+                "batch_size_training": 1,
+                "val_batch_size": 1,
+            },
+            destination=f"{fine_tuned_model.owner}/{fine_tuned_model.name}",
+        )
+        return training.id
+
+    def get_finetuning_job(self, job_id) -> dict[str, any]:
+        response = self.client.trainings.get(job_id)
+        return {
+            "id": response.id,
+            "fine_tuned_model": response.output["version"] if response.output else None,
+            "created_at": response.created_at,
+            "finished_at": response.completed_at,
+            "status": response.status,
+            "error": response.error,
+            "provider_name": "Replicate",
+            "provider_id": "replicate",
+        }
+
+    def _upload_and_transform_data(self, data, n_samples):
+        file_name = f"dataset-{int(time.time())}.jsonl"
+        url = f"https://dreambooth-api-experimental.replicate.com/v1/upload/{file_name}"
+
+        headers = {"Authorization": f"Token {self.api_key}"}
+        response = requests.post(url, headers=headers)
+        response_data = response.json()
+        upload_url = response_data.get("upload_url")
+        serving_url = response_data.get("serving_url")
+
+        if len(data) < n_samples:
+            raise ValueError(f"Input 'data' must contain at least {n_samples} samples.")
+        if not all(isinstance(row, dict) and {"input", "output"}.issubset(row.keys()) for row in data):
+            raise ValueError("Input 'data' must be a list of dictionaries with 'input' and 'output' keys.")
+
+        transformed_data = [
+            {
+                "prompt": row["input"],
+                "completion": row["output"],
+            }
+            for row in data
+        ]
+        data_to_upload = [json.dumps(entry) for entry in transformed_data]
+        jsonl_content = "\n".join(data_to_upload)
+
+        with tempfile.NamedTemporaryFile(mode="w+", delete=False) as temp_file:
+            temp_file.write(jsonl_content)
+
+        try:
+            with open(temp_file.name, "rb") as file:
+                upload_response = requests.put(upload_url, data=file, headers={"Content-Type": "application/jsonl"})
+
+            upload_response.raise_for_status()
+        finally:
+            os.remove(temp_file.name)
+
+        return serving_url
