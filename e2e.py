@@ -74,8 +74,11 @@ def main():
 
         text2text_models = [model for model in connector["models"] if model["model_type"] == "text2text"]
         text2vector_models = [model for model in connector["models"] if model["model_type"] == "text2vector"]
+        text2image_models = [model for model in connector["models"] if model["model_type"] == "text2image"]
+
         if len(text2text_models) > 0:
             model_object = text2text_models[0]
+
             parameters = {}
             parameters["model"] = model_object["slug"]
             messages = [{"role": "user", "content": "Hello, how is it going?"}]
@@ -92,8 +95,23 @@ def main():
                 print(connector_object.parse_chunk(text))
             print(f"\n\n\n Model {model_object['slug']} succeeed with streaming 🚀 \n\n\n")
 
+        if len(text2image_models) > 0:
+            model_object = text2image_models[0]
+
+            parameters = {}
+            parameters["model"] = model_object["slug"]
+            parameters["prompt"] = "A cute baby sea otter"
+            parameters["size"] = "1024x1024"
+            parameters["n"] = 1
+
+            print(f"Testing model {model_object['slug']} from {connector['provider']} connector \n\n\n")
+            response = connector_object.generate_image(**parameters)
+            print(response)
+            print(f"\n\n\n Model {model_object['slug']} succeeed 🚀 \n\n\n")
+
         if len(text2vector_models) > 0:
             model_object = text2vector_models[0]
+
             input = "Hello, how is it going?"
             print(f"Testing model {model_object['slug']} from {connector['provider']} connector")
             response = connector_object.embeddings(model=model_object["slug"], input=input)

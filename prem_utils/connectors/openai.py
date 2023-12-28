@@ -232,7 +232,6 @@ class OpenAIConnector(BaseConnector):
         ) as error:
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="openai", model=model, provider_message=str(error))
-
         return response.id
 
     def get_finetuning_job(self, job_id) -> dict[str, any]:
@@ -297,3 +296,34 @@ class OpenAIConnector(BaseConnector):
                 custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
                 raise custom_exception(error, provider="openai", model=None, provider_message=str(error))
         return response.id
+
+    def generate_image(
+        self,
+        model: str,
+        prompt: str,
+        size: str = "1024x1024",
+        n: int = 1,
+        quality: str = "standard",
+        style: str = "vivid",
+    ):
+        try:
+            response = self.client.images.generate(
+                model=model, prompt=prompt, n=n, size=size, quality=quality, style=style
+            )
+        except (
+            NotFoundError,
+            APIResponseValidationError,
+            ConflictError,
+            APIStatusError,
+            APITimeoutError,
+            RateLimitError,
+            BadRequestError,
+            APIConnectionError,
+            AuthenticationError,
+            InternalServerError,
+            PermissionDeniedError,
+            UnprocessableEntityError,
+        ) as error:
+            custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
+            raise custom_exception(error, provider="openai", model=model, provider_message=str(error))
+        return {"created": None, "data": [{"url": image.url} for image in response.data]}

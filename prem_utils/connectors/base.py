@@ -68,6 +68,9 @@ class BaseConnector:
             "provider_id": "cohere",
         }
 
+    def generate_image(self):
+        raise NotImplementedError
+
     def finetuning(
         self, model: str, training_data: list[dict], validation_data: list[dict] | None = None, num_epochs: int = 3
     ) -> str:
