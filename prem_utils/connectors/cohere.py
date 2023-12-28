@@ -110,7 +110,6 @@ class CohereConnector(BaseConnector):
     ):
         try:
             texts = input if isinstance(input, list) else [input]
-            print(texts)
             response = self.client.embed(texts=texts, model=model, input_type="search_document")
         except (CohereAPIError, CohereConnectionError) as error:
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)

@@ -117,7 +117,7 @@ class MistralConnector(BaseConnector):
         try:
             response = self.client.embeddings(
                 model=model,
-                input=input,
+                input=input if type(input) is list else [input],
             )
             return {
                 "data": [emb.embedding for emb in response.data],
