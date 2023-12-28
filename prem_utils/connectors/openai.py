@@ -80,7 +80,7 @@ class OpenAIConnector(BaseConnector):
         tool_choice: dict = None,
     ):
         if self.prompt_template is not None:
-            messages = self.preprocess_request(messages)
+            messages = self.apply_prompt_template(messages)
 
         # NOTE custom logic for providers who don't have
         # their sdk, but they use direclty OpenAI python client.
