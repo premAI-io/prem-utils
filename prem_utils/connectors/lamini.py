@@ -1,5 +1,7 @@
+from collections.abc import Sequence
+
 import lamini
-from lamini import Lamini
+from lamini import Embedding, Lamini
 from lamini.error.error import (
     APIError,
     AuthenticationError,
@@ -121,6 +123,35 @@ class LaminiConnector(BaseConnector):
                 "finished_at": None,
                 "status": status,
                 "error": None,
+                "provider_name": "LaMini",
+                "provider_id": "lamini",
+            }
+        except (
+            ModelNameError,
+            APIError,
+            AuthenticationError,
+            RateLimitError,
+            UserError,
+            UnavailableResourceError,
+            ServerTimeoutError,
+        ) as error:
+            custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
+            raise custom_exception(error, provider="lamini", model=None, provider_message=str(error))
+
+    def embeddings(
+        self,
+        model: str,
+        input: str | Sequence[str] | Sequence[int] | Sequence[Sequence[int]],
+        encoding_format: str = "float",
+        user: str = None,
+    ):
+        try:
+            embed = Embedding()
+            embeddngs = [list(emb) for emb in embed.generate(input)]
+            return {
+                "data": embeddngs,
+                "model": None,
+                "usage": None,
                 "provider_name": "LaMini",
                 "provider_id": "lamini",
             }
