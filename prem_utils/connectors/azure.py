@@ -1,6 +1,7 @@
 import json
 import tempfile
 import time
+from collections.abc import Sequence
 
 from openai import (
     APIConnectionError,
@@ -133,6 +134,42 @@ class AzureOpenAIConnector(BaseConnector):
             "provider_id": "azure_openai",
         }
         return plain_response
+
+    def embeddings(
+        self,
+        model: str,
+        input: str | Sequence[str] | Sequence[int] | Sequence[Sequence[int]],
+        encoding_format: str = "float",
+        user: str = None,
+    ):
+        try:
+            response = self.client.embeddings.create(model=model, input=input)
+        except (
+            NotFoundError,
+            APIResponseValidationError,
+            ConflictError,
+            APIStatusError,
+            APITimeoutError,
+            RateLimitError,
+            BadRequestError,
+            APIConnectionError,
+            AuthenticationError,
+            InternalServerError,
+            PermissionDeniedError,
+            UnprocessableEntityError,
+        ) as error:
+            custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
+            raise custom_exception(error, provider="azure", model=model, provider_message=str(error))
+        return {
+            "data": [embedding.embedding for embedding in response.data],
+            "model": response.model,
+            "usage": {
+                "prompt_tokens": response.usage.prompt_tokens,
+                "total_tokens": response.usage.total_tokens,
+            },
+            "provider_name": "Azure OpenAI",
+            "provider_id": "azure_openai",
+        }
 
     def finetuning(
         self, model: str, training_data: list[dict], validation_data: list[dict] | None = None, num_epochs: int = 3
