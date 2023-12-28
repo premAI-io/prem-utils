@@ -78,6 +78,7 @@ def main():
 
         if len(text2text_models) > 0:
             model_object = text2text_models[0]
+
             parameters = {}
             parameters["model"] = model_object["slug"]
             messages = [{"role": "user", "content": "Hello, how is it going?"}]
@@ -95,6 +96,8 @@ def main():
             print(f"\n\n\n Model {model_object['slug']} succeeed with streaming 🚀 \n\n\n")
 
         if len(text2image_models) > 0:
+            model_object = text2image_models[0]
+
             parameters = {}
             parameters["model"] = model_object["slug"]
             parameters["prompt"] = "A cute baby sea otter"
@@ -108,6 +111,7 @@ def main():
 
         if len(text2vector_models) > 0:
             model_object = text2vector_models[0]
+
             input = "Hello, how is it going?"
             print(f"Testing model {model_object['slug']} from {connector['provider']} connector")
             response = connector_object.embeddings(model=model_object["slug"], input=input)
