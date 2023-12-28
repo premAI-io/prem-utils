@@ -233,11 +233,7 @@ class OpenAIConnector(BaseConnector):
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="openai", model=model, provider_message=str(error))
 
-        return {
-            "provider_name": "OpenAI",
-            "provider_id": "openai",
-            "id": response.id,
-        }
+        return response.id
 
     def get_finetuning_job(self, job_id) -> dict[str, any]:
         response = self.client.fine_tuning.jobs.retrieve(job_id)

@@ -152,7 +152,6 @@ class ReplicateConnector(BaseConnector):
         ]
         data_to_upload = [json.dumps(entry) for entry in transformed_data]
         jsonl_content = "\n".join(data_to_upload)
-        print(f"Uploading {len(data_to_upload)} to {upload_url}")
 
         with tempfile.NamedTemporaryFile(mode="w+", delete=False) as temp_file:
             temp_file.write(jsonl_content)

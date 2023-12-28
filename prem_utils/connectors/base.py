@@ -69,12 +69,8 @@ class BaseConnector:
         }
 
     def finetuning(
-        self,
-        model: str,
-        training_file: dict,
-        validation_file: dict | None = None,
-        num_epochs: int = 3,
-    ):
+        self, model: str, training_data: list[dict], validation_data: list[dict] | None = None, num_epochs: int = 3
+    ) -> str:
         raise NotImplementedError
 
     def get_finetuning_job(self, job_id) -> dict[str, any]:

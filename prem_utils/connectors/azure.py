@@ -177,11 +177,7 @@ class AzureOpenAIConnector(BaseConnector):
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="azure", model=model, provider_message=str(error))
 
-        return {
-            "provider_name": "Azure OpenAI",
-            "provider_id": "azure_openai",
-            "id": response.id,
-        }
+        return response.id
 
     def get_finetuning_job(self, job_id) -> dict[str, any]:
         response = self.client.fine_tuning.jobs.retrieve(job_id)
@@ -197,15 +193,6 @@ class AzureOpenAIConnector(BaseConnector):
         }
 
     def _upload_and_transform_data(self, data: list[dict], size: int) -> str:
-        """
-        Transform and upload data to OpenAI in the required format.
-
-        Parameters:
-        - data: The input data.
-
-        Returns:
-        - file_id: The ID of the uploaded file.
-        """
         if len(data) < size:
             raise ValueError(f"Input 'data' must contain at least {size} rows.")
         if not all(isinstance(row, dict) and {"input", "output"}.issubset(row.keys()) for row in data):
@@ -228,7 +215,6 @@ class AzureOpenAIConnector(BaseConnector):
 
             try:
                 response = self.client.files.create(file=temp_file.file, purpose="fine-tune")
-                print(response)
             except (
                 NotFoundError,
                 APIResponseValidationError,
@@ -269,6 +255,5 @@ class AzureOpenAIConnector(BaseConnector):
                 custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
                 raise custom_exception(error, provider="azure", model=None, provider_message=str(error))
             status = response.status
-            print(f"File ID {file_id} has status: {status}")
             time.sleep(0.5)
         return response.status == "processed"
