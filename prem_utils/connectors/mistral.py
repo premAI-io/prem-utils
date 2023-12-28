@@ -1,3 +1,5 @@
+from collections.abc import Sequence
+
 from mistralai.client import MistralClient
 from mistralai.exceptions import MistralAPIException, MistralConnectionException
 from mistralai.models.chat_completion import ChatMessage
@@ -101,6 +103,33 @@ class MistralConnector(BaseConnector):
                     },
                 }
                 return plain_response
+        except (MistralAPIException, MistralConnectionException) as error:
+            custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
+            raise custom_exception(error, provider="mistralai", model=model, provider_message=str(error))
+
+    def embeddings(
+        self,
+        model: str,
+        input: str | Sequence[str] | Sequence[int] | Sequence[Sequence[int]],
+        encoding_format: str = "float",
+        user: str = None,
+    ):
+        try:
+            response = self.client.embeddings(
+                model=model,
+                input=input if type(input) is list else [input],
+            )
+            return {
+                "data": [emb.embedding for emb in response.data],
+                "model": response.model,
+                "usage": {
+                    "completion_tokens": response.usage.completion_tokens,
+                    "prompt_tokens": response.usage.prompt_tokens,
+                    "total_tokens": response.usage.total_tokens,
+                },
+                "provider_name": "Anthropic",
+                "provider_id": "anthropic",
+            }
         except (MistralAPIException, MistralConnectionException) as error:
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="mistralai", model=model, provider_message=str(error))

@@ -1,5 +1,6 @@
 import json
 import logging
+from collections.abc import Sequence
 
 import requests
 
@@ -107,3 +108,46 @@ class CloudflareConnector(BaseConnector):
             "provider_id": "cloudflare",
         }
         return plain_response
+
+    def embeddings(
+        self,
+        model: str,
+        input: str | Sequence[str] | Sequence[int] | Sequence[Sequence[int]],
+        encoding_format: str = "float",
+        user: str = None,
+    ):
+        try:
+            response = requests.post(
+                f"{self.base_url}{model}",
+                headers=self.get_headers(),
+                json={"text": input},
+            )
+        except Exception as error:
+            raise errors.PremProviderAPIConnectionError(
+                error, provider="cloudflare", model=model, provider_message=str(error)
+            )
+
+        if response.status_code != 200:
+            if response.status_code in self.status_code_exception_mapping:
+                raise self.status_code_exception_mapping[response.status_code](
+                    response.text,
+                    provider="cloudflare",
+                    model=model,
+                    provider_message=str(response.text),
+                )
+            else:
+                logger.error(f"Unknown error from Cloudflare: {response.text} ({response.status_code})")
+                raise errors.PremProviderError(
+                    response.text,
+                    provider="cloudflare",
+                    model=model,
+                    provider_message=str(response.text),
+                )
+        response = response.json()
+        return {
+            "data": response["result"]["data"],
+            "model": model,
+            "usage": None,
+            "provider_name": "Cloudflare",
+            "provider_id": "claudflare",
+        }

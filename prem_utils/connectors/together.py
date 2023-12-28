@@ -1,3 +1,6 @@
+import json
+import tempfile
+
 import together
 from together.error import AttributeError, AuthenticationError, InstanceError, JSONError, RateLimitError, ResponseError
 
@@ -100,3 +103,56 @@ class TogetherConnector(BaseConnector):
         ) as error:
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="together", model=model, provider_message=str(error))
+
+    def finetuning(
+        self, model: str, training_data: list[dict], validation_data: list[dict] | None = None, num_epochs: int = 3
+    ) -> str:
+        train_file_id = self._upload_and_transform_data(training_data, size=100)
+
+        result = together.Finetune.create(model=model, training_file=train_file_id, n_epochs=num_epochs)
+        return result["id"]
+
+    def get_finetuning_job(self, job_id) -> dict[str, any]:
+        response = together.Finetune.retrieve(job_id)
+        status = response["status"]
+        if status == "error":
+            status = "failed"
+        elif status == "completed":
+            status = "succeeded"
+        return {
+            "id": response["id"],
+            "fine_tuned_model": response.get("model_output_name", None),
+            "created_at": response["created_at"],
+            "finished_at": response["updated_at"] if status in ("succeeded", "failed") else None,
+            "status": status,
+            "error": None,
+            "provider_name": "Togheter",
+            "provider_id": "togheter",
+        }
+
+    def _upload_and_transform_data(self, data: list[dict], size: int) -> str:
+        if len(data) < size:
+            raise ValueError(f"Input 'data' must contain at least {size} rows.")
+        if not all(isinstance(row, dict) and {"input", "output"}.issubset(row.keys()) for row in data):
+            raise ValueError("Input 'data' must be a list of dictionaries with 'input' and 'output' keys.")
+
+        transformed_data = [{"text": f'{row["input"]} {row["output"]}'} for row in data]
+
+        with tempfile.NamedTemporaryFile(mode="w+b", suffix=".jsonl", delete=False) as temp_file:
+            for item in transformed_data:
+                temp_file.write(json.dumps(item).encode("utf-8"))
+                temp_file.write(b"\n")
+
+            try:
+                upload_response = together.Files.upload(file=temp_file.name, check=False)
+                return upload_response["id"]
+            except (
+                AuthenticationError,
+                ResponseError,
+                JSONError,
+                InstanceError,
+                RateLimitError,
+                AttributeError,
+            ) as error:
+                custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
+                raise custom_exception(error, provider="together", model=None, provider_message=str(error))

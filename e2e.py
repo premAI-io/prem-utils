@@ -72,41 +72,47 @@ def main():
         else:
             print(f"No connector for {connector['provider']}")
 
-        llm = False
-        diffuser = False
-        for model_object in connector["models"]:
-            if model_object["model_type"] == "text2text" and llm is False:
-                parameters = {}
-                parameters["model"] = model_object["slug"]
-                messages = [{"role": "user", "content": "Hello, how is it going?"}]
-                messages.append({"role": "system", "content": "Behave like Rick Sanchez."})
-                parameters["messages"] = messages
+        text2text_models = [model for model in connector["models"] if model["model_type"] == "text2text"]
+        text2vector_models = [model for model in connector["models"] if model["model_type"] == "text2vector"]
+        text2image_models = [model for model in connector["models"] if model["model_type"] == "text2image"]
 
-                print(f"Testing model {model_object['slug']} from {connector['provider']} connector \n\n\n")
-                response = connector_object.chat_completion(stream=False, **parameters)
-                print(response)
-                print(f"\n\n\n Model {model_object['slug']} succeeed 🚀 \n\n\n")
+        if len(text2text_models) > 0:
+            model_object = text2text_models[0]
+            parameters = {}
+            parameters["model"] = model_object["slug"]
+            messages = [{"role": "user", "content": "Hello, how is it going?"}]
+            messages.append({"role": "system", "content": "Behave like Rick Sanchez."})
+            parameters["messages"] = messages
 
-                response = connector_object.chat_completion(stream=True, **parameters)
-                for text in response:
-                    print(connector_object.parse_chunk(text))
-                print(f"\n\n\n Model {model_object['slug']} succeeed with streaming 🚀 \n\n\n")
+            print(f"Testing model {model_object['slug']} from {connector['provider']} connector \n\n\n")
+            response = connector_object.chat_completion(stream=False, **parameters)
+            print(response)
+            print(f"\n\n\n Model {model_object['slug']} succeeed 🚀 \n\n\n")
 
-                llm = True
+            response = connector_object.chat_completion(stream=True, **parameters)
+            for text in response:
+                print(connector_object.parse_chunk(text))
+            print(f"\n\n\n Model {model_object['slug']} succeeed with streaming 🚀 \n\n\n")
 
-            if model_object["model_type"] == "text2image" and diffuser is False:
-                parameters = {}
-                parameters["model"] = model_object["slug"]
-                parameters["prompt"] = "A cute baby sea otter"
-                parameters["size"] = "1024x1024"
-                parameters["n"] = 1
+        if len(text2image_models) > 0:
+            parameters = {}
+            parameters["model"] = model_object["slug"]
+            parameters["prompt"] = "A cute baby sea otter"
+            parameters["size"] = "1024x1024"
+            parameters["n"] = 1
 
-                print(f"Testing model {model_object['slug']} from {connector['provider']} connector \n\n\n")
-                response = connector_object.generate_image(**parameters)
-                print(response)
-                print(f"\n\n\n Model {model_object['slug']} succeeed 🚀 \n\n\n")
+            print(f"Testing model {model_object['slug']} from {connector['provider']} connector \n\n\n")
+            response = connector_object.generate_image(**parameters)
+            print(response)
+            print(f"\n\n\n Model {model_object['slug']} succeeed 🚀 \n\n\n")
 
-                diffuser = True
+        if len(text2vector_models) > 0:
+            model_object = text2vector_models[0]
+            input = "Hello, how is it going?"
+            print(f"Testing model {model_object['slug']} from {connector['provider']} connector")
+            response = connector_object.embeddings(model=model_object["slug"], input=input)
+            print(f"Embeddings: {len(response['data'][0])}")
+            print(f"Model {model_object['slug']} succeeed 🚀 \n\n\n")
 
 
 main()

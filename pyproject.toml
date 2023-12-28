@@ -1,25 +1,27 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=42", "setuptools_scm[toml]>=3.4"]
+build-backend = "setuptools.build_meta"
 
-[tool.poetry]
+[tool.setuptools_scm]
+
+[project.urls]
+Homepage = "https://github.com/premAI-io/prem-utils"
+Releases = "https://github.com/premAI-io/prem-utils/tags"
+
+[project]
 name = "prem-utils"
-version = "0.1.0"
+dynamic = ["version", "dependencies"]
+authors = [{name = "Filippo Pedrazzini", email = "filippo@premai.io"}]
 description = "Prem generic utils to use across Prem Components."
-authors = ["Filippo Pedrazzini <filippo@premai.io>"]
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "Apache-2.0"}
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Programming Language :: Python :: 3 :: Only"]
 
-[tool.poetry.dependencies]
-openai = "1.3.7"
-tiktoken = "0.5.1"
-cohere = "4.39"
-anthropic = "0.7.7"
-replicate = "0.22.0"
-octoai-sdk = "0.7.4"
-monsterapi = "1.0.5.post1"
-together = "0.2.9"
-fireworks-ai = "0.9.0"
-mistralai = "0.0.8"
-python-dotenv = "1.0.0"
-pre-commit = "3.6.0"
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
 
 # ==== black ====
 [tool.black]
