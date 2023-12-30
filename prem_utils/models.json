@@ -401,7 +401,7 @@
                     "output_cost_per_token": 0.0000009
                 },
                 {
-                    "slug" : "ogethercomputer/llama-2-7b-chat",
+                    "slug" : "togethercomputer/llama-2-7b-chat",
                     "model_type" : "text2text",
                     "context_window" : 4096,
                     "input_cost_per_token": 0.0000002,
