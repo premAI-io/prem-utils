@@ -87,7 +87,6 @@ def main():
 
             print(f"Testing model {model_object['slug']} from {connector['provider']} connector \n\n\n")
             response = connector_object.chat_completion(stream=False, **parameters)
-            print(response)
             print(f"\n\n\n Model {model_object['slug']} succeeed 🚀 \n\n\n")
 
             response = connector_object.chat_completion(stream=True, **parameters)
@@ -106,7 +105,6 @@ def main():
 
             print(f"Testing model {model_object['slug']} from {connector['provider']} connector \n\n\n")
             response = connector_object.generate_image(**parameters)
-            print(response)
             print(f"\n\n\n Model {model_object['slug']} succeeed 🚀 \n\n\n")
 
         if len(text2vector_models) > 0:
