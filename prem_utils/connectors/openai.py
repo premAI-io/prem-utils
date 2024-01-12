@@ -88,7 +88,7 @@ class OpenAIConnector(BaseConnector):
         # their sdk, but they use direclty OpenAI python client.
         if "deepinfra" in model:
             model = model.replace("deepinfra/", "", 1)
-            max_tokens = max_tokens or 4096
+            max_tokens = max_tokens or 1024
 
         try:
             response = self.client.chat.completions.create(

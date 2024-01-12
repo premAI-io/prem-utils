@@ -78,7 +78,7 @@ class TogetherConnector(BaseConnector):
                     repetition_penalty=presence_penalty,
                 )
                 plain_response = {
-                    "id": str(response["id"]),
+                    "id": str(response["id"]) if "id" in response else None,
                     "choices": [
                         {
                             "finish_reason": None,
