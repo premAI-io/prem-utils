@@ -94,8 +94,8 @@ class MistralConnector(BaseConnector):
                     ],
                     "created": None,
                     "model": response.model,
-                    "provider_name": "Anthropic",
-                    "provider_id": "anthropic",
+                    "provider_name": "Mistral",
+                    "provider_id": "mistralai",
                     "usage": {
                         "completion_tokens": response.usage.completion_tokens,
                         "prompt_tokens": response.usage.prompt_tokens,
