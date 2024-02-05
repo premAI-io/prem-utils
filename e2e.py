@@ -14,7 +14,7 @@ from prem_utils.connectors import (
     mistral,
     octoai,
     openai,
-    prem_internals,
+    prem,
     replicate,
     together,
 )
@@ -71,7 +71,7 @@ def main():
                 base_url="https://api.deepinfra.com/v1/openai",
             )
         elif connector["provider"] == "prem":
-            connector_object = prem_internals.PremInternalConnectors(api_key=os.environ["PREMAI_BEARER_TOKEN"])
+            connector_object = prem.PremConnector(api_key=os.environ["PREMAI_BEARER_TOKEN"])
         else:
             print(f"No connector for {connector['provider']}")
 
