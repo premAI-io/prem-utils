@@ -305,10 +305,17 @@ class OpenAIConnector(BaseConnector):
         n: int = 1,
         quality: str = "standard",
         style: str = "vivid",
+        response_format: str = "url",
     ):
         try:
             response = self.client.images.generate(
-                model=model, prompt=prompt, n=n, size=size, quality=quality, style=style
+                model=model,
+                prompt=prompt,
+                n=n,
+                size=size,
+                quality=quality,
+                style=style,
+                response_format=response_format,
             )
         except (
             NotFoundError,
@@ -326,4 +333,4 @@ class OpenAIConnector(BaseConnector):
         ) as error:
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="openai", model=model, provider_message=str(error))
-        return {"created": None, "data": [{"url": image.url} for image in response.data]}
+        return {"created": None, "data": [{"url": image.url, "b64_json": image.b64_json} for image in response.data]}
