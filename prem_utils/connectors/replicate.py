@@ -181,7 +181,7 @@ class ReplicateConnector(BaseConnector):
                 input={"text": input},
             )
             return {
-                "data": [response[0]["embedding"]],
+                "data": [{"index": index, "embedding": data["embedding"]} for index, data in enumerate(response)],
                 "model": model,
                 "provider_name": "Replicate",
                 "provider_id": "replicate",

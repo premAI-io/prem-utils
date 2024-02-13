@@ -149,7 +149,13 @@ class LaminiConnector(BaseConnector):
             embed = Embedding()
             embeddngs = [list(emb) for emb in embed.generate(input)]
             return {
-                "data": embeddngs,
+                "data": [
+                    {
+                        "index": index,
+                        "embedding": embedding,
+                    }
+                    for index, embedding in enumerate(embeddngs)
+                ],
                 "model": None,
                 "usage": None,
                 "provider_name": "LaMini",

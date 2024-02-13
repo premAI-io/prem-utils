@@ -115,7 +115,7 @@ class CohereConnector(BaseConnector):
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="cohere", model=model, provider_message=str(error))
         return {
-            "data": response.embeddings,
+            "data": [{"index": index, "embedding": embedding} for index, embedding in enumerate(response.embeddings)],
             "model": model,
             "usage": None,
             "provider_name": "Cohere",

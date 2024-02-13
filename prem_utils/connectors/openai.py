@@ -186,7 +186,13 @@ class OpenAIConnector(BaseConnector):
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="openai", model=model, provider_message=str(error))
         return {
-            "data": [embedding.embedding for embedding in response.data],
+            "data": [
+                {
+                    "index": embedding.index,
+                    "embedding": embedding.embedding,
+                }
+                for embedding in response.data
+            ],
             "model": response.model,
             "usage": {
                 "prompt_tokens": response.usage.prompt_tokens,
