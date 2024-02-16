@@ -145,7 +145,9 @@ class CloudflareConnector(BaseConnector):
                 )
         response = response.json()
         return {
-            "data": response["result"]["data"],
+            "data": [
+                {"index": index, "embedding": embedding} for index, embedding in enumerate(response["result"]["data"])
+            ],
             "model": model,
             "usage": None,
             "provider_name": "Cloudflare",

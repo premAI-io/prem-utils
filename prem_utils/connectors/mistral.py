@@ -94,8 +94,8 @@ class MistralConnector(BaseConnector):
                     ],
                     "created": None,
                     "model": response.model,
-                    "provider_name": "Anthropic",
-                    "provider_id": "anthropic",
+                    "provider_name": "Mistral",
+                    "provider_id": "mistralai",
                     "usage": {
                         "completion_tokens": response.usage.completion_tokens,
                         "prompt_tokens": response.usage.prompt_tokens,
@@ -120,15 +120,15 @@ class MistralConnector(BaseConnector):
                 input=input if type(input) is list else [input],
             )
             return {
-                "data": [emb.embedding for emb in response.data],
+                "data": [{"index": emb.index, "embedding": emb.embedding} for emb in response.data],
                 "model": response.model,
                 "usage": {
                     "completion_tokens": response.usage.completion_tokens,
                     "prompt_tokens": response.usage.prompt_tokens,
                     "total_tokens": response.usage.total_tokens,
                 },
-                "provider_name": "Anthropic",
-                "provider_id": "anthropic",
+                "provider_name": "Mistral",
+                "provider_id": "mistralai",
             }
         except (MistralAPIException, MistralConnectionException) as error:
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)

@@ -470,7 +470,8 @@
                     "model_type": "text2text",
                     "context_window": 4096,
                     "input_cost_per_token": 0.0000009,
-                    "output_cost_per_token": 0.0000009
+                    "output_cost_per_token": 0.0000009,
+                    "deprecated": true
                 },
                 {
                     "slug": "Open-Orca/Mistral-7B-OpenOrca",
@@ -510,6 +511,31 @@
                     "model_type": "text2vector",
                     "context_window": 4096,
                     "input_cost_per_token": 0.00000001
+                }
+            ]
+        },
+        {
+            "provider": "prem",
+            "models": [
+                {
+                    "slug": "phi-1-5",
+                    "model_type": "text2text",
+                    "context_window": 2048
+                },
+                {
+                    "slug": "phi-2",
+                    "model_type": "text2text",
+                    "context_window": 2048
+                },
+                {
+                    "slug": "tinyllama",
+                    "model_type": "text2text",
+                    "context_window": 2048
+                },
+                {
+                    "slug": "mamba-chat",
+                    "model_type": "text2text",
+                    "context_window": 2048
                 }
             ]
         }
