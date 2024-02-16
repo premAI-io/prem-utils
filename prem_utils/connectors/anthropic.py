@@ -120,7 +120,7 @@ class AnthropicConnector(BaseConnector):
             return response
 
         plain_response = {
-            "id": response.log_id,
+            # "id": response.log_id,
             "choices": [
                 {
                     "finish_reason": response.stop_reason,
@@ -132,6 +132,7 @@ class AnthropicConnector(BaseConnector):
             "model": response.model,
             "provider_name": "Anthropic",
             "provider_id": "anthropic",
+            "usage": connector_utils.default_chatcompletions_usage(prompt, response.completion),
         }
         return plain_response
 
