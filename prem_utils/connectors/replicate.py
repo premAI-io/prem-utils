@@ -8,6 +8,7 @@ from replicate import Client
 from replicate.exceptions import ModelError, ReplicateError
 
 from prem_utils import errors
+from prem_utils.connectors import utils as connector_utils
 from prem_utils.connectors.base import BaseConnector
 
 
@@ -55,18 +56,20 @@ class ReplicateConnector(BaseConnector):
         if self.prompt_template is not None:
             messages = self.apply_prompt_template(messages)
 
+        prompt = messages[-1]["content"]
+
         try:
             if stream:
                 response = self.client.stream(
                     ref=model,
-                    input={"prompt": messages[-1]["content"]},
+                    input={"prompt": prompt},
                 )
                 return response
             else:
                 content = ""
                 response = self.client.run(
                     ref=model,
-                    input={"prompt": messages[-1]["content"]},
+                    input={"prompt": prompt},
                 )
                 content = "".join([element for element in response])
         except (ReplicateError, ModelError) as error:
@@ -74,18 +77,18 @@ class ReplicateConnector(BaseConnector):
             raise custom_exception(error, provider="replicate", model=model, provider_message=str(error))
 
         plain_response = {
-            "id": None,
             "choices": [
                 {
-                    "finish_reason": None,
-                    "index": None,
+                    "finish_reason": "stop",
+                    "index": 0,
                     "message": {"content": content, "role": "assistant"},
                 }
             ],
-            "created": None,
+            "created": connector_utils.default_chatcompletion_response_created(),
             "model": model,
             "provider_name": "Replicate",
             "provider_id": "replicate",
+            "usage": connector_utils.default_chatcompletions_usage(prompt, content),
         }
         return plain_response
 
@@ -185,6 +188,7 @@ class ReplicateConnector(BaseConnector):
                 "model": model,
                 "provider_name": "Replicate",
                 "provider_id": "replicate",
+                "usage": connector_utils.default_embeddings_usage(input),
             }
         except (ReplicateError, ModelError) as error:
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)

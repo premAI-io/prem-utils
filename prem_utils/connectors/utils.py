@@ -25,7 +25,7 @@ def aggregate_tokens_count(token_collection: list[dict | str] | str) -> int:
         if len(token_collection) > 0 and isinstance(token_collection[0], str):
             tokens = sum([default_count_tokens(h) for h in token_collection])
         elif len(token_collection) > 0 and isinstance(token_collection[0], dict):
-            tokens = sum([default_count_tokens(h.message["content"]) for h in token_collection])
+            tokens = sum([default_count_tokens(h["content"]) for h in token_collection])
     return tokens
 
 
@@ -40,8 +40,11 @@ def default_chatcompletions_usage(history: list[dict | str] | str, completion: l
     }
 
 
-def default_embeddings_usage(text_to_embed: list[str] | str) -> dict:
-    tokens = default_count_tokens(text_to_embed)
+def default_embeddings_usage(text_to_embed: list[list[str]] | list[str] | str) -> dict:
+    if isinstance(text_to_embed, list) and len(text_to_embed) > 0 and isinstance(text_to_embed[0], list):
+        tokens = sum([aggregate_tokens_count(txt) for txt in text_to_embed])
+    else:
+        tokens = aggregate_tokens_count(text_to_embed)
     return {
         "prompt_tokens": tokens,
         "total_tokens": tokens,

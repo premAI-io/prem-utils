@@ -120,7 +120,6 @@ class AnthropicConnector(BaseConnector):
             return response
 
         plain_response = {
-            # "id": response.log_id,
             "choices": [
                 {
                     "finish_reason": response.stop_reason,

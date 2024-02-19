@@ -94,17 +94,13 @@ class CloudflareConnector(BaseConnector):
             return response
 
         response_text = response.json()["result"]["response"]
-        prompt_tokens = 3  # TODO
-        completion_tokens = connector_utils.default_count_tokens(response_text)
-        total_tokens = prompt_tokens + completion_tokens
         plain_response = {
-            "id": connector_utils.default_chatcompletion_response_id(),
             "choices": [
                 {
                     "finish_reason": "stop",
                     "index": 0,
                     "message": {
-                        "content": response.json()["result"]["response"],
+                        "content": response_text,
                         "role": "assistant",
                     },
                 }
@@ -113,11 +109,7 @@ class CloudflareConnector(BaseConnector):
             "model": model,
             "provider_name": "Cloudflare",
             "provider_id": "cloudflare",
-            "usage": {
-                "prompt_tokens": prompt_tokens,
-                "completion_tokens": completion_tokens,
-                "total_tokens": total_tokens,
-            },
+            "usage": connector_utils.default_chatcompletions_usage(messages, response_text),
         }
         return plain_response
 
@@ -161,7 +153,7 @@ class CloudflareConnector(BaseConnector):
                 {"index": index, "embedding": embedding} for index, embedding in enumerate(response["result"]["data"])
             ],
             "model": model,
-            "usage": None,
+            "usage": connector_utils.default_embeddings_usage(input),
             "provider_name": "Cloudflare",
             "provider_id": "claudflare",
         }
