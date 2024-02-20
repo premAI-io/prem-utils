@@ -1,5 +1,6 @@
 from collections.abc import Sequence
 
+import numpy as np
 from anthropic import (
     AI_PROMPT,
     HUMAN_PROMPT,
@@ -17,6 +18,7 @@ from anthropic import (
     RateLimitError,
     UnprocessableEntityError,
 )
+from anthropic.types import Message
 
 from prem_utils import errors
 from prem_utils.connectors import utils as connector_utils
@@ -87,17 +89,22 @@ class AnthropicConnector(BaseConnector):
         tools: list[dict[str]] = None,
         tool_choice: dict = None,
     ):
-        prompt = self.apply_prompt_template(messages)
         if max_tokens is None:
             max_tokens = 10000
+
+        messages_np = np.asarray(messages)
+        system_idx = np.asarray([x["role"] == "system" for x in messages])
+        system = messages_np[system_idx][0]["content"] if any(system_idx) else ""
+        non_system_messages = messages_np[~system_idx]
         try:
-            response = self.client.completions.create(
+            response: Message = self.client.messages.create(
                 model=model,
-                max_tokens_to_sample=max_tokens,
-                prompt=prompt,
+                messages=non_system_messages,
+                max_tokens=max_tokens,
                 stream=stream,
                 top_p=top_p,
                 temperature=temperature,
+                system=system,
             )
         except (
             NotFoundError,
@@ -123,15 +130,20 @@ class AnthropicConnector(BaseConnector):
             "choices": [
                 {
                     "finish_reason": response.stop_reason,
-                    "index": 0,
-                    "message": {"content": response.completion, "role": "assistant"},
+                    "index": index,
+                    "message": {"content": content.text, "role": "assistant"},
                 }
+                for index, content in enumerate(response.content)
             ],
             "created": connector_utils.default_chatcompletion_response_created(),
             "model": response.model,
             "provider_name": "Anthropic",
             "provider_id": "anthropic",
-            "usage": connector_utils.default_chatcompletions_usage(prompt, response.completion),
+            "usage": {
+                "prompt_tokens": response.usage.input_tokens,
+                "completion_tokens": response.usage.output_tokens,
+                "total_tokens": response.usage.input_tokens + response.usage.output_tokens,
+            },
         }
         return plain_response
 
