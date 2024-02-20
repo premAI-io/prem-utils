@@ -536,6 +536,21 @@
                     "slug": "mamba-chat",
                     "model_type": "text2text",
                     "context_window": 2048
+                },
+                {
+                    "slug": "prem-1b-chat",
+                    "model_type": "text2text",
+                    "coming_soon": true
+                },
+                {
+                    "slug": "prem-1b-json",
+                    "model_type": "text2text",
+                    "coming_soon": true
+                },
+                {
+                    "slug": "prem-1b-sum",
+                    "model_type": "text2text",
+                    "coming_soon": true
                 }
             ]
         }
