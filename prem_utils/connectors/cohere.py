@@ -4,6 +4,7 @@ import cohere
 from cohere.error import CohereAPIError, CohereConnectionError
 
 from prem_utils import errors
+from prem_utils.connectors import utils as connector_utils
 from prem_utils.connectors.base import BaseConnector
 
 
@@ -81,15 +82,14 @@ class CohereConnector(BaseConnector):
         if stream:
             return response
         plain_response = {
-            "id": response.id,
             "choices": [
                 {
-                    "finish_reason": None,
-                    "index": None,
+                    "finish_reason": "stop",
+                    "index": 0,
                     "message": {"content": response.text, "role": "assistant"},
                 }
             ],
-            "created": None,
+            "created": connector_utils.default_chatcompletion_response_created(),
             "model": model,
             "provider_name": "Cohere",
             "provider_id": "cohere",
@@ -117,7 +117,7 @@ class CohereConnector(BaseConnector):
         return {
             "data": [{"index": index, "embedding": embedding} for index, embedding in enumerate(response.embeddings)],
             "model": model,
-            "usage": None,
+            "usage": connector_utils.default_embeddings_usage(texts),
             "provider_name": "Cohere",
             "provider_id": "cohere",
         }

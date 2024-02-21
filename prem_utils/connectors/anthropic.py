@@ -19,6 +19,7 @@ from anthropic import (
 )
 
 from prem_utils import errors
+from prem_utils.connectors import utils as connector_utils
 from prem_utils.connectors.base import BaseConnector
 
 # https://docs.anthropic.com/claude/reference/errors-and-rate-limits
@@ -119,18 +120,18 @@ class AnthropicConnector(BaseConnector):
             return response
 
         plain_response = {
-            "id": response.log_id,
             "choices": [
                 {
                     "finish_reason": response.stop_reason,
-                    "index": None,
+                    "index": 0,
                     "message": {"content": response.completion, "role": "assistant"},
                 }
             ],
-            "created": None,
+            "created": connector_utils.default_chatcompletion_response_created(),
             "model": response.model,
             "provider_name": "Anthropic",
             "provider_id": "anthropic",
+            "usage": connector_utils.default_chatcompletions_usage(prompt, response.completion),
         }
         return plain_response
 

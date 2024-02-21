@@ -5,6 +5,7 @@ import together
 from together.error import AttributeError, AuthenticationError, InstanceError, JSONError, RateLimitError, ResponseError
 
 from prem_utils import errors
+from prem_utils.connectors import utils as connector_utils
 from prem_utils.connectors.base import BaseConnector
 
 
@@ -55,10 +56,11 @@ class TogetherConnector(BaseConnector):
         if self.prompt_template is not None:
             messages = self.apply_prompt_template(messages)
 
+        prompt = messages[-1]["content"]
         try:
             if stream:
                 response = together.Complete.create_streaming(
-                    prompt=messages[-1]["content"],
+                    prompt=prompt,
                     model=model,
                     max_tokens=max_tokens,
                     stop=stop,
@@ -69,7 +71,7 @@ class TogetherConnector(BaseConnector):
                 return response
             else:
                 response = together.Complete.create(
-                    prompt=messages[-1]["content"],
+                    prompt=prompt,
                     model=model,
                     max_tokens=max_tokens,
                     stop=stop,
@@ -78,19 +80,21 @@ class TogetherConnector(BaseConnector):
                     repetition_penalty=presence_penalty,
                 )
                 plain_response = {
-                    "id": str(response["id"]) if "id" in response else None,
                     "choices": [
                         {
-                            "finish_reason": None,
-                            "index": None,
+                            "finish_reason": "stop",
+                            "index": index,
                             "message": {"content": choice["text"], "role": "assistant"},
                         }
-                        for choice in response["output"]["choices"]
+                        for index, choice in enumerate(response["output"]["choices"])
                     ],
-                    "created": None,
+                    "created": connector_utils.default_chatcompletion_response_created(),
                     "model": model,
                     "provider_name": "Together",
                     "provider_id": "together",
+                    "usage": connector_utils.default_chatcompletions_usage(
+                        prompt, [choice["text"] for choice in response["output"]["choices"]]
+                    ),
                 }
                 return plain_response
         except (
