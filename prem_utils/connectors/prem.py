@@ -49,6 +49,18 @@ class PremConnector(BaseConnector):
             errors.PremProviderAPIConnectionError,
         )
 
+        self.model_list = [
+            "phi-1-5",
+            "phi1.5-modal",
+            "phi-2",
+            "phi2-modal",
+            "tinyllama",
+            "tinyllama-modal",
+            "mamba-chat",
+            "mamba-modal",
+            "stable_lm2-modal",
+        ]
+
     def parse_chunk(self, chunk) -> dict[str, Any]:
         pass
 
@@ -111,15 +123,46 @@ class PremConnector(BaseConnector):
         top_p: float | None = 1.0,
         stream: bool | None = False,
     ) -> str | Generator[str, None, None]:
-        assert model in ["phi1.5", "phi2", "tinyllama", "mamba", "stable_lm2"], ValueError(
-            "Models other than 'phi1.5', 'phi2', 'tinyllama', 'mamba' , 'stable_lm2' are not supported"
-        )
+        assert model in self.model_list, ValueError(f"Models other than {self.model_list} are not supported")
 
-        if stream:
-            return self._chat_completion_stream(
-                model=model, messages=messages, max_tokens=max_tokens, temperature=temperature, top_p=top_p
-            )
+        if model.endswith("modal"):
+            if stream:
+                return self._chat_completion_stream(
+                    model=model.split("-modal")[0],
+                    messages=messages,
+                    max_tokens=max_tokens,
+                    temperature=temperature,
+                    top_p=top_p,
+                )
+            else:
+                return self._chat_completion_generate(
+                    model=model.split("-modal")[0],
+                    messages=messages,
+                    max_tokens=max_tokens,
+                    temperature=temperature,
+                    top_p=top_p,
+                )
         else:
-            return self._chat_completion_generate(
-                model=model, messages=messages, max_tokens=max_tokens, temperature=temperature, top_p=top_p
-            )
+            if model == "mamba":
+                _base_url = "https://mambaphi.compute.premai.io/v1/chat/completions"
+                data = {
+                    "model": model,
+                    "messages": messages,
+                    "max_length": max_tokens,
+                    "temperature": temperature,
+                    "top_p": top_p,
+                }
+            else:
+                _base_url = f"https://{model}.compute.premai.io/mii/default"
+                data = {
+                    "prompts": [message["content"] for message in messages],
+                    "max_length": max_tokens,
+                    "temperature": temperature,
+                    "top_p": top_p,
+                }
+            _headers = {"Content-Type": "application/json", "Authorization": f"Bearer {self._api_key}"}
+            try:
+                response = requests.post(_base_url, json=data, headers=_headers)
+            except self._prem_errors as error:
+                raise error
+            return response.text
