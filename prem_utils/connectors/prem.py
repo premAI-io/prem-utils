@@ -1,5 +1,4 @@
 from collections.abc import Generator
-from typing import Any
 
 import requests
 
@@ -60,16 +59,6 @@ class PremConnector(BaseConnector):
             "mamba-modal",
             "stable_lm2-modal",
         ]
-
-    def parse_chunk(self, chunk) -> dict[str, Any]:
-        pass
-
-    def build_messages(self, messages: list[dict]) -> list[str]:
-        pass
-
-    def preprocess_messages(self, messages):
-        # Todo: Need to understand whether to use it and how to use it.
-        pass
 
     def _chat_completion_stream(
         self,
