@@ -518,12 +518,12 @@
             "provider": "prem",
             "models": [
                 {
-                    "slug": "phi1.5",
+                    "slug": "phi-1-5",
                     "model_type": "text2text",
                     "context_window": 2048
                 },
                 {
-                    "slug": "phi2",
+                    "slug": "phi-2",
                     "model_type": "text2text",
                     "context_window": 2048
                 },
@@ -533,12 +533,32 @@
                     "context_window": 2048
                 },
                 {
-                    "slug": "mamba",
+                    "slug": "mamba-chat",
                     "model_type": "text2text",
                     "context_window": 128
                 },
                 {
-                    "slug": "stable_lm2",
+                    "slug": "phi1.5-modal",
+                    "model_type": "text2text",
+                    "context_window": 2048
+                },
+                {
+                    "slug": "phi2-modal",
+                    "model_type": "text2text",
+                    "context_window": 2048
+                },
+                {
+                    "slug": "tinyllama-modal",
+                    "model_type": "text2text",
+                    "context_window": 2048
+                },
+                {
+                    "slug": "mamba-modal",
+                    "model_type": "text2text",
+                    "context_window": 128
+                },
+                {
+                    "slug": "stable_lm2-modal",
                     "model_type": "text2text",
                     "context_window": 2048
                 }
