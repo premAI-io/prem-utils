@@ -518,12 +518,12 @@
             "provider": "prem",
             "models": [
                 {
-                    "slug": "phi-1-5",
+                    "slug": "phi1.5",
                     "model_type": "text2text",
                     "context_window": 2048
                 },
                 {
-                    "slug": "phi-2",
+                    "slug": "phi2",
                     "model_type": "text2text",
                     "context_window": 2048
                 },
@@ -533,7 +533,12 @@
                     "context_window": 2048
                 },
                 {
-                    "slug": "mamba-chat",
+                    "slug": "mamba",
+                    "model_type": "text2text",
+                    "context_window": 128
+                },
+                {
+                    "slug": "stable_lm2",
                     "model_type": "text2text",
                     "context_window": 2048
                 }
