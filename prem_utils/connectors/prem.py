@@ -1,4 +1,6 @@
+import uuid
 from collections.abc import Generator
+from datetime import datetime
 
 import requests
 
@@ -30,6 +32,10 @@ class PremConnector(BaseConnector):
                 "generation": "https://premai-io--generate-tinyllama-dev.modal.run",
                 "completion": "https://premai-io--completion-tinyllama-dev.modal.run",
             },
+            "gemma": {
+                "generation": "https://premai-io--generate-gemma-dev.modal.run",
+                "completion": "https://premai-io--completion-gemma-dev.modal.run",
+            },
         }
         self._api_key = api_key
         self._prem_errors = (
@@ -58,7 +64,26 @@ class PremConnector(BaseConnector):
             "mamba-chat",
             "mamba-modal",
             "stable_lm2-modal",
+            "gemma-modal",
         ]
+
+    def parse_chunk(self, chunk):
+        return {
+            "id": chunk["id"],
+            "model": chunk["model"],
+            "object": chunk["object"],
+            "created": chunk["created"],
+            "choices": [
+                {
+                    "delta": {
+                        "content": choice["delta"]["content"],
+                        "role": choice["delta"]["role"],
+                    },
+                    "finish_reason": None,
+                }
+                for choice in chunk["choices"]
+            ],
+        }
 
     def _chat_completion_stream(
         self,
@@ -76,7 +101,18 @@ class PremConnector(BaseConnector):
                 response = requests.post(self.url_mappings[model]["completion"], json=data, timeout=600, stream=True)
                 if response.status_code == 200:
                     for line in response.iter_lines():
-                        token_to_sent = {"status": 200, "content": line.decode("utf-8")}
+                        token_to_sent = {
+                            "id": uuid.uuid4().hex,
+                            "model": model,
+                            "object": "prem.chat_completion",
+                            "created": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                            "choices": [
+                                {
+                                    "delta": {"content": line.decode("utf-8"), "role": message["role"]},
+                                    "finish_reason": None,
+                                }
+                            ],
+                        }
                         yield token_to_sent
                 else:
                     yield {"status": response.status_code}
@@ -96,7 +132,7 @@ class PremConnector(BaseConnector):
         for message in messages:
             data["prompt"] = message["content"]
             try:
-                response = requests.post(self.url_mappings[model]["generation"], json=data, timeout=600)
+                response = requests.post(self.url_mappings[model]["generation"], json=data, timeout=600).json()
                 responses.append(response.text)
 
             except self._prem_errors as e:
