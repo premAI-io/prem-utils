@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 
 from prem_utils.connectors import (
     anthropic,
+    anyscale,
     azure,
     cloudflare,
     cohere,
@@ -72,6 +73,8 @@ def main():
             )
         elif connector["provider"] == "prem":
             connector_object = prem.PremConnector(api_key=os.environ["PREMAI_BEARER_TOKEN"])
+        elif connector["provider"] == "anyscale":
+            connector_object = anyscale.AnyscaleEndpointsConnector(api_key=os.environ["ANYSCALE_API_KEY"])
         else:
             print(f"No connector for {connector['provider']}")
 
@@ -84,8 +87,8 @@ def main():
 
             parameters = {}
             parameters["model"] = model_object["slug"]
-            messages = [{"role": "user", "content": "Hello, how is it going?"}]
-            messages.append({"role": "system", "content": "Behave like Rick Sanchez."})
+            messages = [{"role": "system", "content": "Behave like Rick Sanchez."}]
+            messages.append({"role": "user", "content": "Hello, how is it going?"})
             parameters["messages"] = messages
 
             print(f"Testing model {model_object['slug']} from {connector['provider']} connector \n\n\n")
