@@ -14,6 +14,7 @@ from prem_utils.connectors import (
     mistral,
     octoai,
     openai,
+    openrouter,
     prem,
     replicate,
     together,
@@ -72,6 +73,8 @@ def main():
             )
         elif connector["provider"] == "prem":
             connector_object = prem.PremConnector(api_key=os.environ["PREMAI_BEARER_TOKEN"])
+        elif connector["provider"] == "openrouter":
+            connector_object = openrouter.OpenRouterConnector(api_key=os.environ["OPENROUTER_API_KEY"])
         else:
             print(f"No connector for {connector['provider']}")
 
