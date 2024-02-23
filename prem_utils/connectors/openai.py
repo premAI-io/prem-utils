@@ -70,8 +70,6 @@ class OpenAIConnector(BaseConnector):
         messages: list[dict[str]],
         max_tokens: int = None,
         frequency_penalty: float = 0,
-        log_probs: int = None,
-        logit_bias: dict[str, float] = None,
         presence_penalty: float = 0,
         seed: int | None = None,
         stop: str | list[str] = None,
@@ -80,6 +78,9 @@ class OpenAIConnector(BaseConnector):
         top_p: float = 1,
         tools: list[dict[str]] = None,
         tool_choice: dict = None,
+        logit_bias: dict = None,
+        logprobs: bool = None,
+        top_logprobs: int = None,
     ):
         if self.prompt_template is not None:
             messages = self.apply_prompt_template(messages)
@@ -90,12 +91,24 @@ class OpenAIConnector(BaseConnector):
             model = model.replace("deepinfra/", "", 1)
             max_tokens = max_tokens or 1024
 
+        other_parameters = {}
+        if tools is not None and tool_choice is not None:
+            other_parameters["tools"] = tools
+            other_parameters["tool_choice"] = tool_choice
+
+        if logit_bias is not None:
+            other_parameters["logit_bias"] = logit_bias
+
+        if logprobs is not None:
+            other_parameters["logprobs"] = logprobs
+
+        if top_logprobs is not None:
+            other_parameters["top_logprobs"] = top_logprobs
+
         try:
             response = self.client.chat.completions.create(
                 model=model,
                 messages=messages,
-                tools=tools,
-                tool_choice=tool_choice,
                 stream=stream,
                 max_tokens=max_tokens,
                 frequency_penalty=frequency_penalty,
@@ -104,6 +117,7 @@ class OpenAIConnector(BaseConnector):
                 stop=stop,
                 temperature=temperature,
                 top_p=top_p,
+                **other_parameters,
             )
         except (
             NotFoundError,
