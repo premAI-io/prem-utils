@@ -18,10 +18,9 @@ from openai import (
     RateLimitError,
     UnprocessableEntityError,
 )
-from tabulate import tabulate as tab
 
 from prem_utils import errors
-from prem_utils.connectors.base import BaseConnector, get_provider_blob
+from prem_utils.connectors.base import BaseConnector
 
 
 class OpenAIConnector(BaseConnector):
@@ -142,17 +141,6 @@ class OpenAIConnector(BaseConnector):
             },
         }
         return plain_response
-
-    def list_models(self):
-        provider_blob = get_provider_blob("openai")
-        models = provider_blob["models"]
-
-        # Convert models data into a list of lists for tabulate
-        table_data = [[model.get(key, "") for key in models[0].keys()] for model in models]
-
-        # Insert a header row with the keys of the models dictionary
-        table_data.insert(0, models[0].keys())
-        print(tab(table_data, headers="firstrow", tablefmt="grid"))
 
     def parse_chunk(self, chunk):
         return {
