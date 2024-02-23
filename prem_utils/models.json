@@ -593,6 +593,57 @@
                     "coming_soon": true
                 }
             ]
+        },
+
+        {
+            "provider": "perplexity",
+            "models": [
+                {
+                    "slug": "codellama-34b-instruct",
+                    "model_type": "text2text",
+                    "context_window": 16384
+                },
+                {
+                    "slug": "codellama-70b-instruct",
+                    "model_type": "text2text",
+                    "context_window": 16384
+                },
+                {
+                    "slug": "llama-2-70b-chat",
+                    "model_type": "text2text",
+                    "context_window": 4096
+                },
+                {
+                    "slug": "mistral-7b-instruct",
+                    "model_type": "text2text",
+                    "context_window": 8192
+                },
+                {
+                    "slug": "mixtral-8x7b-instruct",
+                    "model_type": "text2text",
+                    "context_window": 8192
+                },
+                {
+                    "slug": "pplx-7b-chat",
+                    "model_type": "text2text",
+                    "context_window": 8192
+                },
+                {
+                    "slug": "pplx-70b-chat",
+                    "model_type": "text2text",
+                    "context_window": 8192
+                },
+                {
+                    "slug": "pplx-7b-online",
+                    "model_type": "text2text",
+                    "context_window": 8192
+                },
+                {
+                    "slug": "pplx-70b-online",
+                    "model_type": "text2text",
+                    "context_window": 8192
+                }
+            ]
         }
     ]
 }
