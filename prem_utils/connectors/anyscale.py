@@ -25,6 +25,9 @@ class AnyscaleEndpointsConnector(OpenAIConnector):
         tools: list[dict[str, Any]] = None,
         tool_choice: dict = None,
     ):
+        if "anyscale" in model:
+            model = model.replace("anyscale/", "", 1)
+
         return super().chat_completion(
             model=model,
             messages=messages,
@@ -47,6 +50,9 @@ class AnyscaleEndpointsConnector(OpenAIConnector):
         encoding_format: str = "float",
         user: str = None,
     ):
+        if "anyscale" in model:
+            model = model.replace("anyscale/", "", 1)
+
         return super().embeddings(model, input, encoding_format, user)
 
     def finetuning(
