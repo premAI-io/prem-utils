@@ -25,6 +25,9 @@ class PerplexityAIConnector(OpenAIConnector):
         tools: list[dict[str, Any]] = None,
         tool_choice: dict = None,
     ):
+        if "perplexity" in model:
+            model = model.replace("perplexity/", "", 1)
+
         return super().chat_completion(
             model,
             messages,
