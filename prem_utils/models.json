@@ -593,6 +593,131 @@
                     "coming_soon": true
                 }
             ]
+        },
+        {
+            "provider": "openrouter",
+            "models": [
+                {
+                    "slug": "openrouter/auto",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "nousresearch/nous-capybara-7b:free",
+                    "model_type": "text2text",
+                    "context_tokens": 4096
+                },
+                {
+                    "slug": "mistralai/mistral-7b-instruct:free",
+                    "model_type": "text2text",
+                    "context_tokens": 8192
+                },
+                {
+                    "slug": "gryphe/mythomist-7b:free",
+                    "model_type": "text2text",
+                    "context_tokens": 32768
+                },
+                {
+                    "slug": "undi95/toppy-m-7b:free",
+                    "model_type": "text2text",
+                    "context_tokens": 4096
+                },
+                {
+                    "slug": "openrouter/cinematika-7b:free",
+                    "model_type": "text2text",
+                    "context_tokens": 8000
+                },
+                {
+                    "slug": "google/gemma-7b-it:free",
+                    "model_type": "text2text",
+                    "context_tokens": 8000
+                },
+                {
+                    "slug": "jondurbin/bagel-34b",
+                    "model_type": "text2text",
+                    "context_tokens": 8000
+                },
+                {
+                    "slug": "jebcarter/psyfighter-13b",
+                    "model_type": "text2text",
+                    "context_tokens": 4096
+                },
+                {
+                    "slug": "koboldai/psyfighter-13b-2",
+                    "model_type": "text2text",
+                    "context_tokens": 4096
+                },
+                {
+                    "slug": "neversleep/noromaid-mixtral-8x7b-instruct",
+                    "model_type": "text2text",
+                    "context_tokens": 8000
+                },
+                {
+                    "slug": "nousresearch/nous-hermes-llama2-13b",
+                    "model_type": "text2text",
+                    "context_tokens": 4096
+                },
+                {
+                    "slug": "meta-llama/codellama-34b-instruct",
+                    "model_type": "text2text",
+                    "context_tokens": 8192
+                },
+                {
+                    "slug": "phind/phind-codellama-34b",
+                    "model_type": "text2text",
+                    "context_tokens": 4096
+                },
+                {
+                    "slug": "intel/neural-chat-7b",
+                    "model_type": "text2text",
+                    "context_tokens": 4096
+                },
+                {
+                    "slug": "openai/creativity-unlocked-prompts-dpr-32b",
+                    "model_type": "text2text",
+                    "context_tokens": 4096
+                },
+                {
+                    "slug": "piiezzo/chatcoder-13b-instruct",
+                    "model_type": "text2text",
+                    "context_tokens": 8192
+                },
+                {
+                    "slug": "alephai/decoder-40b-0.125",
+                    "model_type": "text2text",
+                    "context_tokens": 4096
+                },
+                {
+                    "slug": "alephai/generator-40b-0.125",
+                    "model_type": "text2text",
+                    "context_tokens": 4096
+                },
+                {
+                    "slug": "genestephen/mythwriter-10b-instruct",
+                    "model_type": "text2text",
+                    "context_tokens": 8192
+                },
+                {
+                    "slug": "gothinker/cinima-9b-instruct",
+                    "model_type": "text2text",
+                    "context_tokens": 8192
+                },
+                {
+                    "slug": "hanghangq/nr2-2048-8x8",
+                    "model_type": "text2text",
+                    "context_tokens": 4096
+                },
+                {
+                    "slug": "maxschatzow/parrot-40b-instruct",
+                    "model_type": "text2text",
+                    "context_tokens": 8192
+                },
+                {
+                    "slug": "tworivers/pegasus-24b-1",
+                    "model_type": "text2text",
+                    "context_tokens": 8192
+                }
+            ]
         }
     ]
 }
