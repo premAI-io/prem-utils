@@ -1,26 +1,8 @@
-import json
 from collections.abc import Sequence
 
 import tiktoken
 
 from prem_utils import errors
-
-
-def get_provider_blob(provider_name: str) -> dict:
-    try:
-        with open("./prem_utils/models.json") as file:
-            data = json.load(file)
-            for connector in data["connectors"]:
-                if connector["provider"] == provider_name:
-                    return connector
-            print(f"No data found for provider: {provider_name}")
-            return None
-    except FileNotFoundError:
-        print("JSON file not found.")
-        return None
-    except json.JSONDecodeError:
-        print("Invalid JSON format.")
-        return None
 
 
 class BaseConnector:
@@ -36,9 +18,6 @@ class BaseConnector:
             429: errors.PremProviderRateLimitError,
             409: errors.PremProviderConflictError,
         }
-
-    def list_models(self):
-        raise NotImplementedError
 
     def apply_prompt_template(self, messages):
         prompt = self.prompt_template
