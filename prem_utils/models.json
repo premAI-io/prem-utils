@@ -561,6 +561,11 @@
                     "slug": "stable_lm2-modal",
                     "model_type": "text2text",
                     "context_window": 2048
+                },
+                {
+                    "gemma": "gemma-modal",
+                    "model_type":"text2text",
+                    "context_window": 2048
                 }
             ]
         }
