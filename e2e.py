@@ -23,12 +23,6 @@ from prem_utils.connectors import (
 logger = logging.getLogger(__name__)
 load_dotenv()
 
-DESC = (
-    "Testing different providers from prem-utils package. The following providers are supported:\n\n"
-    "openai, azure, anthropic, cloudflare, cohere, fireworksai, lamini, mistral, ocotoai, deepinfra, prem, replicate, together\n\n"  # noqa: E501
-    "You can choose any one of them to test it out. Please note: you should include the provider's API key in the .env file. You can check .env.template for your reference."  # noqa: E501
-)
-
 
 def load_models_file():
     try:
@@ -158,12 +152,16 @@ def run_all_connectors(connector_name_list: list[str] | None = None) -> None:
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description=DESC)
+    parser = argparse.ArgumentParser(description="Testing different providers from prem-utils package")
 
     parser.add_argument(
         "--name",
         nargs="+",
-        help="Name of the connector/s. If you type 'all', the testing will be done for all the providers",
+        help=(
+            "The following providers are supported:\n"
+            "openai, azure, anthropic, cloudflare, cohere, fireworksai, lamini, mistral, ocotoai, deepinfra, prem, replicate, together\n"  # noqa: E501
+            "You can choose any one of them to test it out. Please note: you should include the provider's API key in the .env file. You can check .env.template for your reference. if you put 'all' then all the providers will be used at once"  # noqa: E501
+        ),
         default=["all"],
     )
 
