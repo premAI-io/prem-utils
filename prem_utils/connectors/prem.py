@@ -13,28 +13,28 @@ class PremConnector(BaseConnector):
         super().__init__(prompt_template=prompt_template)
         self.url_mappings = {
             "mamba": {
-                "generation": "https://premai-io--generate-mamba-dev.modal.run",
-                "completion": "https://premai-io--completion-mamba-dev.modal.run",
+                "generation": "https://premai-io--generate-mamba.modal.run",
+                "completion": "https://premai-io--completion-mamba.modal.run",
             },
             "phi2": {
-                "generation": "https://premai-io--generate-phi2-dev.modal.run",
-                "completion": "https://premai-io--completion-phi2-dev.modal.run",
+                "generation": "https://premai-io--generate-phi2.modal.run",
+                "completion": "https://premai-io--completion-phi2.modal.run",
             },
             "phi1-5": {
-                "generation": "https://premai-io--generate-phi1-5-dev.modal.run",
-                "completion": "https://premai-io--completion-phi1-5-dev.modal.run",
+                "generation": "https://premai-io--generate-phi1-5.modal.run",
+                "completion": "https://premai-io--completion-phi1-5.modal.run",
             },
             "stable_lm2": {
-                "generation": "https://premai-io--generate-stable-lm2-zephyr-dev.modal.run",
-                "completion": "https://premai-io--completion-stable-lm2-zephyr-dev.modal.run",
+                "generation": "https://premai-io--generate-stable-lm2-zephyr.modal.run",
+                "completion": "https://premai-io--completion-stable-lm2-zephyr.modal.run",
             },
             "tinyllama": {
-                "generation": "https://premai-io--generate-tinyllama-dev.modal.run",
-                "completion": "https://premai-io--completion-tinyllama-dev.modal.run",
+                "generation": "https://premai-io--generate-tinyllama.modal.run",
+                "completion": "https://premai-io--completion-tinyllama.modal.run",
             },
             "gemma": {
-                "generation": "https://premai-io--generate-gemma-dev.modal.run",
-                "completion": "https://premai-io--completion-gemma-dev.modal.run",
+                "generation": "https://premai-io--generate-gemma.modal.run",
+                "completion": "https://premai-io--completion-gemma.modal.run",
             },
         }
         self._api_key = api_key
@@ -148,7 +148,6 @@ class PremConnector(BaseConnector):
         stream: bool | None = False,
     ) -> str | Generator[str, None, None]:
         assert model in self.model_list, ValueError(f"Models other than {self.model_list} are not supported")
-
         try:
             if stream:
                 return self._chat_completion_stream(
