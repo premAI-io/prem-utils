@@ -20,7 +20,7 @@ class PremConnector(BaseConnector):
                 "generation": "https://premai-io--generate-phi2-dev.modal.run",
                 "completion": "https://premai-io--completion-phi2-dev.modal.run",
             },
-            "phi1.5": {
+            "phi1-5": {
                 "generation": "https://premai-io--generate-phi1-5-dev.modal.run",
                 "completion": "https://premai-io--completion-phi1-5-dev.modal.run",
             },
@@ -56,7 +56,7 @@ class PremConnector(BaseConnector):
 
         self.model_list = [
             "phi-1-5",
-            "phi1.5-modal",
+            "phi1-5-modal",
             "phi-2",
             "phi2-modal",
             "tinyllama",
@@ -89,7 +89,7 @@ class PremConnector(BaseConnector):
         self,
         model: str,
         messages: list[dict[str]],
-        max_tokens: int,
+        max_tokens: int | None = 128,
         temperature: float | None = 1.0,
         top_p: float | None = 1.0,
     ):
@@ -123,7 +123,7 @@ class PremConnector(BaseConnector):
         self,
         model: str,
         messages: list[dict[str]],
-        max_tokens: int,
+        max_tokens: int | None = 128,
         temperature: float | None = 1.0,
         top_p: float | None = 0.95,
     ) -> dict:
@@ -133,7 +133,7 @@ class PremConnector(BaseConnector):
             data["prompt"] = message["content"]
             try:
                 response = requests.post(self.url_mappings[model]["generation"], json=data, timeout=600).json()
-                responses.append(response.text)
+                responses.append(response)
 
             except self._prem_errors as e:
                 responses.append({"status": 500, "error": str(e)})
@@ -143,9 +143,9 @@ class PremConnector(BaseConnector):
         self,
         model: str,
         messages: list[dict[str]],
-        max_tokens: int,
+        max_tokens: int | None = 128,
         temperature: float | None = 1.0,
-        top_p: float | None = 1.0,
+        top_p: float | None = 0.95,
         stream: bool | None = False,
     ) -> str | Generator[str, None, None]:
         assert model in self.model_list, ValueError(f"Models other than {self.model_list} are not supported")
