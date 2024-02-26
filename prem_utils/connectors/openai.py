@@ -46,6 +46,24 @@ class OpenAIConnector(BaseConnector):
         else:
             self.client = OpenAI(api_key=api_key)
 
+    def parse_chunk(self, chunk):
+        return {
+            "id": chunk.id,
+            "model": chunk.model,
+            "object": chunk.object,
+            "created": chunk.created,
+            "choices": [
+                {
+                    "delta": {
+                        "content": choice.delta.content,
+                        "role": choice.delta.role,
+                    },
+                    "finish_reason": choice.finish_reason,
+                }
+                for choice in chunk.choices
+            ],
+        }
+
     def chat_completion(
         self,
         model: str,
@@ -142,24 +160,6 @@ class OpenAIConnector(BaseConnector):
         }
         return plain_response
 
-    def parse_chunk(self, chunk):
-        return {
-            "id": chunk.id,
-            "model": chunk.model,
-            "object": chunk.object,
-            "created": chunk.created,
-            "choices": [
-                {
-                    "delta": {
-                        "content": choice.delta.content,
-                        "role": choice.delta.role,
-                    },
-                    "finish_reason": choice.finish_reason,
-                }
-                for choice in chunk.choices
-            ],
-        }
-
     def embeddings(
         self,
         model: str,
@@ -169,7 +169,20 @@ class OpenAIConnector(BaseConnector):
     ):
         try:
             response = self.client.embeddings.create(model=model, input=input)
-        except self._errors as error:
+        except (
+            NotFoundError,
+            APIResponseValidationError,
+            ConflictError,
+            APIStatusError,
+            APITimeoutError,
+            RateLimitError,
+            BadRequestError,
+            APIConnectionError,
+            AuthenticationError,
+            InternalServerError,
+            PermissionDeniedError,
+            UnprocessableEntityError,
+        ) as error:
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="openai", model=model, provider_message=str(error))
         return {
@@ -209,7 +222,20 @@ class OpenAIConnector(BaseConnector):
 
         try:
             response = self.client.fine_tuning.jobs.create(**fine_tuning_params)
-        except self._errors as error:
+        except (
+            NotFoundError,
+            APIResponseValidationError,
+            ConflictError,
+            APIStatusError,
+            APITimeoutError,
+            RateLimitError,
+            BadRequestError,
+            APIConnectionError,
+            AuthenticationError,
+            InternalServerError,
+            PermissionDeniedError,
+            UnprocessableEntityError,
+        ) as error:
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="openai", model=model, provider_message=str(error))
         return response.id
@@ -259,7 +285,20 @@ class OpenAIConnector(BaseConnector):
 
             try:
                 response = self.client.files.create(file=temp_file.file, purpose="fine-tune")
-            except self._errors as error:
+            except (
+                NotFoundError,
+                APIResponseValidationError,
+                ConflictError,
+                APIStatusError,
+                APITimeoutError,
+                RateLimitError,
+                BadRequestError,
+                APIConnectionError,
+                AuthenticationError,
+                InternalServerError,
+                PermissionDeniedError,
+                UnprocessableEntityError,
+            ) as error:
                 custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
                 raise custom_exception(error, provider="openai", model=None, provider_message=str(error))
         return response.id
@@ -284,7 +323,20 @@ class OpenAIConnector(BaseConnector):
                 style=style,
                 response_format=response_format,
             )
-        except self._errors as error:
+        except (
+            NotFoundError,
+            APIResponseValidationError,
+            ConflictError,
+            APIStatusError,
+            APITimeoutError,
+            RateLimitError,
+            BadRequestError,
+            APIConnectionError,
+            AuthenticationError,
+            InternalServerError,
+            PermissionDeniedError,
+            UnprocessableEntityError,
+        ) as error:
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="openai", model=model, provider_message=str(error))
         return {"created": None, "data": [{"url": image.url, "b64_json": image.b64_json} for image in response.data]}
