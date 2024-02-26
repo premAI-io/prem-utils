@@ -152,7 +152,7 @@ class PremConnector(BaseConnector):
         try:
             if stream:
                 return self._chat_completion_stream(
-                    model=model.split("-modal")[0],
+                    model=model,
                     messages=messages,
                     max_tokens=max_tokens,
                     temperature=temperature,
@@ -160,7 +160,7 @@ class PremConnector(BaseConnector):
                 )
             else:
                 return self._chat_completion_generate(
-                    model=model.split("-modal")[0],
+                    model=model,
                     messages=messages,
                     max_tokens=max_tokens,
                     temperature=temperature,
