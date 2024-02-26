@@ -15,6 +15,7 @@ from prem_utils.connectors import (
     mistral,
     octoai,
     openai,
+    perplexity,
     prem,
     replicate,
     together,
@@ -71,6 +72,7 @@ def run_single_connector(connector_name: str) -> None:
         "mistralai": (mistral.MistralConnector, "MISTRAL_AI_API_KEY"),
         "prem": (prem.PremConnector, "PREMAI_BEARER_TOKEN"),
         "deepinfra": (openai.OpenAIConnector, "DEEP_INFRA_API_KEY"),
+        "perplexity": (perplexity.PerplexityAIConnector, "PERPLEXITY_API_KEY"),
     }
 
     if connector_name == "deepinfra":
@@ -99,10 +101,12 @@ def run_single_connector(connector_name: str) -> None:
 
     if len(text2text_models) > 0:
         model_object = text2text_models[0]
+
         parameters = {}
         parameters["model"] = model_object["slug"]
-        messages = [{"role": "user", "content": "Hello, how is it going?"}]
-        messages.append({"role": "system", "content": "Behave like Rick Sanchez."})
+
+        messages = [{"role": "system", "content": "Behave like Rick Sanchez."}]
+        messages.append({"role": "user", "content": "Hello, how is it going?"})
         parameters["messages"] = messages
 
         print(f"Testing model {model_object['slug']} from {connector['provider']} connector \n\n\n")
