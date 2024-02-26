@@ -560,22 +560,26 @@
                 {
                     "slug": "phi-1-5",
                     "model_type": "text2text",
-                    "context_window": 2048
+                    "context_window": 2048,
+                    "coming_soon": true
                 },
                 {
                     "slug": "phi-2",
                     "model_type": "text2text",
-                    "context_window": 2048
+                    "context_window": 2048,
+                    "coming_soon": true
                 },
                 {
                     "slug": "tinyllama",
                     "model_type": "text2text",
-                    "context_window": 2048
+                    "context_window": 2048,
+                    "coming_soon": true
                 },
                 {
                     "slug": "mamba-chat",
                     "model_type": "text2text",
-                    "context_window": 2048
+                    "context_window": 2048,
+                    "coming_soon": true
                 },
                 {
                     "slug": "prem-1b-chat",
