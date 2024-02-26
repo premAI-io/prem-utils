@@ -25,12 +25,7 @@ class OpenRouterConnector(OpenAIConnector):
         tools: list[dict[str, Any]] = None,
         tool_choice: dict = None,
     ):
-        if "openrouter" in model:
-            if len(model.split("openrouter/")) == 3:
-                model = model.replace("openrouter/", "", 1)
-            else:
-                if len(model.split("/")) == 3:
-                    model = model.replace("openrouter/", "", 1)
+        model = model.replace("openrouter/", "", 1)
 
         return super().chat_completion(
             model=model,
