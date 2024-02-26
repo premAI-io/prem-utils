@@ -628,124 +628,380 @@
             "provider": "openrouter",
             "models": [
                 {
-                    "slug": "openrouter/auto",
+                    "slug": "openrouter/openrouter/auto",
                     "model_type": "text2text",
                     "context_tokens": 128000
                 },
                 {
-                    "slug": "nousresearch/nous-capybara-7b:free",
+                    "slug": "openrouter/jondurbin/bagel-34b",
                     "model_type": "text2text",
-                    "context_tokens": 4096
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "mistralai/mistral-7b-instruct:free",
+                    "slug": "openrouter/jebcarter/psyfighter-13b",
                     "model_type": "text2text",
-                    "context_tokens": 8192
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "gryphe/mythomist-7b:free",
+                    "slug": "openrouter/koboldai/psyfighter-13b-2",
                     "model_type": "text2text",
-                    "context_tokens": 32768
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "undi95/toppy-m-7b:free",
+                    "slug": "openrouter/neversleep/noromaid-mixtral-8x7b-instruct",
                     "model_type": "text2text",
-                    "context_tokens": 4096
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "openrouter/cinematika-7b:free",
+                    "slug": "openrouter/nousresearch/nous-hermes-llama2-13b",
                     "model_type": "text2text",
-                    "context_tokens": 8000
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "google/gemma-7b-it:free",
+                    "slug": "openrouter/meta-llama/codellama-34b-instruct",
                     "model_type": "text2text",
-                    "context_tokens": 8000
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "jondurbin/bagel-34b",
+                    "slug": "openrouter/phind/phind-codellama-34b",
                     "model_type": "text2text",
-                    "context_tokens": 8000
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "jebcarter/psyfighter-13b",
+                    "slug": "openrouter/intel/neural-chat-7b",
                     "model_type": "text2text",
-                    "context_tokens": 4096
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "koboldai/psyfighter-13b-2",
+                    "slug": "openrouter/mistralai/mixtral-8x7b-instruct",
                     "model_type": "text2text",
-                    "context_tokens": 4096
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "neversleep/noromaid-mixtral-8x7b-instruct",
+                    "slug": "openrouter/nousresearch/nous-hermes-2-mixtral-8x7b-dpo",
                     "model_type": "text2text",
-                    "context_tokens": 8000
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "nousresearch/nous-hermes-llama2-13b",
+                    "slug": "openrouter/nousresearch/nous-hermes-2-mixtral-8x7b-sft",
                     "model_type": "text2text",
-                    "context_tokens": 4096
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "meta-llama/codellama-34b-instruct",
+                    "slug": "openrouter/haotian-liu/llava-13b",
                     "model_type": "text2text",
-                    "context_tokens": 8192
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "phind/phind-codellama-34b",
+                    "slug": "openrouter/nousresearch/nous-hermes-2-vision-7b",
                     "model_type": "text2text",
-                    "context_tokens": 4096
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "intel/neural-chat-7b",
+                    "slug": "openrouter/meta-llama/llama-2-13b-chat",
                     "model_type": "text2text",
-                    "context_tokens": 4096
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "openai/creativity-unlocked-prompts-dpr-32b",
+                    "slug": "openrouter/migtissera/synthia-70b",
                     "model_type": "text2text",
-                    "context_tokens": 4096
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "piiezzo/chatcoder-13b-instruct",
+                    "slug": "openrouter/pygmalionai/mythalion-13b",
                     "model_type": "text2text",
-                    "context_tokens": 8192
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "alephai/decoder-40b-0.125",
+                    "slug": "openrouter/undi95/remm-slerp-l2-13b-6k",
                     "model_type": "text2text",
-                    "context_tokens": 4096
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "alephai/generator-40b-0.125",
+                    "slug": "openrouter/gryphe/mythomax-l2-13b",
                     "model_type": "text2text",
-                    "context_tokens": 4096
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "genestephen/mythwriter-10b-instruct",
+                    "slug": "openrouter/xwin-lm/xwin-lm-70b",
                     "model_type": "text2text",
-                    "context_tokens": 8192
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "gothinker/cinima-9b-instruct",
+                    "slug": "openrouter/gryphe/mythomax-l2-13b-8k",
                     "model_type": "text2text",
-                    "context_tokens": 8192
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "hanghangq/nr2-2048-8x8",
+                    "slug": "openrouter/alpindale/goliath-120b",
                     "model_type": "text2text",
-                    "context_tokens": 4096
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "maxschatzow/parrot-40b-instruct",
+                    "slug": "openrouter/neversleep/noromaid-20b",
                     "model_type": "text2text",
-                    "context_tokens": 8192
+                    "context_tokens": 128000
                 },
                 {
-                    "slug": "tworivers/pegasus-24b-1",
+                    "slug": "openrouter/gryphe/mythomist-7b",
                     "model_type": "text2text",
-                    "context_tokens": 8192
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/mancer/weaver",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/nousresearch/nous-capybara-7b",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/codellama/codellama-70b-instruct",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/teknium/openhermes-2-mistral-7b",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/teknium/openhermes-2.5-mistral-7b",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/undi95/remm-slerp-l2-13b",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/undi95/toppy-m-7b",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/openrouter/cinematika-7b",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/01-ai/yi-34b-chat",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/01-ai/yi-34b",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/01-ai/yi-6b",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/togethercomputer/stripedhyena-nous-7b",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/togethercomputer/stripedhyena-hessian-7b",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/mistralai/mixtral-8x7b",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/nousresearch/nous-hermes-yi-34b",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/nousresearch/nous-hermes-2-mistral-7b-dpo",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/open-orca/mistral-7b-openorca",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/huggingfaceh4/zephyr-7b-beta",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/google/palm-2-chat-bison",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/google/palm-2-codechat-bison",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/google/palm-2-chat-bison-32k",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/google/palm-2-codechat-bison-32k",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/google/gemini-pro",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+
+                {
+                    "slug": "openrouter/perplexity/pplx-70b-online",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/perplexity/pplx-7b-online",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/perplexity/pplx-7b-chat",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/perplexity/pplx-70b-chat",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/meta-llama/llama-2-70b-chat",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/nousresearch/nous-capybara-34b",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/jondurbin/airoboros-l2-70b",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/austism/chronos-hermes-13b",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/mistralai/mistral-7b-instruct",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/openchat/openchat-7b",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/lizpreciatior/lzlv-70b-fp16-hf",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/cognitivecomputations/dolphin-mixtral-8x7b",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/rwkv/rwkv-5-world-3b",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/recursal/rwkv-5-3b-ai-town",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/recursal/eagle-7b",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/google/gemma-7b-it",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/anthropic/claude-2",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/anthropic/claude-2.1",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/anthropic/claude-2.0",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/anthropic/claude-instant-1",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/anthropic/claude-instant-1.2",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/anthropic/claude-2:beta",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/anthropic/claude-2.1:beta",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/anthropic/claude-2.0:beta",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/anthropic/claude-instant-1:beta",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/mistralai/mistral-tiny",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/mistralai/mistral-small",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
+                },
+                {
+                    "slug": "openrouter/mistralai/mistral-medium",
+                    "model_type": "text2text",
+                    "context_tokens": 128000
                 }
             ]
         },
