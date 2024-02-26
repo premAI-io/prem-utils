@@ -578,6 +578,42 @@
                 {
                     "slug": "mamba-chat",
                     "model_type": "text2text",
+                    "context_window": 128,
+                    "coming_soon": true
+                },
+                {
+                    "slug": "phi1-5-modal",
+                    "model_type": "text2text",
+                    "context_window": 2048,
+                    "coming_soon": true
+                },
+                {
+                    "slug": "phi2-modal",
+                    "model_type": "text2text",
+                    "context_window": 2048,
+                    "coming_soon": true
+                },
+                {
+                    "slug": "tinyllama-modal",
+                    "model_type": "text2text",
+                    "context_window": 2048,
+                    "coming_soon": true
+                },
+                {
+                    "slug": "mamba-modal",
+                    "model_type": "text2text",
+                    "context_window": 128,
+                    "coming_soon": true
+                },
+                {
+                    "slug": "stable_lm2-modal",
+                    "model_type": "text2text",
+                    "context_window": 2048,
+                    "coming_soon": true
+                },
+                {
+                    "gemma": "gemma-modal",
+                    "model_type":"text2text",
                     "context_window": 2048,
                     "coming_soon": true
                 },
@@ -597,6 +633,108 @@
                     "coming_soon": true
                 }
             ]
+        },
+
+        {
+            "provider": "perplexity",
+            "models": [
+                {
+                    "slug": "perplexity/codellama-34b-instruct",
+                    "model_type": "text2text",
+                    "context_window": 16384
+                },
+                {
+                    "slug": "perplexity/codellama-70b-instruct",
+                    "model_type": "text2text",
+                    "context_window": 16384
+                },
+                {
+                    "slug": "perplexity/llama-2-70b-chat",
+                    "model_type": "text2text",
+                    "context_window": 4096
+                },
+                {
+                    "slug": "perplexity/mistral-7b-instruct",
+                    "model_type": "text2text",
+                    "context_window": 8192
+                },
+                {
+                    "slug": "perplexity/mixtral-8x7b-instruct",
+                    "model_type": "text2text",
+                    "context_window": 8192
+                },
+                {
+                    "slug": "perplexity/pplx-7b-chat",
+                    "model_type": "text2text",
+                    "context_window": 8192
+                },
+                {
+                    "slug": "perplexity/pplx-70b-chat",
+                    "model_type": "text2text",
+                    "context_window": 8192
+                },
+                {
+                    "slug": "perplexity/pplx-7b-online",
+                    "model_type": "text2text",
+                    "context_window": 8192
+                },
+                {
+                    "slug": "perplexity/pplx-70b-online",
+                    "model_type": "text2text",
+                    "context_window": 8192
+                }
+            ]
+        },
+        {
+            "provider": "anyscale",
+            "models": [
+                {
+                    "slug": "anyscale/meta-llama/Llama-2-7b-chat-hf",
+                    "model_type": "text2text",
+                    "context_window": 4096
+                },
+                {
+                    "slug": "anyscale/meta-llama/Llama-2-13b-chat-hf",
+                    "model_type": "text2text",
+                    "context_window": 4096
+                },
+                {
+                    "slug": "anyscale/meta-llama/Llama-2-70b-chat-hf",
+                    "model_type": "text2text",
+                    "context_window": 4096
+                },
+                {
+                    "slug": "anyscale/codellama/CodeLlama-70b-Instruct-hf",
+                    "model_type": "text2text",
+                    "context_window": 4096
+                },
+                {
+                    "slug": "anyscale/mistralai/Mistral-7B-Instruct-v0.1",
+                    "model_type": "text2text",
+                    "context_window": 16384
+                },
+                {
+                    "slug": "anyscale/mistralai/Mixtral-8x7B-Instruct-v0.1",
+                    "model_type": "text2text",
+                    "context_window": 32768
+                },
+                {
+                    "slug": "anyscale/google/gemma-7b-it",
+                    "model_type": "text2text",
+                    "context_window": 8192
+                },
+                {
+                    "slug": "anyscale/thenlper/gte-large",
+                    "model_type": "text2vector",
+                    "context_window": 512
+                },
+                {
+                    "slug": "anyscale/BAAI/bge-large-en-v1.5",
+                    "model_type": "text2vector",
+                    "context_window": 512
+                }
+            ]
         }
+
     ]
 }
