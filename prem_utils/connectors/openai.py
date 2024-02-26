@@ -68,7 +68,7 @@ class OpenAIConnector(BaseConnector):
         self,
         model: str,
         messages: list[dict[str]],
-        max_tokens: int = 128,
+        max_tokens: int = None,
         frequency_penalty: float = 0,
         presence_penalty: float = 0,
         seed: int | None = None,
