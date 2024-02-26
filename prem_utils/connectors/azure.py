@@ -21,6 +21,7 @@ from openai import (
 )
 
 from prem_utils import errors
+from prem_utils.connectors import utils as connector_utils
 from prem_utils.connectors.base import BaseConnector
 
 
@@ -116,7 +117,6 @@ class AzureOpenAIConnector(BaseConnector):
         if stream:
             return response
         plain_response = {
-            "id": response.id,
             "choices": [
                 {
                     "finish_reason": choice.finish_reason,
@@ -132,6 +132,9 @@ class AzureOpenAIConnector(BaseConnector):
             "model": response.model,
             "provider_name": "Azure OpenAI",
             "provider_id": "azure_openai",
+            "usage": connector_utils.default_chatcompletions_usage(
+                messages, [choice.message.content for choice in response.choices]
+            ),
         }
         return plain_response
 

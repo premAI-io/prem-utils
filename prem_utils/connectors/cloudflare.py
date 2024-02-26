@@ -5,6 +5,7 @@ from collections.abc import Sequence
 import requests
 
 from prem_utils import errors
+from prem_utils.connectors import utils as connector_utils
 from prem_utils.connectors.base import BaseConnector
 
 logger = logging.getLogger(__name__)
@@ -92,20 +93,23 @@ class CloudflareConnector(BaseConnector):
         if stream:
             return response
 
+        response_text = response.json()["result"]["response"]
         plain_response = {
-            "id": None,
             "choices": [
                 {
+                    "finish_reason": "stop",
+                    "index": 0,
                     "message": {
-                        "content": response.json()["result"]["response"],
+                        "content": response_text,
                         "role": "assistant",
                     },
                 }
             ],
-            "created": None,
+            "created": connector_utils.default_chatcompletion_response_created(),
             "model": model,
             "provider_name": "Cloudflare",
             "provider_id": "cloudflare",
+            "usage": connector_utils.default_chatcompletions_usage(messages, response_text),
         }
         return plain_response
 
@@ -149,7 +153,7 @@ class CloudflareConnector(BaseConnector):
                 {"index": index, "embedding": embedding} for index, embedding in enumerate(response["result"]["data"])
             ],
             "model": model,
-            "usage": None,
+            "usage": connector_utils.default_embeddings_usage(input),
             "provider_name": "Cloudflare",
             "provider_id": "claudflare",
         }

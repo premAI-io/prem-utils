@@ -76,7 +76,6 @@ class OctoAIConnector(BaseConnector):
             return response
 
         plain_response = {
-            "id": response.id,
             "choices": [
                 {
                     "finish_reason": choice.finish_reason,
