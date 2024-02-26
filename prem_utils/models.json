@@ -674,6 +674,57 @@
                     "context_window": 8192
                 }
             ]
+        },
+        {
+            "provider": "anyscale",
+            "models": [
+                {
+                    "slug": "anyscale/meta-llama/Llama-2-7b-chat-hf",
+                    "model_type": "text2text",
+                    "context_window": 4096
+                },
+                {
+                    "slug": "anyscale/meta-llama/Llama-2-13b-chat-hf",
+                    "model_type": "text2text",
+                    "context_window": 4096
+                },
+                {
+                    "slug": "anyscale/meta-llama/Llama-2-70b-chat-hf",
+                    "model_type": "text2text",
+                    "context_window": 4096
+                },
+                {
+                    "slug": "anyscale/codellama/CodeLlama-70b-Instruct-hf",
+                    "model_type": "text2text",
+                    "context_window": 4096
+                },
+                {
+                    "slug": "anyscale/mistralai/Mistral-7B-Instruct-v0.1",
+                    "model_type": "text2text",
+                    "context_window": 16384
+                },
+                {
+                    "slug": "anyscale/mistralai/Mixtral-8x7B-Instruct-v0.1",
+                    "model_type": "text2text",
+                    "context_window": 32768
+                },
+                {
+                    "slug": "anyscale/google/gemma-7b-it",
+                    "model_type": "text2text",
+                    "context_window": 8192
+                },
+                {
+                    "slug": "anyscale/thenlper/gte-large",
+                    "model_type": "text2vector",
+                    "context_window": 512
+                },
+                {
+                    "slug": "anyscale/BAAI/bge-large-en-v1.5",
+                    "model_type": "text2vector",
+                    "context_window": 512
+                }
+            ]
         }
+
     ]
 }

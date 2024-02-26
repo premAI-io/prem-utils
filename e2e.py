@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 
 from prem_utils.connectors import (
     anthropic,
+    anyscale,
     azure,
     cloudflare,
     cohere,
@@ -73,6 +74,7 @@ def run_single_connector(connector_name: str) -> None:
         "prem": (prem.PremConnector, "PREMAI_BEARER_TOKEN"),
         "deepinfra": (openai.OpenAIConnector, "DEEP_INFRA_API_KEY"),
         "perplexity": (perplexity.PerplexityAIConnector, "PERPLEXITY_API_KEY"),
+        "anyscale": (anyscale.AnyscaleEndpointsConnector, "ANYSCALE_API_KEY"),
     }
 
     if connector_name == "deepinfra":
