@@ -54,18 +54,6 @@ class PremConnector(BaseConnector):
             errors.PremProviderAPIConnectionError,
         )
 
-        self.model_list = [
-            "phi1-5",
-            "phi2",
-            "tinyllama",
-            "mamba",
-            "stable_lm2",
-            "gemma",
-            "prem-1b-chat",
-            "prem-1b-json",
-            "prem-1b-sum",
-        ]
-
     def parse_chunk(self, chunk):
         return {
             "id": chunk["id"],
@@ -147,7 +135,6 @@ class PremConnector(BaseConnector):
         top_p: float | None = 0.95,
         stream: bool | None = False,
     ) -> str | Generator[str, None, None]:
-        assert model in self.model_list, ValueError(f"Models other than {self.model_list} are not supported")
         try:
             if stream:
                 return self._chat_completion_stream(
