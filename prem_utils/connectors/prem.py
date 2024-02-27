@@ -115,9 +115,13 @@ class PremConnector(BaseConnector):
         model: str,
         messages: list[dict[str]],
         max_tokens: int | None = 128,
-        temperature: float | None = 1.0,
-        top_p: float | None = 0.95,
-        stream: bool | None = False,
+        frequency_penalty: float = 0,
+        presence_penalty: float = 0,
+        seed: int | None = None,
+        stop: str | list[str] = None,
+        stream: bool = False,
+        temperature: float = 1,
+        top_p: float = 1,
     ) -> str | Generator[str, None, None]:
         try:
             if stream:

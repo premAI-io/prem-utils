@@ -13,34 +13,21 @@ class DeepInfraConnector(OpenAIConnector):
     def chat_completion(
         self,
         model: str,
-        messages: list[dict[str, Any]],
-        max_tokens: int = 512,
-        frequency_penalty: float = 0.1,
+        messages: list[dict[str]],
+        max_tokens: int = None,
+        frequency_penalty: float = 0,
         presence_penalty: float = 0,
         seed: int | None = None,
         stop: str | list[str] = None,
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 1,
-        tools: list[dict[str, Any]] = None,
-        tool_choice: dict = None,
     ):
         if "deepinfra" in model:
             model = model.replace("deepinfra/", "", 1)
 
         return super().chat_completion(
-            model,
-            messages,
-            max_tokens,
-            frequency_penalty,
-            presence_penalty,
-            seed,
-            stop,
-            stream,
-            temperature,
-            top_p,
-            tools,
-            tool_choice,
+            model, messages, max_tokens, frequency_penalty, presence_penalty, seed, stop, stream, temperature, top_p
         )
 
     def embeddings(
