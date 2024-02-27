@@ -87,9 +87,6 @@ class OpenAIConnector(BaseConnector):
 
         # NOTE custom logic for providers who don't have
         # their sdk, but they use direclty OpenAI python client.
-        if "deepinfra" in model:
-            model = model.replace("deepinfra/", "", 1)
-            max_tokens = max_tokens or 1024
 
         other_parameters = {}
         if tools is not None and tool_choice is not None:

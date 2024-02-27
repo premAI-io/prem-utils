@@ -4,7 +4,6 @@ from datetime import datetime
 
 import requests
 
-from prem_utils import errors
 from prem_utils.connectors.base import BaseConnector
 
 
@@ -38,33 +37,17 @@ class PremConnector(BaseConnector):
             },
         }
         self._api_key = api_key
-        self._prem_errors = (
-            errors.PremProviderAPIErrror,
-            errors.PremProviderPermissionDeniedError,
-            errors.PremProviderUnprocessableEntityError,
-            errors.PremProviderInternalServerError,
-            errors.PremProviderAuthenticationError,
-            errors.PremProviderBadRequestError,
-            errors.PremProviderNotFoundError,
-            errors.PremProviderRateLimitError,
-            errors.PremProviderAPIResponseValidationError,
-            errors.PremProviderConflictError,
-            errors.PremProviderAPIStatusError,
-            errors.PremProviderAPITimeoutError,
-            errors.PremProviderAPIConnectionError,
-        )
 
         self.model_list = [
-            "phi-1-5",
-            "phi1-5-modal",
-            "phi-2",
-            "phi2-modal",
+            "phi1-5",
+            "phi2",
             "tinyllama",
-            "tinyllama-modal",
-            "mamba-chat",
-            "mamba-modal",
-            "stable_lm2-modal",
-            "gemma-modal",
+            "mamba",
+            "stable_lm2",
+            "gemma",
+            "prem-1b-chat",
+            "prem-1b-json",
+            "prem-1b-sum",
         ]
 
     def parse_chunk(self, chunk):
@@ -116,7 +99,7 @@ class PremConnector(BaseConnector):
                         yield token_to_sent
                 else:
                     yield {"status": response.status_code}
-            except self._prem_errors as error:
+            except Exception as error:
                 raise error
 
     def _chat_completion_generate(
@@ -135,7 +118,7 @@ class PremConnector(BaseConnector):
                 response = requests.post(self.url_mappings[model]["generation"], json=data, timeout=600).json()
                 responses.append(response)
 
-            except self._prem_errors as e:
+            except Exception as e:
                 responses.append({"status": 500, "error": str(e)})
         return responses
 
@@ -150,7 +133,7 @@ class PremConnector(BaseConnector):
     ) -> str | Generator[str, None, None]:
         assert model in self.model_list, ValueError(f"Models other than {self.model_list} are not supported")
 
-        if model.endswith("modal"):
+        try:
             if stream:
                 return self._chat_completion_stream(
                     model=model.split("-modal")[0],
@@ -167,27 +150,5 @@ class PremConnector(BaseConnector):
                     temperature=temperature,
                     top_p=top_p,
                 )
-        else:
-            if model == "mamba":
-                _base_url = "https://mambaphi.compute.premai.io/v1/chat/completions"
-                data = {
-                    "model": model,
-                    "messages": messages,
-                    "max_length": max_tokens,
-                    "temperature": temperature,
-                    "top_p": top_p,
-                }
-            else:
-                _base_url = f"https://{model}.compute.premai.io/mii/default"
-                data = {
-                    "prompts": [message["content"] for message in messages],
-                    "max_length": max_tokens,
-                    "temperature": temperature,
-                    "top_p": top_p,
-                }
-            _headers = {"Content-Type": "application/json", "Authorization": f"Bearer {self._api_key}"}
-            try:
-                response = requests.post(_base_url, json=data, headers=_headers)
-            except self._prem_errors as error:
-                raise error
-            return response.text
+        except Exception as error:
+            raise error
