@@ -25,6 +25,7 @@ from prem_utils.connectors import (
 )
 
 logger = logging.getLogger(__name__)
+
 load_dotenv()
 
 
@@ -39,28 +40,12 @@ def load_models_file():
         return None
 
 
-def get_provider_blob(provider_name: str) -> dict:
-    try:
-        with open("./prem_utils/models.json") as file:
-            data = json.load(file)
-            for connector in data["connectors"]:
-                if connector["provider"] == provider_name:
-                    return connector
-            print(f"No data found for provider: {provider_name}")
-            return None
-    except FileNotFoundError:
-        print("JSON file not found.")
-        return None
-    except json.JSONDecodeError:
-        print("Invalid JSON format.")
-        return None
-
-
 def run_single_connector(connector_name: str) -> None:
     connectors_mapping = load_models_file()["connectors"]
-    all_connectors = [connector["provider"] for connector in connectors_mapping]
-    assert connector_name in all_connectors, ValueError(f"Connector: {connector_name} does not exist")
-    connector = get_provider_blob(provider_name=connector_name)
+
+    for conn in connectors_mapping:
+        if conn["provider"] == connector_name:
+            connector = conn
 
     connector_class_mapping = {
         "anthropic": (anthropic.AnthropicConnector, "ANTHROPIC_API_KEY"),
@@ -73,7 +58,7 @@ def run_single_connector(connector_name: str) -> None:
         "together": (together.TogetherConnector, "TOGETHER_AI_API_KEY"),
         "cloudflare": (cloudflare.CloudflareConnector, "CLOUDFLARE_API_KEY"),
         "mistralai": (mistral.MistralConnector, "MISTRAL_AI_API_KEY"),
-        "prem": (prem.PremConnector, "PREMAI_BEARER_TOKEN"),
+        "prem": (prem.PremConnector, "PREM_AI_API_KEY"),
         "deepinfra": (deepinfra.DeepInfraConnector, "DEEP_INFRA_API_KEY"),
         "perplexity": (perplexity.PerplexityAIConnector, "PERPLEXITY_API_KEY"),
         "anyscale": (anyscale.AnyscaleEndpointsConnector, "ANYSCALE_API_KEY"),
@@ -141,37 +126,27 @@ def run_single_connector(connector_name: str) -> None:
         print(f"Model {model_object['slug']} succeeed 🚀 \n\n\n")
 
 
-def run_all_connectors(connector_name_list: list[str] | None = None) -> None:
-    if connector_name_list is None:
-        connectors_mapping = load_models_file()["connectors"]
-        connector_name_list = [connector["provider"] for connector in connectors_mapping]
-
-    for connector in connector_name_list:
-        try:
-            print("=" * 20, f"Running for Connector: {connector}", "=" * 20)
-            run_single_connector(connector_name=connector)
-        except Exception as e:
-            print(f"Error: {e}")
-            continue
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Testing different providers from prem-utils package")
 
     parser.add_argument(
         "--name",
-        nargs="+",
         help=(
             "The following providers are supported:\n"
             "openai, azure, anthropic, cloudflare, cohere, fireworksai, lamini, mistral, ocotoai, deepinfra, prem, replicate, together\n"  # noqa: E501
             "You can choose any one of them to test it out. Please note: you should include the provider's API key in the .env file. You can check .env.template for your reference. if you put 'all' then all the providers will be used at once"  # noqa: E501
         ),
-        default=["all"],
+        default="all",
     )
 
     args = parser.parse_args()
 
-    if args.name == ["all"]:
-        run_all_connectors()
+    if args.name == "all":
+        connectors_mapping = load_models_file()["connectors"]
+        connector_name_list = [connector["provider"] for connector in connectors_mapping]
+
+        for connector in connector_name_list:
+            logger.info("=" * 20, f"Running for Connector: {connector}", "=" * 20)
+            run_single_connector(connector_name=connector)
     else:
-        run_all_connectors(connector_name_list=args.name)
+        run_single_connector(connector_name=args.name)

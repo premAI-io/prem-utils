@@ -76,31 +76,9 @@ class OpenAIConnector(BaseConnector):
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 1,
-        tools: list[dict[str]] = None,
-        tool_choice: dict = None,
-        logit_bias: dict = None,
-        logprobs: bool = None,
-        top_logprobs: int = None,
     ):
         if self.prompt_template is not None:
             messages = self.apply_prompt_template(messages)
-
-        # NOTE custom logic for providers who don't have
-        # their sdk, but they use direclty OpenAI python client.
-
-        other_parameters = {}
-        if tools is not None and tool_choice is not None:
-            other_parameters["tools"] = tools
-            other_parameters["tool_choice"] = tool_choice
-
-        if logit_bias is not None:
-            other_parameters["logit_bias"] = logit_bias
-
-        if logprobs is not None:
-            other_parameters["logprobs"] = logprobs
-
-        if top_logprobs is not None:
-            other_parameters["top_logprobs"] = top_logprobs
 
         try:
             response = self.client.chat.completions.create(
@@ -114,7 +92,6 @@ class OpenAIConnector(BaseConnector):
                 stop=stop,
                 temperature=temperature,
                 top_p=top_p,
-                **other_parameters,
             )
         except (
             NotFoundError,

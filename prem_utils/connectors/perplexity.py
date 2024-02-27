@@ -11,38 +11,24 @@ class PerplexityAIConnector(OpenAIConnector):
     def chat_completion(
         self,
         model: str,
-        messages: list[dict[str, Any]],
+        messages: list[dict[str]],
         max_tokens: int = None,
-        frequency_penalty: float = 0.1,
-        log_probs: int = None,
-        logit_bias: dict[str, float] = None,
+        frequency_penalty: float = 0,
         presence_penalty: float = 0,
         seed: int | None = None,
         stop: str | list[str] = None,
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 1,
-        tools: list[dict[str, Any]] = None,
-        tool_choice: dict = None,
     ):
+        if frequency_penalty == 0:
+            frequency_penalty = 0.1
+
         if "perplexity" in model:
             model = model.replace("perplexity/", "", 1)
 
         return super().chat_completion(
-            model,
-            messages,
-            max_tokens,
-            frequency_penalty,
-            log_probs,
-            logit_bias,
-            presence_penalty,
-            seed,
-            stop,
-            stream,
-            temperature,
-            top_p,
-            tools,
-            tool_choice,
+            model, messages, max_tokens, frequency_penalty, presence_penalty, seed, stop, stream, temperature, top_p
         )
 
     def embeddings(
