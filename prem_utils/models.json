@@ -584,7 +584,7 @@
                 },
                 {
                     "slug": "gemma",
-                    "model_type":"text2text",
+                    "model_type": "text2text",
                     "context_window": 2048
                 },
                 {
@@ -842,27 +842,6 @@
                     "model_type": "text2text",
                     "context_tokens": 128000
                 },
-
-                {
-                    "slug": "openrouter/perplexity/pplx-70b-online",
-                    "model_type": "text2text",
-                    "context_tokens": 128000
-                },
-                {
-                    "slug": "openrouter/perplexity/pplx-7b-online",
-                    "model_type": "text2text",
-                    "context_tokens": 128000
-                },
-                {
-                    "slug": "openrouter/perplexity/pplx-7b-chat",
-                    "model_type": "text2text",
-                    "context_tokens": 128000
-                },
-                {
-                    "slug": "openrouter/perplexity/pplx-70b-chat",
-                    "model_type": "text2text",
-                    "context_tokens": 128000
-                },
                 {
                     "slug": "openrouter/meta-llama/llama-2-70b-chat",
                     "model_type": "text2text",
@@ -922,70 +901,9 @@
                     "slug": "openrouter/google/gemma-7b-it",
                     "model_type": "text2text",
                     "context_tokens": 128000
-                },
-                {
-                    "slug": "openrouter/anthropic/claude-2",
-                    "model_type": "text2text",
-                    "context_tokens": 128000
-                },
-                {
-                    "slug": "openrouter/anthropic/claude-2.1",
-                    "model_type": "text2text",
-                    "context_tokens": 128000
-                },
-                {
-                    "slug": "openrouter/anthropic/claude-2.0",
-                    "model_type": "text2text",
-                    "context_tokens": 128000
-                },
-                {
-                    "slug": "openrouter/anthropic/claude-instant-1",
-                    "model_type": "text2text",
-                    "context_tokens": 128000
-                },
-                {
-                    "slug": "openrouter/anthropic/claude-instant-1.2",
-                    "model_type": "text2text",
-                    "context_tokens": 128000
-                },
-                {
-                    "slug": "openrouter/anthropic/claude-2:beta",
-                    "model_type": "text2text",
-                    "context_tokens": 128000
-                },
-                {
-                    "slug": "openrouter/anthropic/claude-2.1:beta",
-                    "model_type": "text2text",
-                    "context_tokens": 128000
-                },
-                {
-                    "slug": "openrouter/anthropic/claude-2.0:beta",
-                    "model_type": "text2text",
-                    "context_tokens": 128000
-                },
-                {
-                    "slug": "openrouter/anthropic/claude-instant-1:beta",
-                    "model_type": "text2text",
-                    "context_tokens": 128000
-                },
-                {
-                    "slug": "openrouter/mistralai/mistral-tiny",
-                    "model_type": "text2text",
-                    "context_tokens": 128000
-                },
-                {
-                    "slug": "openrouter/mistralai/mistral-small",
-                    "model_type": "text2text",
-                    "context_tokens": 128000
-                },
-                {
-                    "slug": "openrouter/mistralai/mistral-medium",
-                    "model_type": "text2text",
-                    "context_tokens": 128000
                 }
             ]
         },
-
         {
             "provider": "perplexity",
             "models": [
@@ -1086,6 +1004,5 @@
                 }
             ]
         }
-
     ]
 }
