@@ -116,6 +116,8 @@ class PremConnector(BaseConnector):
         messages: list[dict[str]],
         max_tokens: int | None = 128,
         frequency_penalty: float = 0,
+        log_probs: int = None,
+        logit_bias: dict[str, float] = None,
         presence_penalty: float = 0,
         seed: int | None = None,
         stop: str | list[str] = None,
