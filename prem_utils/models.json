@@ -583,7 +583,7 @@
                     "context_window": 2048
                 },
                 {
-                    "gemma": "gemma",
+                    "slug": "gemma",
                     "model_type":"text2text",
                     "context_window": 2048
                 },
