@@ -12,6 +12,7 @@ from prem_utils.connectors import (
     azure,
     cloudflare,
     cohere,
+    deepinfra,
     fireworksai,
     mistral,
     octoai,
@@ -73,18 +74,13 @@ def run_single_connector(connector_name: str) -> None:
         "cloudflare": (cloudflare.CloudflareConnector, "CLOUDFLARE_API_KEY"),
         "mistralai": (mistral.MistralConnector, "MISTRAL_AI_API_KEY"),
         "prem": (prem.PremConnector, "PREMAI_BEARER_TOKEN"),
-        "deepinfra": (openai.OpenAIConnector, "DEEP_INFRA_API_KEY"),
+        "deepinfra": (deepinfra.DeepInfraConnector, "DEEP_INFRA_API_KEY"),
         "perplexity": (perplexity.PerplexityAIConnector, "PERPLEXITY_API_KEY"),
         "anyscale": (anyscale.AnyscaleEndpointsConnector, "ANYSCALE_API_KEY"),
         "openrouter": (openrouter.OpenRouterConnector, "OPENROUTER_API_KEY"),
     }
 
-    if connector_name == "deepinfra":
-        connector_object = connector_class_mapping[connector_name][0](
-            api_key=os.environ[connector_class_mapping[connector_name][1]],
-            base_url="https://api.deepinfra.com/v1/openai",
-        )
-    elif connector_name == "cloudflare":
+    if connector_name == "cloudflare":
         connector_object = connector_class_mapping[connector_name][0](
             api_key=os.environ[connector_class_mapping[connector_name][1]],
             account_id=os.environ["CLOUDFLARE_ACCOUNT_ID"],
