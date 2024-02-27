@@ -30,7 +30,15 @@ class PerplexityAIConnector(OpenAIConnector):
             model = model.replace("perplexity/", "", 1)
 
         return super().chat_completion(
-            model, messages, max_tokens, frequency_penalty, presence_penalty, seed, stop, stream, temperature, top_p
+            model=model,
+            messages=messages,
+            max_tokens=max_tokens,
+            frequency_penalty=frequency_penalty,
+            presence_penalty=presence_penalty,
+            seed=seed,
+            stream=stream,
+            temperature=temperature,
+            top_p=top_p,
         )
 
     def embeddings(
