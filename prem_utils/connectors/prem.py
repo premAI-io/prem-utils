@@ -4,7 +4,6 @@ from datetime import datetime
 
 import requests
 
-from prem_utils import errors
 from prem_utils.connectors.base import BaseConnector
 
 
@@ -38,21 +37,6 @@ class PremConnector(BaseConnector):
             },
         }
         self._api_key = api_key
-        self._prem_errors = (
-            errors.PremProviderAPIErrror,
-            errors.PremProviderPermissionDeniedError,
-            errors.PremProviderUnprocessableEntityError,
-            errors.PremProviderInternalServerError,
-            errors.PremProviderAuthenticationError,
-            errors.PremProviderBadRequestError,
-            errors.PremProviderNotFoundError,
-            errors.PremProviderRateLimitError,
-            errors.PremProviderAPIResponseValidationError,
-            errors.PremProviderConflictError,
-            errors.PremProviderAPIStatusError,
-            errors.PremProviderAPITimeoutError,
-            errors.PremProviderAPIConnectionError,
-        )
 
         self.model_list = [
             "phi1-5",
@@ -115,7 +99,7 @@ class PremConnector(BaseConnector):
                         yield token_to_sent
                 else:
                     yield {"status": response.status_code}
-            except self._prem_errors as error:
+            except Exception as error:
                 raise error
 
     def _chat_completion_generate(
@@ -134,7 +118,7 @@ class PremConnector(BaseConnector):
                 response = requests.post(self.url_mappings[model]["generation"], json=data, timeout=600).json()
                 responses.append(response)
 
-            except self._prem_errors as e:
+            except Exception as e:
                 responses.append({"status": 500, "error": str(e)})
         return responses
 
@@ -166,5 +150,5 @@ class PremConnector(BaseConnector):
                     temperature=temperature,
                     top_p=top_p,
                 )
-        except self._prem_errors as error:
+        except Exception as error:
             raise error
