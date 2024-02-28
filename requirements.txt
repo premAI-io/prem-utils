@@ -11,5 +11,6 @@ mistralai==0.0.8
 python-dotenv==1.0.0
 pre-commit==3.6.0
 lamini==2.0.4
+groq==0.4.1
 # Future Providers (maybe)
 # boto3==1.33.10

@@ -14,6 +14,7 @@ from prem_utils.connectors import (
     cohere,
     deepinfra,
     fireworksai,
+    groq,
     mistral,
     octoai,
     openai,
@@ -63,6 +64,7 @@ def run_single_connector(connector_name: str) -> None:
         "perplexity": (perplexity.PerplexityAIConnector, "PERPLEXITY_API_KEY"),
         "anyscale": (anyscale.AnyscaleEndpointsConnector, "ANYSCALE_API_KEY"),
         "openrouter": (openrouter.OpenRouterConnector, "OPENROUTER_API_KEY"),
+        "groq": (groq.GroqConnector, "GROQ_API_KEY"),
     }
 
     if connector_name == "cloudflare":

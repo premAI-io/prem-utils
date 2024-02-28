@@ -81,8 +81,6 @@ class AzureOpenAIConnector(BaseConnector):
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 1,
-        tools: list[dict[str]] = None,
-        tool_choice: dict = None,
     ):
         try:
             response = self.client.chat.completions.create(

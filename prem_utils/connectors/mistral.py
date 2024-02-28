@@ -58,8 +58,6 @@ class MistralConnector(BaseConnector):
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 1,
-        tools: list[dict[str]] = None,
-        tool_choice: dict = None,
     ):
         messages = self.build_messages(messages)
         try:

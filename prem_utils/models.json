@@ -1003,6 +1003,21 @@
                     "context_window": 512
                 }
             ]
+        },
+        {
+            "provider": "groq",
+            "models": [
+                {
+                    "slug": "groq/llama2-70b-4096",
+                    "model_type": "text2text",
+                    "context_window": 4096
+                },
+                {
+                    "slug": "groq/mixtral-8x7b-32768",
+                    "model_type": "text2text",
+                    "context_window": 32768
+                }
+            ]
         }
     ]
 }

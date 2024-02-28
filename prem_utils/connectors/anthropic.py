@@ -84,8 +84,6 @@ class AnthropicConnector(BaseConnector):
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 1,
-        tools: list[dict[str]] = None,
-        tool_choice: dict = None,
     ):
         prompt = self.apply_prompt_template(messages)
         if max_tokens is None:

@@ -120,21 +120,7 @@ class OpenAIConnector(BaseConnector):
                 {
                     "finish_reason": choice.finish_reason,
                     "index": choice.index,
-                    "message": {
-                        "content": choice.message.content,
-                        "role": choice.message.role,
-                        "tool_calls": [
-                            {
-                                "id": tool_call.id,
-                                "type": tool_call.type,
-                                "function": {
-                                    "name": tool_call.function.name,
-                                    "arguments": tool_call.function.arguments,
-                                },
-                            }
-                            for tool_call in choice.message.tool_calls or []
-                        ],
-                    },
+                    "message": {"content": choice.message.content, "role": choice.message.role},
                 }
                 for choice in response.choices
             ],

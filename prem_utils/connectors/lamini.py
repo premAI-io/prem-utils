@@ -45,8 +45,6 @@ class LaminiConnector(BaseConnector):
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 1,
-        tools: list[dict[str]] = None,
-        tool_choice: dict = None,
     ):
         if stream:
             raise errors.PremProviderAPIErrror(
