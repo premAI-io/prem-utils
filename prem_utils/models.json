@@ -16,6 +16,20 @@
                     "context_window": 100000,
                     "input_cost_per_token": 0.00000163,
                     "output_cost_per_token": 0.00000551
+                },
+                {
+                    "slug": "claude-3-opus-20240229",
+                    "model_type": "text2text",
+                    "context_window": 200000,
+                    "input_cost_per_token": 0.000015,
+                    "output_cost_per_token": 0.000075
+                },
+                {
+                    "slug": "claude-3-sonnet-20240229",
+                    "model_type": "text2text",
+                    "context_window": 200000,
+                    "input_cost_per_token": 0.000003,
+                    "output_cost_per_token": 0.000015
                 }
             ]
         },
