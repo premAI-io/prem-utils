@@ -87,18 +87,25 @@
             "provider": "openai",
             "models": [
                 {
+                    "slug": "gpt-4-turbo-preview",
+                    "model_type": "text2text",
+                    "context_window": 128000,
+                    "input_cost_per_token": 0.00001,
+                    "output_cost_per_token": 0.00003
+                },
+                {
                     "slug": "gpt-4-0125-preview",
                     "model_type": "text2text",
                     "context_window": 128000,
-                    "input_cost_per_token": 0.00006,
-                    "output_cost_per_token": 0.00012
+                    "input_cost_per_token": 0.00001,
+                    "output_cost_per_token": 0.00003
                 },
                 {
                     "slug": "gpt-4-1106-preview",
                     "model_type": "text2text",
                     "context_window": 128000,
-                    "input_cost_per_token": 0.00006,
-                    "output_cost_per_token": 0.00012
+                    "input_cost_per_token": 0.00001,
+                    "output_cost_per_token": 0.00003
                 },
                 {
                     "slug": "gpt-4",
@@ -117,9 +124,9 @@
                 {
                     "slug": "gpt-3.5-turbo",
                     "model_type": "text2text",
-                    "context_window": 4096,
-                    "input_cost_per_token": 0.0000015,
-                    "output_cost_per_token": 0.000002
+                    "context_window": 16385,
+                    "input_cost_per_token": 0.0000005,
+                    "output_cost_per_token": 0.0000015
                 },
                 {
                     "slug": "gpt-3.5-turbo-16k",
