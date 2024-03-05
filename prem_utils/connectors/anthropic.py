@@ -56,6 +56,19 @@ class AnthropicConnector(BaseConnector):
                     }
                 ],
             }
+        else:
+            return {
+                "id": 0,
+                "model": None,
+                "object": None,
+                "created": None,
+                "choices": [
+                    {
+                        "delta": {"content": "", "role": "assistant"},
+                        "finish_reason": None,
+                    }
+                ],
+            }
 
     def preprocess_messages(self, messages):
         system_prompt = ""
