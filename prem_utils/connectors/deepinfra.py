@@ -28,6 +28,9 @@ class DeepInfraConnector(OpenAIConnector):
         if "deepinfra" in model:
             model = model.replace("deepinfra/", "", 1)
 
+        if presence_penalty is None:
+            presence_penalty = 0
+
         return super().chat_completion(
             model, messages, max_tokens, frequency_penalty, presence_penalty, seed, stop, stream, temperature, top_p
         )
