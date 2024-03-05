@@ -178,11 +178,6 @@
                     "context_window": 4096
                 },
                 {
-                    "slug": "@hf/thebloke/codellama-7b-instruct-awq",
-                    "model_type": "text2text",
-                    "context_window": 4096
-                },
-                {
                     "slug": "@cf/baai/bge-base-en-v1.5",
                     "model_type": "text2vector",
                     "context_window": 512
