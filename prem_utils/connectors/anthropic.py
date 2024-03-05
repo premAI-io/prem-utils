@@ -1,8 +1,6 @@
 from collections.abc import Sequence
 
 from anthropic import (
-    AI_PROMPT,
-    HUMAN_PROMPT,
     Anthropic,
     APIConnectionError,
     APIResponseValidationError,
@@ -45,30 +43,29 @@ class AnthropicConnector(BaseConnector):
         }
 
     def parse_chunk(self, chunk):
-        return {
-            "id": chunk.log_id,
-            "model": chunk.model,
-            "object": None,
-            "created": None,
-            "choices": [
-                {
-                    "delta": {"content": chunk.completion, "role": "assistant"},
-                    "finish_reason": None,
-                }
-            ],
-        }
+        if hasattr(chunk, "delta"):
+            return {
+                "id": chunk.index,
+                "model": "anthropic-model",
+                "object": None,
+                "created": None,
+                "choices": [
+                    {
+                        "delta": {"content": chunk.delta.text, "role": "assistant"},
+                        "finish_reason": None,
+                    }
+                ],
+            }
 
-    def apply_prompt_template(self, messages):
-        prompt = ""
+    def preprocess_messages(self, messages):
         system_prompt = ""
+        filtered_messages = []
         for message in messages:
-            if message["role"] == "user":
-                prompt += f"{HUMAN_PROMPT} {message['content']}"
-            elif message["role"] == "assistant":
-                prompt += f"{AI_PROMPT} {message['content']}"
             if message["role"] == "system":
-                system_prompt = f"{system_prompt} {message['content']}"
-        return f"{system_prompt} \n {prompt} {AI_PROMPT} "
+                system_prompt = message["content"]
+            else:
+                filtered_messages.append(message)
+        return system_prompt, filtered_messages
 
     def chat_completion(
         self,
@@ -85,17 +82,20 @@ class AnthropicConnector(BaseConnector):
         temperature: float = 1,
         top_p: float = 1,
     ):
-        prompt = self.apply_prompt_template(messages)
+        system_prompt, messages = self.preprocess_messages(messages)
+
         if max_tokens is None:
-            max_tokens = 10000
+            max_tokens = 4096
+
         try:
-            response = self.client.completions.create(
+            response = self.client.messages.create(
+                max_tokens=max_tokens,
+                system=system_prompt,
+                messages=messages,
                 model=model,
-                max_tokens_to_sample=max_tokens,
-                prompt=prompt,
-                stream=stream,
                 top_p=top_p,
                 temperature=temperature,
+                stream=stream,
             )
         except (
             NotFoundError,
@@ -122,14 +122,14 @@ class AnthropicConnector(BaseConnector):
                 {
                     "finish_reason": response.stop_reason,
                     "index": 0,
-                    "message": {"content": response.completion, "role": "assistant"},
+                    "message": {"content": response.content[0].text, "role": "assistant"},
                 }
             ],
             "created": connector_utils.default_chatcompletion_response_created(),
             "model": response.model,
             "provider_name": "Anthropic",
             "provider_id": "anthropic",
-            "usage": connector_utils.default_chatcompletions_usage(prompt, response.completion),
+            "usage": connector_utils.default_chatcompletions_usage(messages, response.content[0].text),
         }
         return plain_response
 
