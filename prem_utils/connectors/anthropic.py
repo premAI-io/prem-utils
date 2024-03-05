@@ -43,7 +43,7 @@ class AnthropicConnector(BaseConnector):
         }
 
     def parse_chunk(self, chunk):
-        if hasattr(chunk, "delta"):
+        if hasattr(chunk, "delta") and hasattr(chunk, "index"):
             return {
                 "id": chunk.index,
                 "model": "anthropic-model",
