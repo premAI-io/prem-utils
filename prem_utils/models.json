@@ -176,7 +176,7 @@
                 {
                     "slug": "dall-e-3",
                     "model_type": "text2image",
-                    "cost_per_image": "0.120"
+                    "cost_per_image": 0.120
                 }
             ]
         },
