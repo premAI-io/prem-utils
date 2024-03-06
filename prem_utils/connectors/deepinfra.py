@@ -3,6 +3,8 @@ from typing import Any
 
 from prem_utils.connectors.openai import OpenAIConnector
 
+# NOTE deprecated connector
+
 
 class DeepInfraConnector(OpenAIConnector):
     def __init__(
