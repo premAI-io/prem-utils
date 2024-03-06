@@ -789,7 +789,8 @@
                     "slug": "openrouter/pygmalionai/mythalion-13b",
                     "model_type": "text2text",
                     "context_tokens": 128000,
-                    "alias": "mythalion-13b"
+                    "alias": "mythalion-13b",
+                    "uncensored": true
                 },
                 {
                     "slug": "openrouter/undi95/remm-slerp-l2-13b-6k",
@@ -801,7 +802,8 @@
                     "slug": "openrouter/gryphe/mythomax-l2-13b",
                     "model_type": "text2text",
                     "context_tokens": 128000,
-                    "alias": "mythomax-l2-13b"
+                    "alias": "mythomax-l2-13b",
+                    "uncensored": true
                 },
                 {
                     "slug": "openrouter/xwin-lm/xwin-lm-70b",
@@ -867,7 +869,8 @@
                     "slug": "openrouter/undi95/remm-slerp-l2-13b",
                     "model_type": "text2text",
                     "context_tokens": 128000,
-                    "alias": "remm-slerp-l2-13b"
+                    "alias": "remm-slerp-l2-13b",
+                    "uncensored": true
                 },
                 {
                     "slug": "openrouter/undi95/toppy-m-7b",
@@ -903,7 +906,8 @@
                     "slug": "openrouter/togethercomputer/stripedhyena-nous-7b",
                     "model_type": "text2text",
                     "context_tokens": 128000,
-                    "alias": "stripedhyena-nous-7b"
+                    "alias": "stripedhyena-nous-7b",
+                    "uncensored": true
                 },
                 {
                     "slug": "openrouter/togethercomputer/stripedhyena-hessian-7b",
@@ -939,7 +943,8 @@
                     "slug": "openrouter/huggingfaceh4/zephyr-7b-beta",
                     "model_type": "text2text",
                     "context_tokens": 128000,
-                    "alias": "zephyr-7b-beta"
+                    "alias": "zephyr-7b-beta",
+                    "uncensored": true
                 },
                 {
                     "slug": "openrouter/google/palm-2-chat-bison",
@@ -993,7 +998,8 @@
                     "slug": "openrouter/austism/chronos-hermes-13b",
                     "model_type": "text2text",
                     "context_tokens": 128000,
-                    "alias": "chronos-hermes-13b"
+                    "alias": "chronos-hermes-13b",
+                    "uncensored": true
                 },
                 {
                     "slug": "openrouter/mistralai/mistral-7b-instruct",
@@ -1023,7 +1029,8 @@
                     "slug": "openrouter/rwkv/rwkv-5-world-3b",
                     "model_type": "text2text",
                     "context_tokens": 128000,
-                    "alias": "rwkv-5-world-3b"
+                    "alias": "rwkv-5-world-3b",
+                    "uncensored": true
                 },
                 {
                     "slug": "openrouter/recursal/rwkv-5-3b-ai-town",
@@ -1135,7 +1142,8 @@
                     "slug": "anyscale/mistralai/Mistral-7B-Instruct-v0.1",
                     "model_type": "text2text",
                     "context_window": 16384,
-                    "alias": "mistral-7b-instruct-v0.1"
+                    "alias": "mistral-7b-instruct-v0.1",
+                    "uncensored": true
                 },
                 {
                     "slug": "anyscale/mistralai/Mixtral-8x7B-Instruct-v0.1",
