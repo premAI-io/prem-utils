@@ -4,22 +4,6 @@
             "provider": "anthropic",
             "models": [
                 {
-                    "slug": "claude-2",
-                    "model_type": "text2text",
-                    "context_window": 200000,
-                    "input_cost_per_token": 0.000008,
-                    "output_cost_per_token": 0.000024,
-                    "deprecated": true
-                },
-                {
-                    "slug": "claude-instant-1",
-                    "model_type": "text2text",
-                    "context_window": 100000,
-                    "input_cost_per_token": 0.00000163,
-                    "output_cost_per_token": 0.00000551,
-                    "deprecated": true
-                },
-                {
                     "slug": "claude-3-opus-20240229",
                     "model_type": "text2text",
                     "context_window": 200000,
@@ -32,6 +16,22 @@
                     "context_window": 200000,
                     "input_cost_per_token": 0.000003,
                     "output_cost_per_token": 0.000015
+                },
+                {
+                    "slug": "claude-2",
+                    "deprecated": true,
+                    "model_type": "text2text",
+                    "context_window": 200000,
+                    "input_cost_per_token": 0.000008,
+                    "output_cost_per_token": 0.000024
+                },
+                {
+                    "slug": "claude-instant-1",
+                    "deprecated": true,
+                    "model_type": "text2text",
+                    "context_window": 100000,
+                    "input_cost_per_token": 0.00000163,
+                    "output_cost_per_token": 0.00000551
                 }
             ]
         },
