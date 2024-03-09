@@ -1226,6 +1226,13 @@
                     "context_window": 32768,
                     "alias": "mixtral-8x7b-fast",
                     "group": "mistral"
+                },
+                {
+                    "slug": "groq/gemma-7b-it",
+                    "model_type": "text2text",
+                    "context_window": 4096,
+                    "alias": "gemma-7b-it-fast",
+                    "group": "gemini"
                 }
             ]
         }
