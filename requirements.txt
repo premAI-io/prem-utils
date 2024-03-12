@@ -1,6 +1,6 @@
 openai==1.13.3
 tiktoken==0.6.0
-cohere==4.39
+cohere==4.53
 anthropic==0.18.1
 replicate==0.22.0
 octoai-sdk==0.7.4

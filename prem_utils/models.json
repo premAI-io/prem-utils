@@ -41,6 +41,38 @@
             "provider": "cohere",
             "models": [
                 {
+                    "slug": "command-light",
+                    "model_type": "text2text",
+                    "context_window": 4096,
+                    "input_cost_per_token": 0.0000003,
+                    "output_cost_per_token": 0.0000006,
+                    "alias": "command-light",
+                    "group": "others"
+                },
+                {
+                    "slug": "command",
+                    "model_type": "text2text",
+                    "context_window": 4096,
+                    "input_cost_per_token": 0.0000003,
+                    "output_cost_per_token": 0.0000006,
+                    "alias": "command",
+                    "group": "others"
+                },
+                {
+                    "slug": "command-r",
+                    "model_type": "text2text",
+                    "context_window": 128000,
+                    "input_cost_per_token": 0.0000005,
+                    "output_cost_per_token": 0.0000015,
+                    "alias": "command-r",
+                    "group": "others"
+                },
+                {
+                    "slug": "embed-english-v3.0",
+                    "model_type": "text2vector",
+                    "output_cost_per_token": 0.0000001
+                },
+                {
                     "slug": "coral",
                     "model_type": "text2text",
                     "context_window": 4096,
@@ -48,11 +80,6 @@
                     "output_cost_per_token": 0.000002,
                     "alias": "coral",
                     "group": "others"
-                },
-                {
-                    "slug": "embed-english-v3.0",
-                    "model_type": "text2vector",
-                    "output_cost_per_token": 0.0000001
                 }
             ]
         },
