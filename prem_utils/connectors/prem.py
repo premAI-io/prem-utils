@@ -1,6 +1,9 @@
+import json
 import uuid
 from collections.abc import Generator
 from datetime import datetime
+from tempfile import NamedTemporaryFile
+from typing import Any
 
 import requests
 
@@ -8,8 +11,14 @@ from prem_utils.connectors.base import BaseConnector
 
 
 class PremConnector(BaseConnector):
-    def __init__(self, api_key: str, prompt_template: str | None = None) -> None:
+    def __init__(
+        self,
+        api_key: str,
+        base_url: str = "https://ml-development.prem.ninja/api/ml",
+        prompt_template: str | None = None,
+    ) -> None:
         super().__init__(prompt_template=prompt_template)
+        self.base_url = base_url
         self.url_mappings = {
             "mamba": {
                 "generation": "https://premai-io--generate-mamba.modal.run",
@@ -144,3 +153,54 @@ class PremConnector(BaseConnector):
                 )
         except Exception as error:
             raise error
+
+    def _upload_data(self, data: list[dict]) -> str:
+        try:
+            temp_file = NamedTemporaryFile("w", suffix=".jsonl", delete=True)
+            temp_file.writelines([f"{json.dumps(item)}\n" for item in data])
+            temp_file.seek(0)
+            files = {"file": open(temp_file.name, "rb")}
+            response = requests.post(
+                f"{self.base_url}/files/",
+                files=files,
+                headers={"Authorization": f"Bearer {self._api_key}"},
+            )
+            file_id = response.json()["id"]
+            temp_file.close()
+            return file_id
+        except Exception as error:
+            raise error
+
+    def finetuning(
+        self,
+        model: str,
+        training_data: list[dict] | None = None,
+        validation_data: list[dict] | None = None,
+        hf_dataset: str | None = None,
+        num_epochs: int = 3,
+    ) -> str:
+        if training_data and hf_dataset:
+            raise ValueError("You can only provide either training_data or hf_dataset, not both")
+        if validation_data and hf_dataset:
+            raise ValueError("You can only provide either validation_data or hf_dataset, not both")
+        training_file_id = self._upload_data(training_data) if training_data else None
+        validation_data_id = self._upload_data(validation_data) if validation_data else None
+        response = requests.post(
+            f"{self.base_url}/fine-tuning/jobs/",
+            json={
+                "model": model,
+                "training_file": training_file_id,
+                "validation_file": validation_data_id,
+                "hf_dataset": hf_dataset,
+                "hyperparameters": {"num_epochs": num_epochs},
+            },
+            headers={"Authorization": f"Bearer {self._api_key}"},
+        )
+        return response.json()
+
+    def get_finetuning_job(self, job_id) -> dict[str, Any]:
+        response = requests.get(
+            f"{self.base_url}/fine-tuning/jobs/{job_id}/",
+            headers={"Authorization": f"Bearer {self._api_key}"},
+        )
+        return response.json()
