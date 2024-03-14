@@ -5,6 +5,7 @@
             "models": [
                 {
                     "slug": "claude-3-opus-20240229",
+                    "alias": "claude-3-opus",
                     "model_type": "text2text",
                     "context_window": 200000,
                     "input_cost_per_token": 0.000015,
@@ -13,6 +14,7 @@
                 },
                 {
                     "slug": "claude-3-sonnet-20240229",
+                    "alias": "claude-3-sonnet",
                     "model_type": "text2text",
                     "context_window": 200000,
                     "input_cost_per_token": 0.000003,
@@ -20,7 +22,17 @@
                     "group": "claude"
                 },
                 {
+                    "slug": "claude-3-haiku-20240307",
+                    "alias": "claude-3-haiku",
+                    "model_type": "text2text",
+                    "context_window": 200000,
+                    "input_cost_per_token": 0.00000025,
+                    "output_cost_per_token": 0.00000125,
+                    "group": "claude"
+                },
+                {
                     "slug": "claude-2",
+                    "alias": "claude-2",
                     "deprecated": true,
                     "model_type": "text2text",
                     "context_window": 200000,
@@ -29,6 +41,7 @@
                 },
                 {
                     "slug": "claude-instant-1",
+                    "alias": "claude-instant",
                     "deprecated": true,
                     "model_type": "text2text",
                     "context_window": 100000,
@@ -837,7 +850,7 @@
                     "context_tokens": 128000,
                     "alias": "mythalion-13b",
                     "uncensored": true,
-                    "group": "llama"
+                    "group": "uncensored"
                 },
                 {
                     "slug": "openrouter/undi95/remm-slerp-l2-13b-6k",
@@ -852,7 +865,7 @@
                     "context_tokens": 128000,
                     "alias": "mythomax-l2-13b",
                     "uncensored": true,
-                    "group": "others"
+                    "group": "uncensored"
                 },
                 {
                     "slug": "openrouter/xwin-lm/xwin-lm-70b",
@@ -920,7 +933,7 @@
                     "context_tokens": 128000,
                     "alias": "remm-slerp-l2-13b",
                     "uncensored": true,
-                    "group": "others"
+                    "group": "uncensored"
                 },
                 {
                     "slug": "openrouter/undi95/toppy-m-7b",
@@ -959,7 +972,7 @@
                     "context_tokens": 128000,
                     "alias": "stripedhyena-nous-7b",
                     "uncensored": true,
-                    "group": "others"
+                    "group": "uncensored"
                 },
                 {
                     "slug": "openrouter/togethercomputer/stripedhyena-hessian-7b",
@@ -997,7 +1010,7 @@
                     "context_tokens": 128000,
                     "alias": "zephyr-7b-beta",
                     "uncensored": true,
-                    "group": "mistral"
+                    "group": "uncensored"
                 },
                 {
                     "slug": "openrouter/google/palm-2-chat-bison",
@@ -1054,7 +1067,7 @@
                     "context_tokens": 128000,
                     "alias": "chronos-hermes-13b",
                     "uncensored": true,
-                    "group": "others"
+                    "group": "uncensored"
                 },
                 {
                     "slug": "openrouter/mistralai/mistral-7b-instruct",
@@ -1087,7 +1100,7 @@
                     "context_tokens": 128000,
                     "alias": "rwkv-5-world-3b",
                     "uncensored": true,
-                    "group": "others"
+                    "group": "uncensored"
                 },
                 {
                     "slug": "openrouter/recursal/rwkv-5-3b-ai-town",
