@@ -86,6 +86,21 @@
                     "output_cost_per_token": 0.0000001
                 },
                 {
+                    "slug": "embed-english-light-v3.0",
+                    "model_type": "text2vector",
+                    "output_cost_per_token": 0.0000001
+                },
+                {
+                    "slug": "embed-multilingual-v3.0",
+                    "model_type": "text2vector",
+                    "output_cost_per_token": 0.0000001
+                },
+                {
+                    "slug": "embed-multilingual-light-v3.0",
+                    "model_type": "text2vector",
+                    "output_cost_per_token": 0.0000001
+                },
+                {
                     "slug": "coral",
                     "model_type": "text2text",
                     "context_window": 4096,
