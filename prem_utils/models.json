@@ -60,7 +60,8 @@
                     "input_cost_per_token": 0.0000003,
                     "output_cost_per_token": 0.0000006,
                     "alias": "command-light",
-                    "group": "others"
+                    "group": "others",
+                    "finetuning": true
                 },
                 {
                     "slug": "command",
@@ -69,7 +70,8 @@
                     "input_cost_per_token": 0.0000003,
                     "output_cost_per_token": 0.0000006,
                     "alias": "command",
-                    "group": "others"
+                    "group": "others",
+                    "finetuning": true
                 },
                 {
                     "slug": "command-r",
@@ -78,7 +80,8 @@
                     "input_cost_per_token": 0.0000005,
                     "output_cost_per_token": 0.0000015,
                     "alias": "command-r",
-                    "group": "others"
+                    "group": "others",
+                    "finetuning": true
                 },
                 {
                     "slug": "embed-english-v3.0",
@@ -160,7 +163,8 @@
                     "input_cost_per_token": 0.0000015,
                     "output_cost_per_token": 0.000002,
                     "alias": "gpt-3.5-turbo-eu",
-                    "group": "gpt"
+                    "group": "gpt",
+                    "finetuning": true
                 }
             ]
         },
@@ -215,7 +219,8 @@
                     "input_cost_per_token": 0.0000005,
                     "output_cost_per_token": 0.0000015,
                     "alias": "gpt-3.5-turbo",
-                    "group": "gpt"
+                    "group": "gpt",
+                    "finetuning": true
                 },
                 {
                     "slug": "gpt-3.5-turbo-16k",
@@ -1229,14 +1234,16 @@
                     "model_type": "text2text",
                     "context_window": 4096,
                     "alias": "llama-2-13b-chat",
-                    "group": "llama"
+                    "group": "llama",
+                    "finetuning": true
                 },
                 {
                     "slug": "anyscale/meta-llama/Llama-2-70b-chat-hf",
                     "model_type": "text2text",
                     "context_window": 4096,
                     "alias": "llama-2-70b-chat",
-                    "group": "llama"
+                    "group": "llama",
+                    "finetuning": true
                 },
                 {
                     "slug": "anyscale/codellama/CodeLlama-70b-Instruct-hf",
@@ -1251,14 +1258,16 @@
                     "context_window": 16384,
                     "alias": "mistral-7b-instruct-v0.1",
                     "uncensored": true,
-                    "group": "mistral"
+                    "group": "mistral",
+                    "finetuning": true
                 },
                 {
                     "slug": "anyscale/mistralai/Mixtral-8x7B-Instruct-v0.1",
                     "model_type": "text2text",
                     "context_window": 32768,
                     "alias": "mixtral-8x7b-instruct-v0.1",
-                    "group": "mistral"
+                    "group": "mistral",
+                    "finetuning": true
                 },
                 {
                     "slug": "anyscale/google/gemma-7b-it",
