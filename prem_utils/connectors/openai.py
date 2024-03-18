@@ -8,6 +8,7 @@ from openai import (
     APIResponseValidationError,
     APIStatusError,
     APITimeoutError,
+    AsyncOpenAI,
     AuthenticationError,
     BadRequestError,
     ConflictError,
@@ -43,8 +44,10 @@ class OpenAIConnector(BaseConnector):
         }
         if base_url is not None:
             self.client = OpenAI(api_key=api_key, base_url=base_url)
+            self.async_client = AsyncOpenAI(api_key=api_key, base_url=base_url)
         else:
             self.client = OpenAI(api_key=api_key)
+            self.async_client = AsyncOpenAI(api_key=api_key)
 
     def parse_chunk(self, chunk):
         return {
@@ -64,7 +67,7 @@ class OpenAIConnector(BaseConnector):
             ],
         }
 
-    def chat_completion(
+    async def chat_completion(
         self,
         model: str,
         messages: list[dict[str]],
@@ -82,19 +85,26 @@ class OpenAIConnector(BaseConnector):
         if self.prompt_template is not None:
             messages = self.apply_prompt_template(messages)
 
+        request_data = dict(
+            model=model,
+            messages=messages,
+            stream=stream,
+            max_tokens=max_tokens,
+            frequency_penalty=frequency_penalty,
+            presence_penalty=presence_penalty,
+            seed=seed,
+            stop=stop,
+            temperature=temperature,
+            top_p=top_p,
+            logprogbs=log_probs,
+            logit_bias=logit_bias,
+        )
         try:
-            response = self.client.chat.completions.create(
-                model=model,
-                messages=messages,
-                stream=stream,
-                max_tokens=max_tokens,
-                frequency_penalty=frequency_penalty,
-                presence_penalty=presence_penalty,
-                seed=seed,
-                stop=stop,
-                temperature=temperature,
-                top_p=top_p,
-            )
+            if stream:
+                return await self.async_client.chat.completions.create(**request_data)
+
+            response = self.client.chat.completions.create(**request_data)
+
         except (
             NotFoundError,
             APIResponseValidationError,
@@ -112,8 +122,6 @@ class OpenAIConnector(BaseConnector):
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="openai", model=model, provider_message=str(error))
 
-        if stream:
-            return response
         plain_response = {
             "id": response.id,
             "choices": [

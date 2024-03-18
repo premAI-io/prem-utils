@@ -1,6 +1,6 @@
 import logging
 
-from groq import Groq
+from groq import AsyncGroq, Groq
 from groq._exceptions import (
     APIConnectionError,
     APIError,
@@ -43,6 +43,7 @@ class GroqConnector(BaseConnector):
             APIResponseValidationError: errors.PremProviderAPIResponseValidationError,
         }
         self.client = Groq(api_key=api_key)
+        self.async_client = AsyncGroq(api_key=api_key)
 
     def parse_chunk(self, chunk):
         return {
@@ -62,7 +63,7 @@ class GroqConnector(BaseConnector):
             ],
         }
 
-    def chat_completion(
+    async def chat_completion(
         self,
         model: str,
         messages: list[dict[str]],
@@ -83,19 +84,26 @@ class GroqConnector(BaseConnector):
         if "groq" in model:
             model = model.replace("groq/", "", 1)
 
+        request_data = dict(
+            model=model,
+            messages=messages,
+            stream=stream,
+            max_tokens=max_tokens,
+            frequency_penalty=frequency_penalty,
+            presence_penalty=presence_penalty,
+            seed=seed,
+            stop=stop,
+            temperature=temperature,
+            logprobs=log_probs,
+            logit_bias=logit_bias,
+            top_p=top_p,
+        )
+
         try:
-            response = self.client.chat.completions.create(
-                model=model,
-                messages=messages,
-                stream=stream,
-                max_tokens=max_tokens,
-                frequency_penalty=frequency_penalty,
-                presence_penalty=presence_penalty,
-                seed=seed,
-                stop=stop,
-                temperature=temperature,
-                top_p=top_p,
-            )
+            if stream:
+                return await self.async_client.chat.completions.create(**request_data)
+
+            response = self.client.chat.completions.create(**request_data)
         except (
             APIConnectionError,
             APIError,
@@ -114,8 +122,6 @@ class GroqConnector(BaseConnector):
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="openai", model=model, provider_message=str(error))
 
-        if stream:
-            return response
         plain_response = {
             "id": response.id,
             "choices": [

@@ -10,7 +10,7 @@ class OpenRouterConnector(OpenAIConnector):
     ) -> None:
         super().__init__(prompt_template=prompt_template, base_url=base_url, api_key=api_key)
 
-    def chat_completion(
+    async def chat_completion(
         self,
         model: str,
         messages: list[dict[str]],
@@ -28,7 +28,7 @@ class OpenRouterConnector(OpenAIConnector):
         if "openrouter" in model:
             model = model.replace("openrouter/", "", 1)
 
-        return super().chat_completion(
+        return await super().chat_completion(
             model=model,
             messages=messages,
             stream=stream,
@@ -39,6 +39,8 @@ class OpenRouterConnector(OpenAIConnector):
             stop=stop,
             temperature=temperature,
             top_p=top_p,
+            log_probs=log_probs,
+            logit_bias=logit_bias,
         )
 
     def embeddings(
