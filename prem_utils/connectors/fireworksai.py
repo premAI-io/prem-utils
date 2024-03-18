@@ -12,6 +12,8 @@ from fireworks.client.error import (
 from prem_utils import errors
 from prem_utils.connectors.base import BaseConnector
 
+# NOTE deprecated connector
+
 
 class FireworksAIConnector(BaseConnector):
     def __init__(self, api_key: str, prompt_template: str = None):
