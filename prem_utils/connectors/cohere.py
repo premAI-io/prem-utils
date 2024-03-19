@@ -1,7 +1,11 @@
+import json
 from collections.abc import Sequence
+from tempfile import NamedTemporaryFile
+from uuid import uuid4
 
 import cohere
 from cohere.error import CohereAPIError, CohereConnectionError
+from cohere.responses import Dataset
 
 from prem_utils import errors
 from prem_utils.connectors.base import BaseConnector
@@ -121,3 +125,76 @@ class CohereConnector(BaseConnector):
             "provider_name": "Cohere",
             "provider_id": "cohere",
         }
+
+    def finetuning(
+        self,
+        training_data: list[dict],
+        validation_data: list[dict] | None = None,
+        num_epochs: int = 3,
+        model: str | None = None,
+    ) -> str:
+        id = uuid4().hex
+        dataset = self._create_dataset(training_data, validation_data)
+        response = self.client.create_custom_model(
+            name=f"ft-model-{id}",
+            dataset=dataset,
+            model_type="CHAT",
+            hyperparameters={"train_epochs": num_epochs} if num_epochs else None,
+        )
+        return response.id
+
+    def get_finetuning_job(self, job_id) -> dict[str, any]:
+        response = self.client.get_custom_model(job_id)
+        return {
+            "id": response.id,
+            "fine_tuned_model": response.model_id,
+            "created_at": response.created_at,
+            "finished_at": response.completed_at,
+            "status": response.status,
+            "error": None,
+            "provider_name": "Cohere",
+            "provider_id": "cohere",
+        }
+
+    def _create_dataset(self, training_data: list[dict], validation_data: list[dict] | None = None) -> Dataset:
+        id = uuid4().hex
+        training_data = self._transform_data(training_data)
+        training_data_file = NamedTemporaryFile(mode="w", delete=False, suffix=".jsonl")
+        self._save_to_file(training_data, training_data_file.name)
+        validation_data = self._transform_data(validation_data) if validation_data else None
+        validation_data_file = NamedTemporaryFile(mode="w", delete=False, suffix=".jsonl") if validation_data else None
+        if validation_data:
+            self._save_to_file(validation_data, validation_data_file.name)
+
+        dataset = self.client.create_dataset(
+            name=f"dataset-{id}",
+            dataset_type="chat-finetune-input",
+            data=open(training_data_file.name, "rb"),
+            eval_data=open(validation_data_file.name, "rb") if validation_data else None,
+        )
+        dataset.await_validation()
+        training_data_file.close()
+        if validation_data_file:
+            validation_data_file.close()
+        return dataset
+
+    def _save_to_file(self, data: list[dict], file_name: str) -> None:
+        with open(file_name, "w") as file:
+            for item in data:
+                json.dump(item, file)
+                file.write("\n")
+
+    def _transform_data(self, data: list[dict]):
+        return [
+            {
+                "messages": [
+                    {
+                        "role": "System",
+                        "content": "You are a writing assistant that helps the user write coherent text.",
+                    },
+                    {"role": "User", "content": row["input"]},
+                    {"role": "Chatbot", "content": row["output"]},
+                ]
+            }
+            for row in data
+        ]
