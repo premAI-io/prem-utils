@@ -158,6 +158,12 @@ class CohereConnector(BaseConnector):
 
     def _create_dataset(self, training_data: list[dict], validation_data: list[dict] | None = None) -> Dataset:
         id = uuid4().hex
+        if not all(isinstance(row, dict) and {"input", "output"}.issubset(row.keys()) for row in training_data):
+            raise ValueError("Input 'training_data' must be a list of dictionaries with 'input' and 'output' keys.")
+        if validation_data and not all(
+            isinstance(row, dict) and {"input", "output"}.issubset(row.keys()) for row in validation_data
+        ):
+            raise ValueError("Input 'validation_data' must be a list of dictionaries with 'input' and 'output' keys.")
         training_data = self._transform_data(training_data)
         training_data_file = NamedTemporaryFile(mode="w", delete=False, suffix=".jsonl")
         self._save_to_file(training_data, training_data_file.name)
