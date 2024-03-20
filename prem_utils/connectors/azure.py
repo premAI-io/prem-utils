@@ -257,10 +257,16 @@ class AzureOpenAIConnector(BaseConnector):
         jobs = []
         try:
             response = self.client.fine_tuning.jobs.list()
-            jobs.extend(self._get_finetuning_job(response))
+            paginated_jobs = [self._get_finetuning_job(job) for job in response.data]
+            last_job = paginated_jobs[-1]
+            jobs.extend(paginated_jobs)
             while response.next_page_info():
-                response = self.client.fine_tuning.jobs.list(cursor=response.next_page_info())
-                jobs.extend(self._get_finetuning_job(response))
+                response = self.client.fine_tuning.jobs.list(after=last_job["id"])
+                paginated_jobs = [self._get_finetuning_job(job) for job in response.data]
+                if len(paginated_jobs) == 0:
+                    break
+                last_job = paginated_jobs[-1]
+                jobs.extend(paginated_jobs)
         except (
             NotFoundError,
             APIResponseValidationError,
