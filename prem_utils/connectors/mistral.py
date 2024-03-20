@@ -131,3 +131,13 @@ class MistralConnector(BaseConnector):
         except (MistralAPIException, MistralConnectionException) as error:
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="mistralai", model=model, provider_message=str(error))
+
+
+class MistralAzureConnector(MistralConnector):
+    def __init__(self, api_key: str, endpoint: str, prompt_template: str = None):
+        super().__init__(api_key=api_key, prompt_template=prompt_template)
+        self.client = MistralClient(endpoint=endpoint, api_key=api_key)
+        self.exception_mapping = {
+            MistralAPIException: errors.PremProviderAPIStatusError,
+            MistralConnectionException: errors.PremProviderAPIConnectionError,
+        }

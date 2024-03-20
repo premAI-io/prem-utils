@@ -51,6 +51,7 @@ def run_single_connector(connector_name: str) -> None:
     connector_class_mapping = {
         "anthropic": (anthropic.AnthropicConnector, "ANTHROPIC_API_KEY"),
         "azure": (azure.AzureOpenAIConnector, "AZURE_OPENAI_API_KEY"),
+        "azure-mistral": (mistral.MistralAzureConnector, "MISTRAL_AZURE_API_KEY"),
         "cohere": (cohere.CohereConnector, "COHERE_API_KEY"),
         "fireworksai": (fireworksai.FireworksAIConnector, "FIREWORKS_AI_API_KEY"),
         "octoai": (octoai.OctoAIConnector, "OCTO_AI_API_KEY"),
@@ -76,6 +77,11 @@ def run_single_connector(connector_name: str) -> None:
         connector_object = connector_class_mapping[connector_name][0](
             api_key=os.environ[connector_class_mapping[connector_name][1]],
             base_url=os.environ["AZURE_OPENAI_BASE_URL"],
+        )
+    elif connector_name == "azure-mistral":
+        connector_object = connector_class_mapping[connector_name][0](
+            api_key=os.environ[connector_class_mapping[connector_name][1]],
+            endpoint=os.environ["MISTRAL_AZURE_ENDPOINT"],
         )
     else:
         connector_object = connector_class_mapping[connector_name][0](

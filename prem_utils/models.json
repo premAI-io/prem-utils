@@ -5,6 +5,7 @@
             "models": [
                 {
                     "slug": "claude-3-opus-20240229",
+                    "alias": "claude-3-opus",
                     "model_type": "text2text",
                     "context_window": 200000,
                     "input_cost_per_token": 0.000015,
@@ -13,6 +14,7 @@
                 },
                 {
                     "slug": "claude-3-sonnet-20240229",
+                    "alias": "claude-3-sonnet",
                     "model_type": "text2text",
                     "context_window": 200000,
                     "input_cost_per_token": 0.000003,
@@ -20,7 +22,17 @@
                     "group": "claude"
                 },
                 {
+                    "slug": "claude-3-haiku-20240307",
+                    "alias": "claude-3-haiku",
+                    "model_type": "text2text",
+                    "context_window": 200000,
+                    "input_cost_per_token": 0.00000025,
+                    "output_cost_per_token": 0.00000125,
+                    "group": "claude"
+                },
+                {
                     "slug": "claude-2",
+                    "alias": "claude-2",
                     "deprecated": true,
                     "model_type": "text2text",
                     "context_window": 200000,
@@ -29,6 +41,7 @@
                 },
                 {
                     "slug": "claude-instant-1",
+                    "alias": "claude-instant",
                     "deprecated": true,
                     "model_type": "text2text",
                     "context_window": 100000,
@@ -47,7 +60,8 @@
                     "input_cost_per_token": 0.0000003,
                     "output_cost_per_token": 0.0000006,
                     "alias": "command-light",
-                    "group": "others"
+                    "group": "others",
+                    "finetuning": true
                 },
                 {
                     "slug": "command",
@@ -56,7 +70,8 @@
                     "input_cost_per_token": 0.0000003,
                     "output_cost_per_token": 0.0000006,
                     "alias": "command",
-                    "group": "others"
+                    "group": "others",
+                    "finetuning": true
                 },
                 {
                     "slug": "command-r",
@@ -65,10 +80,26 @@
                     "input_cost_per_token": 0.0000005,
                     "output_cost_per_token": 0.0000015,
                     "alias": "command-r",
-                    "group": "others"
+                    "group": "others",
+                    "finetuning": true
                 },
                 {
                     "slug": "embed-english-v3.0",
+                    "model_type": "text2vector",
+                    "output_cost_per_token": 0.0000001
+                },
+                {
+                    "slug": "embed-english-light-v3.0",
+                    "model_type": "text2vector",
+                    "output_cost_per_token": 0.0000001
+                },
+                {
+                    "slug": "embed-multilingual-v3.0",
+                    "model_type": "text2vector",
+                    "output_cost_per_token": 0.0000001
+                },
+                {
+                    "slug": "embed-multilingual-light-v3.0",
                     "model_type": "text2vector",
                     "output_cost_per_token": 0.0000001
                 },
@@ -80,6 +111,20 @@
                     "output_cost_per_token": 0.000002,
                     "alias": "coral",
                     "group": "others"
+                }
+            ]
+        },
+        {
+            "provider": "azure-mistral",
+            "models": [
+                {
+                    "slug": "mistral-large",
+                    "model_type": "text2text",
+                    "context_window": 32768,
+                    "input_cost_per_token": 0.00006,
+                    "output_cost_per_token": 0.00012,
+                    "alias": "mistral-large",
+                    "group": "mistral"
                 }
             ]
         },
@@ -118,7 +163,8 @@
                     "input_cost_per_token": 0.0000015,
                     "output_cost_per_token": 0.000002,
                     "alias": "gpt-3.5-turbo-eu",
-                    "group": "gpt"
+                    "group": "gpt",
+                    "finetuning": true
                 }
             ]
         },
@@ -173,7 +219,8 @@
                     "input_cost_per_token": 0.0000005,
                     "output_cost_per_token": 0.0000015,
                     "alias": "gpt-3.5-turbo",
-                    "group": "gpt"
+                    "group": "gpt",
+                    "finetuning": true
                 },
                 {
                     "slug": "gpt-3.5-turbo-16k",
@@ -837,7 +884,7 @@
                     "context_tokens": 128000,
                     "alias": "mythalion-13b",
                     "uncensored": true,
-                    "group": "llama"
+                    "group": "uncensored"
                 },
                 {
                     "slug": "openrouter/undi95/remm-slerp-l2-13b-6k",
@@ -852,7 +899,7 @@
                     "context_tokens": 128000,
                     "alias": "mythomax-l2-13b",
                     "uncensored": true,
-                    "group": "others"
+                    "group": "uncensored"
                 },
                 {
                     "slug": "openrouter/xwin-lm/xwin-lm-70b",
@@ -920,7 +967,7 @@
                     "context_tokens": 128000,
                     "alias": "remm-slerp-l2-13b",
                     "uncensored": true,
-                    "group": "others"
+                    "group": "uncensored"
                 },
                 {
                     "slug": "openrouter/undi95/toppy-m-7b",
@@ -959,7 +1006,7 @@
                     "context_tokens": 128000,
                     "alias": "stripedhyena-nous-7b",
                     "uncensored": true,
-                    "group": "others"
+                    "group": "uncensored"
                 },
                 {
                     "slug": "openrouter/togethercomputer/stripedhyena-hessian-7b",
@@ -997,7 +1044,7 @@
                     "context_tokens": 128000,
                     "alias": "zephyr-7b-beta",
                     "uncensored": true,
-                    "group": "mistral"
+                    "group": "uncensored"
                 },
                 {
                     "slug": "openrouter/google/palm-2-chat-bison",
@@ -1054,7 +1101,7 @@
                     "context_tokens": 128000,
                     "alias": "chronos-hermes-13b",
                     "uncensored": true,
-                    "group": "others"
+                    "group": "uncensored"
                 },
                 {
                     "slug": "openrouter/mistralai/mistral-7b-instruct",
@@ -1087,7 +1134,7 @@
                     "context_tokens": 128000,
                     "alias": "rwkv-5-world-3b",
                     "uncensored": true,
-                    "group": "others"
+                    "group": "uncensored"
                 },
                 {
                     "slug": "openrouter/recursal/rwkv-5-3b-ai-town",
@@ -1187,14 +1234,16 @@
                     "model_type": "text2text",
                     "context_window": 4096,
                     "alias": "llama-2-13b-chat",
-                    "group": "llama"
+                    "group": "llama",
+                    "finetuning": true
                 },
                 {
                     "slug": "anyscale/meta-llama/Llama-2-70b-chat-hf",
                     "model_type": "text2text",
                     "context_window": 4096,
                     "alias": "llama-2-70b-chat",
-                    "group": "llama"
+                    "group": "llama",
+                    "finetuning": true
                 },
                 {
                     "slug": "anyscale/codellama/CodeLlama-70b-Instruct-hf",
@@ -1209,14 +1258,16 @@
                     "context_window": 16384,
                     "alias": "mistral-7b-instruct-v0.1",
                     "uncensored": true,
-                    "group": "mistral"
+                    "group": "mistral",
+                    "finetuning": true
                 },
                 {
                     "slug": "anyscale/mistralai/Mixtral-8x7B-Instruct-v0.1",
                     "model_type": "text2text",
                     "context_window": 32768,
                     "alias": "mixtral-8x7b-instruct-v0.1",
-                    "group": "mistral"
+                    "group": "mistral",
+                    "finetuning": true
                 },
                 {
                     "slug": "anyscale/google/gemma-7b-it",

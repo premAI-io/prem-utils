@@ -4,6 +4,8 @@ from octoai.errors import OctoAIClientError, OctoAIServerError, OctoAIValidation
 from prem_utils import errors
 from prem_utils.connectors.base import BaseConnector
 
+# NOTE deprecated connector
+
 
 class OctoAIConnector(BaseConnector):
     def __init__(self, api_key: str, prompt_template: str = None):
