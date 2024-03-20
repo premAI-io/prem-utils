@@ -6,10 +6,18 @@ from uuid import uuid4
 import cohere
 from cohere.error import CohereAPIError, CohereConnectionError
 from cohere.responses import Dataset
+from cohere.responses.custom_model import CustomModel
 
 from prem_utils import errors
 from prem_utils.connectors import utils as connector_utils
 from prem_utils.connectors.base import BaseConnector
+from prem_utils.types import Datapoint
+
+ROLE_MAPPING = {
+    "user": "User",
+    "assistant": "Chatbot",
+    "system": "System",
+}
 
 
 class CohereConnector(BaseConnector):
@@ -124,15 +132,20 @@ class CohereConnector(BaseConnector):
             "provider_id": "cohere",
         }
 
-    def finetuning(
+    def create_job(
         self,
-        training_data: list[dict],
-        validation_data: list[dict] | None = None,
-        num_epochs: int = 3,
+        training_dataset: list[Datapoint],
         model: str | None = None,
+        validation_dataset: list[Datapoint] | None = None,
+        num_epochs: int = 3,
     ) -> str:
+        if model is not None:
+            raise errors.PremProviderError(
+                "Cohere does not support fine-tuning with a specific model. Please use the default model.",
+                provider="cohere",
+            )
         id = uuid4().hex
-        dataset = self._create_dataset(training_data, validation_data)
+        dataset = self._create_dataset(training_dataset, validation_dataset)
         response = self.client.create_custom_model(
             name=f"ft-model-{id}",
             dataset=dataset,
@@ -141,27 +154,30 @@ class CohereConnector(BaseConnector):
         )
         return response.id
 
-    def get_finetuning_job(self, job_id) -> dict[str, any]:
-        response = self.client.get_custom_model(job_id)
+    def mget_jobs(self, ids: list[str]) -> list[dict[str, any]]:
+        jobs = []
+        for job_id in ids:
+            model = self.client.get_custom_model(job_id)
+            jobs.append(self._get_finetuning_job(model))
+        return jobs
+
+    def list_jobs(self) -> list[dict[str, any]]:
+        return [self._get_finetuning_job(model) for model in self.client.list_custom_models()]
+
+    def _get_finetuning_job(self, model: CustomModel) -> dict[str, any]:
         return {
-            "id": response.id,
-            "fine_tuned_model": response.model_id,
-            "created_at": response.created_at,
-            "finished_at": response.completed_at,
-            "status": response.status,
-            "error": None,
+            "id": model.id,
+            "fine_tuned_model": model.model_id,
+            "created_at": int(model.created_at.timestamp()),
+            "finished_at": int(model.completed_at.timestamp()) if model.completed_at else None,
+            "status": model.status,
             "provider_name": "Cohere",
             "provider_id": "cohere",
         }
 
-    def _create_dataset(self, training_data: list[dict], validation_data: list[dict] | None = None) -> Dataset:
-        id = uuid4().hex
-        if not all(isinstance(row, dict) and {"input", "output"}.issubset(row.keys()) for row in training_data):
-            raise ValueError("Input 'training_data' must be a list of dictionaries with 'input' and 'output' keys.")
-        if validation_data and not all(
-            isinstance(row, dict) and {"input", "output"}.issubset(row.keys()) for row in validation_data
-        ):
-            raise ValueError("Input 'validation_data' must be a list of dictionaries with 'input' and 'output' keys.")
+    def _create_dataset(
+        self, training_data: list[Datapoint], validation_data: list[Datapoint] | None = None
+    ) -> Dataset:
         training_data = self._transform_data(training_data)
         training_data_file = NamedTemporaryFile(mode="w", delete=False, suffix=".jsonl")
         self._save_to_file(training_data, training_data_file.name)
@@ -188,17 +204,13 @@ class CohereConnector(BaseConnector):
                 json.dump(item, file)
                 file.write("\n")
 
-    def _transform_data(self, data: list[dict]):
+    def _transform_data(self, data: list[Datapoint]):
         return [
             {
                 "messages": [
-                    {
-                        "role": "System",
-                        "content": "You are a writing assistant that helps the user write coherent text.",
-                    },
-                    {"role": "User", "content": row["input"]},
-                    {"role": "Chatbot", "content": row["output"]},
+                    {"role": ROLE_MAPPING.get(message["role"]), "content": message["content"]}
+                    for message in sample["messages"]
                 ]
             }
-            for row in data
+            for sample in data
         ]
