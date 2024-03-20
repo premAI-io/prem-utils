@@ -5,6 +5,7 @@ from mistralai.exceptions import MistralAPIException, MistralConnectionException
 from mistralai.models.chat_completion import ChatMessage
 
 from prem_utils import errors
+from prem_utils.connectors import utils as connector_utils
 from prem_utils.connectors.base import BaseConnector
 
 
@@ -57,8 +58,6 @@ class MistralConnector(BaseConnector):
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 1,
-        tools: list[dict[str]] = None,
-        tool_choice: dict = None,
     ):
         messages = self.build_messages(messages)
         try:
@@ -80,7 +79,6 @@ class MistralConnector(BaseConnector):
                     top_p=top_p,
                 )
                 plain_response = {
-                    "id": response.id,
                     "choices": [
                         {
                             "finish_reason": str(choice.finish_reason),
@@ -92,7 +90,7 @@ class MistralConnector(BaseConnector):
                         }
                         for choice in response.choices
                     ],
-                    "created": None,
+                    "created": connector_utils.default_chatcompletion_response_created(),
                     "model": response.model,
                     "provider_name": "Mistral",
                     "provider_id": "mistralai",

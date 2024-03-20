@@ -78,24 +78,14 @@ class OpenAIConnector(BaseConnector):
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 1,
-        tools: list[dict[str]] = None,
-        tool_choice: dict = None,
     ):
         if self.prompt_template is not None:
             messages = self.apply_prompt_template(messages)
-
-        # NOTE custom logic for providers who don't have
-        # their sdk, but they use direclty OpenAI python client.
-        if "deepinfra" in model:
-            model = model.replace("deepinfra/", "", 1)
-            max_tokens = max_tokens or 1024
 
         try:
             response = self.client.chat.completions.create(
                 model=model,
                 messages=messages,
-                tools=tools,
-                tool_choice=tool_choice,
                 stream=stream,
                 max_tokens=max_tokens,
                 frequency_penalty=frequency_penalty,
@@ -130,21 +120,7 @@ class OpenAIConnector(BaseConnector):
                 {
                     "finish_reason": choice.finish_reason,
                     "index": choice.index,
-                    "message": {
-                        "content": choice.message.content,
-                        "role": choice.message.role,
-                        "tool_calls": [
-                            {
-                                "id": tool_call.id,
-                                "type": tool_call.type,
-                                "function": {
-                                    "name": tool_call.function.name,
-                                    "arguments": tool_call.function.arguments,
-                                },
-                            }
-                            for tool_call in choice.message.tool_calls or []
-                        ],
-                    },
+                    "message": {"content": choice.message.content, "role": choice.message.role},
                 }
                 for choice in response.choices
             ],
@@ -311,10 +287,17 @@ class OpenAIConnector(BaseConnector):
         n: int = 1,
         quality: str = "standard",
         style: str = "vivid",
+        response_format: str = "url",
     ):
         try:
             response = self.client.images.generate(
-                model=model, prompt=prompt, n=n, size=size, quality=quality, style=style
+                model=model,
+                prompt=prompt,
+                n=n,
+                size=size,
+                quality=quality,
+                style=style,
+                response_format=response_format,
             )
         except (
             NotFoundError,
@@ -332,4 +315,4 @@ class OpenAIConnector(BaseConnector):
         ) as error:
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="openai", model=model, provider_message=str(error))
-        return {"created": None, "data": [{"url": image.url} for image in response.data]}
+        return {"created": None, "data": [{"url": image.url, "b64_json": image.b64_json} for image in response.data]}

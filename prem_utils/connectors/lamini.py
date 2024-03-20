@@ -13,6 +13,7 @@ from lamini.error.error import (
 )
 
 from prem_utils import errors
+from prem_utils.connectors import utils as connector_utils
 from prem_utils.connectors.base import BaseConnector
 
 
@@ -44,8 +45,6 @@ class LaminiConnector(BaseConnector):
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 1,
-        tools: list[dict[str]] = None,
-        tool_choice: dict = None,
     ):
         if stream:
             raise errors.PremProviderAPIErrror(
@@ -72,19 +71,21 @@ class LaminiConnector(BaseConnector):
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="lamini", model=model, provider_message=str(error))
         plain_response = {
-            "id": None,
             "choices": [
                 {
+                    "finish_reason": "stop",
+                    "index": 0,
                     "message": {
                         "content": output,
                         "role": "assistant",
                     },
                 }
             ],
-            "created": None,
+            "created": connector_utils.default_chatcompletion_response_created(),
             "model": model,
             "provider_name": "LaMini",
             "provider_id": "lamini",
+            "usage": connector_utils.default_chatcompletions_usage(prompt, output),
         }
         return plain_response
 
@@ -157,7 +158,7 @@ class LaminiConnector(BaseConnector):
                     for index, embedding in enumerate(embeddngs)
                 ],
                 "model": None,
-                "usage": None,
+                "usage": connector_utils.default_embeddings_usage(input),
                 "provider_name": "LaMini",
                 "provider_id": "lamini",
             }

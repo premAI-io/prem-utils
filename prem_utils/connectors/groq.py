@@ -1,19 +1,48 @@
-from octoai.client import Client
-from octoai.errors import OctoAIClientError, OctoAIServerError, OctoAIValidationError
+import logging
+
+from groq import Groq
+from groq._exceptions import (
+    APIConnectionError,
+    APIError,
+    APIResponseValidationError,
+    APIStatusError,
+    APITimeoutError,
+    AuthenticationError,
+    BadRequestError,
+    ConflictError,
+    InternalServerError,
+    NotFoundError,
+    PermissionDeniedError,
+    RateLimitError,
+    UnprocessableEntityError,
+)
 
 from prem_utils import errors
 from prem_utils.connectors.base import BaseConnector
 
+logger = logging.getLogger(__name__)
 
-class OctoAIConnector(BaseConnector):
+
+class GroqConnector(BaseConnector):
     def __init__(self, api_key: str, prompt_template: str = None):
         super().__init__(prompt_template=prompt_template)
-        self.client = Client(token=api_key)
+        self.api_key = api_key
         self.exception_mapping = {
-            OctoAIClientError: errors.PremProviderPermissionDeniedError,
-            OctoAIValidationError: errors.PremProviderUnprocessableEntityError,
-            OctoAIServerError: errors.PremProviderInternalServerError,
+            APIConnectionError: errors.PremProviderAPIConnectionError,
+            APIError: errors.PremProviderAPIErrror,
+            APIStatusError: errors.PremProviderAPIStatusError,
+            APITimeoutError: errors.PremProviderAPITimeoutError,
+            PermissionDeniedError: errors.PremProviderPermissionDeniedError,
+            NotFoundError: errors.PremProviderNotFoundError,
+            UnprocessableEntityError: errors.PremProviderUnprocessableEntityError,
+            InternalServerError: errors.PremProviderInternalServerError,
+            AuthenticationError: errors.PremProviderAuthenticationError,
+            RateLimitError: errors.PremProviderRateLimitError,
+            BadRequestError: errors.PremProviderAPIConnectionError,
+            ConflictError: errors.PremProviderConflictError,
+            APIResponseValidationError: errors.PremProviderAPIResponseValidationError,
         }
+        self.client = Groq(api_key=api_key)
 
     def parse_chunk(self, chunk):
         return {
@@ -51,8 +80,8 @@ class OctoAIConnector(BaseConnector):
         if self.prompt_template is not None:
             messages = self.apply_prompt_template(messages)
 
-        if "octoai" in model:
-            model = model.replace("octoai/", "", 1)
+        if "groq" in model:
+            model = model.replace("groq/", "", 1)
 
         try:
             response = self.client.chat.completions.create(
@@ -62,33 +91,45 @@ class OctoAIConnector(BaseConnector):
                 max_tokens=max_tokens,
                 frequency_penalty=frequency_penalty,
                 presence_penalty=presence_penalty,
+                seed=seed,
                 stop=stop,
                 temperature=temperature,
                 top_p=top_p,
             )
-        except (OctoAIClientError, OctoAIServerError, OctoAIValidationError) as error:
+        except (
+            APIConnectionError,
+            APIError,
+            APIStatusError,
+            APITimeoutError,
+            PermissionDeniedError,
+            NotFoundError,
+            UnprocessableEntityError,
+            InternalServerError,
+            AuthenticationError,
+            RateLimitError,
+            BadRequestError,
+            ConflictError,
+            APIResponseValidationError,
+        ) as error:
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
-            raise custom_exception(error, provider="octoai", model=model, provider_message=str(error))
+            raise custom_exception(error, provider="openai", model=model, provider_message=str(error))
 
         if stream:
             return response
-
         plain_response = {
+            "id": response.id,
             "choices": [
                 {
                     "finish_reason": choice.finish_reason,
                     "index": choice.index,
-                    "message": {
-                        "content": choice.message.content,
-                        "role": choice.message.role,
-                    },
+                    "message": {"content": choice.message.content, "role": choice.message.role},
                 }
                 for choice in response.choices
             ],
             "created": response.created,
             "model": response.model,
-            "provider_name": "OctoAI",
-            "provider_id": "octoai",
+            "provider_name": "OpenAI",
+            "provider_id": "openai",
             "usage": {
                 "completion_tokens": response.usage.completion_tokens,
                 "prompt_tokens": response.usage.prompt_tokens,

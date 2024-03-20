@@ -1,8 +1,6 @@
 from collections.abc import Sequence
 
 from anthropic import (
-    AI_PROMPT,
-    HUMAN_PROMPT,
     Anthropic,
     APIConnectionError,
     APIResponseValidationError,
@@ -19,6 +17,7 @@ from anthropic import (
 )
 
 from prem_utils import errors
+from prem_utils.connectors import utils as connector_utils
 from prem_utils.connectors.base import BaseConnector
 
 # https://docs.anthropic.com/claude/reference/errors-and-rate-limits
@@ -44,30 +43,42 @@ class AnthropicConnector(BaseConnector):
         }
 
     def parse_chunk(self, chunk):
-        return {
-            "id": chunk.log_id,
-            "model": chunk.model,
-            "object": None,
-            "created": None,
-            "choices": [
-                {
-                    "delta": {"content": chunk.completion, "role": "assistant"},
-                    "finish_reason": None,
-                }
-            ],
-        }
+        if hasattr(chunk, "delta") and hasattr(chunk, "index"):
+            return {
+                "id": chunk.index,
+                "model": "anthropic-model",
+                "object": None,
+                "created": None,
+                "choices": [
+                    {
+                        "delta": {"content": chunk.delta.text, "role": "assistant"},
+                        "finish_reason": None,
+                    }
+                ],
+            }
+        else:
+            return {
+                "id": 0,
+                "model": None,
+                "object": None,
+                "created": None,
+                "choices": [
+                    {
+                        "delta": {"content": "", "role": "assistant"},
+                        "finish_reason": None,
+                    }
+                ],
+            }
 
-    def apply_prompt_template(self, messages):
-        prompt = ""
+    def preprocess_messages(self, messages):
         system_prompt = ""
+        filtered_messages = []
         for message in messages:
-            if message["role"] == "user":
-                prompt += f"{HUMAN_PROMPT} {message['content']}"
-            elif message["role"] == "assistant":
-                prompt += f"{AI_PROMPT} {message['content']}"
             if message["role"] == "system":
-                system_prompt = f"{system_prompt} {message['content']}"
-        return f"{system_prompt} \n {prompt} {AI_PROMPT} "
+                system_prompt = message["content"]
+            else:
+                filtered_messages.append(message)
+        return system_prompt, filtered_messages
 
     def chat_completion(
         self,
@@ -83,20 +94,21 @@ class AnthropicConnector(BaseConnector):
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 1,
-        tools: list[dict[str]] = None,
-        tool_choice: dict = None,
     ):
-        prompt = self.apply_prompt_template(messages)
+        system_prompt, messages = self.preprocess_messages(messages)
+
         if max_tokens is None:
-            max_tokens = 10000
+            max_tokens = 4096
+
         try:
-            response = self.client.completions.create(
+            response = self.client.messages.create(
+                max_tokens=max_tokens,
+                system=system_prompt,
+                messages=messages,
                 model=model,
-                max_tokens_to_sample=max_tokens,
-                prompt=prompt,
-                stream=stream,
                 top_p=top_p,
                 temperature=temperature,
+                stream=stream,
             )
         except (
             NotFoundError,
@@ -119,18 +131,18 @@ class AnthropicConnector(BaseConnector):
             return response
 
         plain_response = {
-            "id": response.log_id,
             "choices": [
                 {
                     "finish_reason": response.stop_reason,
-                    "index": None,
-                    "message": {"content": response.completion, "role": "assistant"},
+                    "index": 0,
+                    "message": {"content": response.content[0].text, "role": "assistant"},
                 }
             ],
-            "created": None,
+            "created": connector_utils.default_chatcompletion_response_created(),
             "model": response.model,
             "provider_name": "Anthropic",
             "provider_id": "anthropic",
+            "usage": connector_utils.default_chatcompletions_usage(messages, response.content[0].text),
         }
         return plain_response
 

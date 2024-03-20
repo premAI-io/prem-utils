@@ -22,6 +22,7 @@ from openai import (
 from openai.types.fine_tuning.fine_tuning_job import FineTuningJob
 
 from prem_utils import errors
+from prem_utils.connectors import utils as connector_utils
 from prem_utils.connectors.base import BaseConnector
 from prem_utils.types import Datapoint
 
@@ -82,8 +83,6 @@ class AzureOpenAIConnector(BaseConnector):
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 1,
-        tools: list[dict[str]] = None,
-        tool_choice: dict = None,
     ):
         try:
             response = self.client.chat.completions.create(
@@ -118,7 +117,6 @@ class AzureOpenAIConnector(BaseConnector):
         if stream:
             return response
         plain_response = {
-            "id": response.id,
             "choices": [
                 {
                     "finish_reason": choice.finish_reason,
@@ -134,6 +132,9 @@ class AzureOpenAIConnector(BaseConnector):
             "model": response.model,
             "provider_name": "Azure OpenAI",
             "provider_id": "azure_openai",
+            "usage": connector_utils.default_chatcompletions_usage(
+                messages, [choice.message.content for choice in response.choices]
+            ),
         }
         return plain_response
 
