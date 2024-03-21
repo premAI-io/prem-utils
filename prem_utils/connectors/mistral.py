@@ -1,5 +1,6 @@
 from collections.abc import Sequence
 
+from mistralai.async_client import MistralAsyncClient
 from mistralai.client import MistralClient
 from mistralai.exceptions import MistralAPIException, MistralConnectionException
 from mistralai.models.chat_completion import ChatMessage
@@ -13,6 +14,7 @@ class MistralConnector(BaseConnector):
     def __init__(self, api_key: str, prompt_template: str = None):
         super().__init__(prompt_template=prompt_template)
         self.client = MistralClient(api_key=api_key)
+        self.async_client = MistralAsyncClient(api_key=api_key)
         self.exception_mapping = {
             MistralAPIException: errors.PremProviderAPIStatusError,
             MistralConnectionException: errors.PremProviderAPIConnectionError,
@@ -44,7 +46,7 @@ class MistralConnector(BaseConnector):
                 chat_messages.append(chat_message)
         return chat_messages
 
-    def chat_completion(
+    async def chat_completion(
         self,
         model: str,
         messages: list[dict[str]],
@@ -60,47 +62,46 @@ class MistralConnector(BaseConnector):
         top_p: float = 1,
     ):
         messages = self.build_messages(messages)
+
+        request_data = dict(
+            model=model,
+            messages=messages,
+            max_tokens=max_tokens,
+            temperature=temperature,
+            top_p=top_p,
+            random_seed=seed,
+        )
         try:
             if stream:
-                response = self.client.chat_stream(
-                    model=model,
-                    messages=messages,
-                    max_tokens=max_tokens,
-                    temperature=temperature,
-                    top_p=top_p,
-                )
-                return response
-            else:
-                response = self.client.chat(
-                    model=model,
-                    messages=messages,
-                    max_tokens=max_tokens,
-                    temperature=temperature,
-                    top_p=top_p,
-                )
-                plain_response = {
-                    "choices": [
-                        {
-                            "finish_reason": str(choice.finish_reason),
-                            "index": choice.index,
-                            "message": {
-                                "content": choice.message.content,
-                                "role": choice.message.role,
-                            },
-                        }
-                        for choice in response.choices
-                    ],
-                    "created": connector_utils.default_chatcompletion_response_created(),
-                    "model": response.model,
-                    "provider_name": "Mistral",
-                    "provider_id": "mistralai",
-                    "usage": {
-                        "completion_tokens": response.usage.completion_tokens,
-                        "prompt_tokens": response.usage.prompt_tokens,
-                        "total_tokens": response.usage.total_tokens,
-                    },
-                }
-                return plain_response
+                # Client actually returns an AsyncIterator,
+                # not a coroutine, so there's no need to await it
+                return self.async_client.chat_stream(**request_data)
+
+            response = self.client.chat(**request_data)
+
+            plain_response = {
+                "choices": [
+                    {
+                        "finish_reason": str(choice.finish_reason),
+                        "index": choice.index,
+                        "message": {
+                            "content": choice.message.content,
+                            "role": choice.message.role,
+                        },
+                    }
+                    for choice in response.choices
+                ],
+                "created": connector_utils.default_chatcompletion_response_created(),
+                "model": response.model,
+                "provider_name": "Mistral",
+                "provider_id": "mistralai",
+                "usage": {
+                    "completion_tokens": response.usage.completion_tokens,
+                    "prompt_tokens": response.usage.prompt_tokens,
+                    "total_tokens": response.usage.total_tokens,
+                },
+            }
+            return plain_response
         except (MistralAPIException, MistralConnectionException) as error:
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="mistralai", model=model, provider_message=str(error))
@@ -137,6 +138,7 @@ class MistralAzureConnector(MistralConnector):
     def __init__(self, api_key: str, endpoint: str, prompt_template: str = None):
         super().__init__(api_key=api_key, prompt_template=prompt_template)
         self.client = MistralClient(endpoint=endpoint, api_key=api_key)
+        self.async_client = MistralAsyncClient(endpoint=endpoint, api_key=api_key)
         self.exception_mapping = {
             MistralAPIException: errors.PremProviderAPIStatusError,
             MistralConnectionException: errors.PremProviderAPIConnectionError,

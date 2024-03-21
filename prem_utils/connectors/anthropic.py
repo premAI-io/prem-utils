@@ -6,6 +6,7 @@ from anthropic import (
     APIResponseValidationError,
     APIStatusError,
     APITimeoutError,
+    AsyncAnthropic,
     AuthenticationError,
     BadRequestError,
     ConflictError,
@@ -27,6 +28,7 @@ class AnthropicConnector(BaseConnector):
     def __init__(self, api_key: str, prompt_template: str = None):
         super().__init__(prompt_template=prompt_template)
         self.client = Anthropic(api_key=api_key)
+        self.async_client = AsyncAnthropic(api_key=api_key)
         self.exception_mapping = {
             PermissionDeniedError: errors.PremProviderPermissionDeniedError,
             UnprocessableEntityError: errors.PremProviderUnprocessableEntityError,
@@ -80,7 +82,7 @@ class AnthropicConnector(BaseConnector):
                 filtered_messages.append(message)
         return system_prompt, filtered_messages
 
-    def chat_completion(
+    async def chat_completion(
         self,
         model: str,
         messages: list[dict[str]],
@@ -100,16 +102,21 @@ class AnthropicConnector(BaseConnector):
         if max_tokens is None:
             max_tokens = 4096
 
+        request_data = dict(
+            max_tokens=max_tokens,
+            system=system_prompt,
+            messages=messages,
+            model=model,
+            top_p=top_p,
+            temperature=temperature,
+            stream=stream,
+            stop_sequences=stop,
+        )
         try:
-            response = self.client.messages.create(
-                max_tokens=max_tokens,
-                system=system_prompt,
-                messages=messages,
-                model=model,
-                top_p=top_p,
-                temperature=temperature,
-                stream=stream,
-            )
+            if stream:
+                return await self.async_client.messages.create(**request_data)
+
+            response = self.client.messages.create(**request_data)
         except (
             NotFoundError,
             APIResponseValidationError,
@@ -126,9 +133,6 @@ class AnthropicConnector(BaseConnector):
         ) as error:
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="anthropic", model=model, provider_message=str(error))
-
-        if stream:
-            return response
 
         plain_response = {
             "choices": [
