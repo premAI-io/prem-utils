@@ -96,7 +96,7 @@ class OpenAIConnector(BaseConnector):
             stop=stop,
             temperature=temperature,
             top_p=top_p,
-            logprogbs=log_probs,
+            logprobs=log_probs,
             logit_bias=logit_bias,
         )
         try:
