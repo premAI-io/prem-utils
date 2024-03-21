@@ -1,8 +1,10 @@
 import argparse
+import asyncio
 import json
 import logging
 import os
 import pathlib
+from inspect import iscoroutine
 
 from dotenv import load_dotenv
 
@@ -41,7 +43,7 @@ def load_models_file():
         return None
 
 
-def run_single_connector(connector_name: str) -> None:
+async def run_single_connector(connector_name: str) -> None:
     connectors_mapping = load_models_file()["connectors"]
 
     for conn in connectors_mapping:
@@ -104,11 +106,18 @@ def run_single_connector(connector_name: str) -> None:
 
         print(f"Testing model {model_object['slug']} from {connector['provider']} connector \n\n\n")
         response = connector_object.chat_completion(stream=False, **parameters)
+        if iscoroutine(response):
+            response = await response
         print(f"\n\n\n Model {model_object['slug']} succeeed 🚀 \n\n\n")
 
         response = connector_object.chat_completion(stream=True, **parameters)
-        for text in response:
-            print(connector_object.parse_chunk(text))
+        if iscoroutine(response):
+            response = await response
+            async for text in response:
+                print(connector_object.parse_chunk(text))
+        else:
+            for text in response:
+                print(connector_object.parse_chunk(text))
         print(f"\n\n\n Model {model_object['slug']} succeeed with streaming 🚀 \n\n\n")
 
     if len(text2image_models) > 0:
@@ -155,6 +164,6 @@ if __name__ == "__main__":
 
         for connector in connector_name_list:
             logger.info("=" * 20, f"Running for Connector: {connector}", "=" * 20)
-            run_single_connector(connector_name=connector)
+            asyncio.run(run_single_connector(connector_name=connector))
     else:
-        run_single_connector(connector_name=args.name)
+        asyncio.run(run_single_connector(connector_name=args.name))
