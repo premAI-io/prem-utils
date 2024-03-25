@@ -3,6 +3,7 @@ from collections.abc import Sequence
 import tiktoken
 
 from prem_utils import errors
+from prem_utils.types import Datapoint
 
 
 class BaseConnector:
@@ -71,10 +72,20 @@ class BaseConnector:
     def generate_image(self):
         raise NotImplementedError
 
-    def finetuning(
-        self, model: str, training_data: list[dict], validation_data: list[dict] | None = None, num_epochs: int = 3
+    def create_job(
+        self,
+        model: str,
+        training_dataset: list[Datapoint],
+        validation_dataset: list[Datapoint] | None = None,
+        num_epochs: int = 3,
     ) -> str:
         raise NotImplementedError
 
-    def get_finetuning_job(self, job_id) -> dict[str, any]:
+    def mget_jobs(self, ids: list[str]) -> list[dict[str, any]]:
+        raise NotImplementedError
+
+    def list_jobs(self) -> list[dict[str, any]]:
+        raise NotImplementedError
+
+    def delete_job(self, id: str) -> None:
         raise NotImplementedError

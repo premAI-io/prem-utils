@@ -1,7 +1,28 @@
+import json
+import tempfile
+import time
 from collections.abc import Sequence
-from typing import Any
 
+from openai import (
+    APIConnectionError,
+    APIResponseValidationError,
+    APIStatusError,
+    APITimeoutError,
+    AuthenticationError,
+    BadRequestError,
+    ConflictError,
+    InternalServerError,
+    NotFoundError,
+    PermissionDeniedError,
+    RateLimitError,
+    UnprocessableEntityError,
+)
+from openai.types.fine_tuning import FineTuningJob
+
+from prem_utils import errors
 from prem_utils.connectors.openai import OpenAIConnector
+from prem_utils.types import Datapoint
+from prem_utils.utils import convert_timestamp
 
 
 class AnyscaleEndpointsConnector(OpenAIConnector):
@@ -53,13 +74,179 @@ class AnyscaleEndpointsConnector(OpenAIConnector):
 
         return super().embeddings(model, input, encoding_format, user)
 
-    def finetuning(
-        self, model: str, training_data: list[dict], validation_data: list[dict] | None = None, num_epochs: int = 3
+    def create_job(
+        self,
+        model: str,
+        training_dataset: list[Datapoint],
+        validation_dataset: list[Datapoint] | None = None,
+        num_epochs: int = 3,
     ) -> str:
-        return super().finetuning(model, training_data, validation_data, num_epochs)
+        training_file_id = self._upload_data(training_dataset, size=20)
 
-    def get_finetuning_job(self, job_id) -> dict[str, Any]:
-        return super().get_finetuning_job(job_id)
+        validation_file_id = None
+        if validation_dataset:
+            validation_file_id = self._upload_data(validation_dataset, size=1)
+
+        fine_tuning_params = {
+            "model": model,
+            "training_file": training_file_id,
+            "hyperparameters": {"n_epochs": num_epochs},
+        }
+
+        if validation_file_id:
+            fine_tuning_params["validation_file"] = validation_file_id
+
+        try:
+            response = self.client.fine_tuning.jobs.create(**fine_tuning_params)
+        except (
+            NotFoundError,
+            APIResponseValidationError,
+            ConflictError,
+            APIStatusError,
+            APITimeoutError,
+            RateLimitError,
+            BadRequestError,
+            APIConnectionError,
+            AuthenticationError,
+            InternalServerError,
+            PermissionDeniedError,
+            UnprocessableEntityError,
+        ) as error:
+            custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
+            raise custom_exception(error, provider="anyscale", model=model, provider_message=str(error))
+
+        return response.id
+
+    def mget_jobs(self, ids: list[str]) -> list[dict[str, any]]:
+        jobs = []
+        try:
+            for job_id in ids:
+                job = self.client.fine_tuning.jobs.retrieve(job_id)
+                jobs.append(self._get_finetuning_job(job))
+        except (
+            NotFoundError,
+            APIResponseValidationError,
+            ConflictError,
+            APIStatusError,
+            APITimeoutError,
+            RateLimitError,
+            BadRequestError,
+            APIConnectionError,
+            AuthenticationError,
+            InternalServerError,
+            PermissionDeniedError,
+            UnprocessableEntityError,
+        ) as error:
+            custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
+            raise custom_exception(error, provider="anyscale", model=None, provider_message=str(error))
+        return jobs
+
+    def list_jobs(self) -> list[dict[str, any]]:
+        jobs = []
+        try:
+            response = self.client.fine_tuning.jobs.list()
+            paginated_jobs = [self._get_finetuning_job(job) for job in response.data]
+            last_job = paginated_jobs[-1]
+            jobs.extend(paginated_jobs)
+            while response.next_page_info():
+                response = self.client.fine_tuning.jobs.list(after=last_job["id"])
+                paginated_jobs = [self._get_finetuning_job(job) for job in response.data]
+                if len(paginated_jobs) == 0:
+                    break
+                last_job = paginated_jobs[-1]
+                jobs.extend(paginated_jobs)
+        except (
+            NotFoundError,
+            APIResponseValidationError,
+            ConflictError,
+            APIStatusError,
+            APITimeoutError,
+            RateLimitError,
+            BadRequestError,
+            APIConnectionError,
+            AuthenticationError,
+            InternalServerError,
+            PermissionDeniedError,
+            UnprocessableEntityError,
+        ) as error:
+            custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
+            raise custom_exception(error, provider="anyscale", model=None, provider_message=str(error))
+        return jobs
+
+    def delete_job(self, id: str) -> None:
+        self.client.fine_tuning.jobs.cancel(id)
+
+    def _get_finetuning_job(self, job: FineTuningJob) -> dict[str, any]:
+        return {
+            "id": job.id,
+            "model": job.fine_tuned_model,
+            "created_at": convert_timestamp(str(job.created_at)),
+            "finished_at": convert_timestamp(str(job.finished_at)) if job.finished_at else None,
+            "status": self._parse_job_status(job.status),
+            "provider_name": "Anyscale",
+            "provider_id": "anyscale",
+        }
+
+    def _parse_job_status(self, status: str) -> str:
+        if status == "pending":
+            return "queued"
+        elif status in ("running", "succeeded", "failed", "cancelled"):
+            return status
+
+    def _upload_data(self, data: list[Datapoint], size: int) -> str:
+        if len(data) < size:
+            raise ValueError(f"Input 'data' must contain at least {size} rows.")
+
+        with tempfile.NamedTemporaryFile(mode="w+b", suffix=".jsonl", delete=False) as temp_file:
+            for sample in data:
+                temp_file.write(json.dumps(sample).encode("utf-8"))
+                temp_file.write(b"\n")
+
+            try:
+                response = self.client.files.create(file=temp_file.file, purpose="fine-tune")
+            except (
+                NotFoundError,
+                APIResponseValidationError,
+                ConflictError,
+                APIStatusError,
+                APITimeoutError,
+                RateLimitError,
+                BadRequestError,
+                APIConnectionError,
+                AuthenticationError,
+                InternalServerError,
+                PermissionDeniedError,
+                UnprocessableEntityError,
+            ) as error:
+                custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
+                raise custom_exception(error, provider="anyscale", model=None, provider_message=str(error))
+        return response.id
+
+    def _check_file_status(self, file_id: str) -> str:
+        status = None
+        while status not in ("processed", "error"):
+            print(status)
+            try:
+                response = self.client.files.retrieve(file_id)
+            except (
+                NotFoundError,
+                APIResponseValidationError,
+                ConflictError,
+                APIStatusError,
+                APITimeoutError,
+                RateLimitError,
+                BadRequestError,
+                APIConnectionError,
+                AuthenticationError,
+                InternalServerError,
+                PermissionDeniedError,
+                UnprocessableEntityError,
+            ) as error:
+                custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
+                raise custom_exception(error, provider="anyscale", model=None, provider_message=str(error))
+            status = response.status
+            time.sleep(0.5)
+        return response.status == "processed"
 
     def generate_image(
         self,
