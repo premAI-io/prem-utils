@@ -101,7 +101,7 @@ class PremConnector(BaseConnector):
     def chat_completion(
         self,
         model: str,
-        messages: str,
+        message: str,
         max_tokens: int | None = 128,
         stream: bool = False,
         temperature: float = 1,
@@ -111,16 +111,16 @@ class PremConnector(BaseConnector):
             if stream:
                 return self._chat_completion_stream(
                     model=model,
-                    prompt=messages,
+                    prompt=message,
                     max_tokens=max_tokens,
                     temperature=temperature,
                     top_p=top_p,
                 )
             else:
-                print(model, messages, max_tokens, temperature, top_p)
+                print(model, message, max_tokens, temperature, top_p)
                 return self._chat_completion_generate(
                     model=model,
-                    prompt=messages,
+                    prompt=message,
                     max_tokens=max_tokens,
                     temperature=temperature,
                     top_p=top_p,
