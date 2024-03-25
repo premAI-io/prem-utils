@@ -107,7 +107,9 @@ def run_single_connector(connector_name: str) -> None:
             print(f"\nTesting model {model_object['slug']} from {connector['provider']} connector : NON STREAMING \n")
             try:
                 responses = connector_object.chat_completion(stream=False, **parameters)
-                print(f"\n\n\n ✅ Model {model_object['slug']} succeeed for non-streaming message test-{message} \n\n\n")
+                print(
+                    f"\n\n\n ✅ Model {model_object['slug']} succeeed for non-streaming message test-{message} \n\n\n"
+                )
                 print(responses)
             except Exception as e:
                 print(f"\n\n\n ❌ Model {model_object['slug']} failed for non-streaming message test-{message} \n\n\n")
