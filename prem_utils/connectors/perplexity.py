@@ -8,7 +8,7 @@ class PerplexityAIConnector(OpenAIConnector):
     def __init__(self, api_key: str, base_url: str = "https://api.perplexity.ai", prompt_template: str = None) -> None:
         super().__init__(prompt_template=prompt_template, base_url=base_url, api_key=api_key)
 
-    def chat_completion(
+    async def chat_completion(
         self,
         model: str,
         messages: list[dict[str]],
@@ -29,7 +29,7 @@ class PerplexityAIConnector(OpenAIConnector):
         if "perplexity" in model:
             model = model.replace("perplexity/", "", 1)
 
-        return super().chat_completion(
+        return await super().chat_completion(
             model=model,
             messages=messages,
             max_tokens=max_tokens,

@@ -2,6 +2,25 @@
 
 Utilities, and Connectors in order to interact with all Model Serving and Fine-tuning Providers.
 
+## 🗄️ Connectors
+
+| Name        | Status     |
+| ----------- | ---------- |
+| Anthropic   | Active     |
+| OpenAI      | Active     |
+| Perplexity  | Active     |
+| Cohere      | Active     |
+| DeepInfra   | Deprecated |
+| FireworksAI | Deprecated |
+| OctoAI      | Deprecated |
+| Groq        | Active     |
+| Lamini      | Deprecated |
+| Mistral     | Active     |
+| OpenRouter  | Active     |
+| Prem        | Active     |
+| Replicate   | Deprecated |
+| Together    | Deprecated |
+
 ## 🤙 Usage
 
 ```bash

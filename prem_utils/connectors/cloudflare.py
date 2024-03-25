@@ -10,6 +10,8 @@ from prem_utils.connectors.base import BaseConnector
 
 logger = logging.getLogger(__name__)
 
+# NOTE deprecated connector
+
 
 class CloudflareConnector(BaseConnector):
     def __init__(self, account_id: str, api_key: str, prompt_template: str = None):
