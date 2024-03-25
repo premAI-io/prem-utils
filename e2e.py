@@ -113,7 +113,7 @@ def run_single_connector(connector_name: str) -> None:
             except Exception as e:
                 print(f"\n\n\n ❌ Model {model_object['slug']} failed with streaming 🚀 \n\n\n")
                 print(e)
-            
+
             print("=" * 100)
 
     if len(text2image_models) > 0:

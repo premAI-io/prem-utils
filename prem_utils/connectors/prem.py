@@ -1,12 +1,12 @@
 import json
-import httpx
-import modal
 import uuid
 from collections.abc import Generator
 from datetime import datetime
 from tempfile import NamedTemporaryFile
 from typing import Any
 
+import httpx
+import modal
 import requests
 
 from prem_utils.connectors.base import BaseConnector
@@ -78,7 +78,6 @@ class PremConnector(BaseConnector):
             yield {"status": error.response.status_code if error.response else None}
             raise error
 
-
     def _chat_completion_generate(
         self, model: str, prompt: str, max_tokens: int = 128, temperature: float = 1.0, top_p: float = 0.99
     ) -> dict:
@@ -98,7 +97,7 @@ class PremConnector(BaseConnector):
                 return response
         except httpx.RequestError as e:
             return {"status": e.response.status_code if e.response else 500, "error": str(e)}
-        
+
     def chat_completion(
         self,
         model: str,
