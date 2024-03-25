@@ -87,23 +87,34 @@ def run_single_connector(connector_name: str) -> None:
     text2image_models = [model for model in connector["models"] if model["model_type"] == "text2image"]
 
     if len(text2text_models) > 0:
-        model_object = text2text_models[0]
+        # Iterate over all text2text models and print which model is being tested
+        for model_object in text2text_models:
+            parameters = {}
+            parameters["model"] = model_object["slug"]
 
-        parameters = {}
-        parameters["model"] = model_object["slug"]
+            # messages = [{"role": "system", "content": "Behave like Rick Sanchez."}]
+            # messages.append({"role": "user", "content": "Hello, how is it going?"})
+            messages = "Hello, my name is Rick sanchez. I am a scientist. I am a genius"
+            parameters["messages"] = messages
 
-        messages = [{"role": "system", "content": "Behave like Rick Sanchez."}]
-        messages.append({"role": "user", "content": "Hello, how is it going?"})
-        parameters["messages"] = messages
+            # Test the model with non-streaming messages
+            print(f"\nTesting model {model_object['slug']} from {connector['provider']} connector : NON STREAMING \n")
+            responses = connector_object.chat_completion(stream=False, **parameters)
+            print(f"\n\n\n ✅ Model {model_object['slug']} succeeed for non-streaming message test-{messages} \n\n\n")
+            print(responses)
 
-        print(f"Testing model {model_object['slug']} from {connector['provider']} connector \n\n\n")
-        response = connector_object.chat_completion(stream=False, **parameters)
-        print(f"\n\n\n Model {model_object['slug']} succeeed 🚀 \n\n\n")
-
-        response = connector_object.chat_completion(stream=True, **parameters)
-        for text in response:
-            print(connector_object.parse_chunk(text))
-        print(f"\n\n\n Model {model_object['slug']} succeeed with streaming 🚀 \n\n\n")
+            # Test the model with streaming messages
+            print(f"\nTesting model {model_object['slug']} from {connector['provider']} connector : STREAMING \n")
+            try:
+                response = connector_object.chat_completion(stream=True, **parameters)
+                for chunk_object in response:
+                    print(chunk_object)
+                print(f"\n\n\n ✅ Model {model_object['slug']} succeeed with streaming 🚀 \n\n\n")
+            except Exception as e:
+                print(f"\n\n\n ❌ Model {model_object['slug']} failed with streaming 🚀 \n\n\n")
+                print(e)
+            
+            print("=" * 100)
 
     if len(text2image_models) > 0:
         model_object = text2image_models[0]

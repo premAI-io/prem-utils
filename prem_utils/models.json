@@ -690,7 +690,7 @@
             "provider": "prem",
             "models": [
                 {
-                    "slug": "phi1-5",
+                    "slug": "phi1_5",
                     "model_type": "text2text",
                     "context_window": 2048,
                     "group": "slm"
@@ -702,7 +702,7 @@
                     "group": "slm"
                 },
                 {
-                    "slug": "tinyllama",
+                    "slug": "tiny_llama",
                     "model_type": "text2text",
                     "context_window": 2048,
                     "group": "slm"
