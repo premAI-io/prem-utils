@@ -16,7 +16,7 @@ class PremConnector(BaseConnector):
     def __init__(
         self,
         api_key: str,
-        base_url: str = "https://premai-io--slm-chat-completion-dev.modal.run/",
+        base_url: str = "https://ml-development.prem.ninja/api/ml",
         prompt_template: str | None = None,
     ) -> None:
         super().__init__(prompt_template=prompt_template)
