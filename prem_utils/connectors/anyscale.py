@@ -180,12 +180,18 @@ class AnyscaleEndpointsConnector(OpenAIConnector):
         return {
             "id": job.id,
             "model": job.fine_tuned_model,
-            "created_at": convert_timestamp(job.created_at),
-            "finished_at": convert_timestamp(job.finished_at),
-            "status": job.status,
+            "created_at": convert_timestamp(str(job.created_at)),
+            "finished_at": convert_timestamp(str(job.finished_at)) if job.finished_at else None,
+            "status": self._parse_job_status(job.status),
             "provider_name": "Anyscale",
             "provider_id": "anyscale",
         }
+
+    def _parse_job_status(self, status: str) -> str:
+        if status == "pending":
+            return "queued"
+        elif status in ("running", "succeeded", "failed", "cancelled"):
+            return status
 
     def _upload_data(self, data: list[Datapoint], size: int) -> str:
         if len(data) < size:

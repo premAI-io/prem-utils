@@ -170,10 +170,24 @@ class CohereConnector(BaseConnector):
             "fine_tuned_model": model.model_id,
             "created_at": int(model.created_at.timestamp()),
             "finished_at": int(model.completed_at.timestamp()) if model.completed_at else None,
-            "status": model.status,
+            "status": self._parse_job_status(model.status),
             "provider_name": "Cohere",
             "provider_id": "cohere",
         }
+
+    def _parse_job_status(self, status: str) -> str:
+        if status == "QUEUED":
+            return "queued"
+        elif status == "PAUSED":
+            return "cancelled"
+        elif status == "FAILED":
+            return "failed"
+        elif status in ("CREATED", "DEPLOYING", "READY"):
+            return "succeeded"
+        elif status == "TRAINING":
+            return "running"
+        else:
+            return "other"
 
     def _create_dataset(
         self, training_data: list[Datapoint], validation_data: list[Datapoint] | None = None

@@ -294,10 +294,18 @@ class AzureOpenAIConnector(BaseConnector):
             "model": job.fine_tuned_model,
             "created_at": job.created_at,
             "finished_at": job.finished_at,
-            "status": job.status,
+            "status": self._parse_job_status(job.status),
             "provider_name": "Azure OpenAI",
             "provider_id": "azure_openai",
         }
+
+    def _parse_job_status(self, status: str) -> str:
+        if status == "pending":
+            return "queued"
+        if status in ("created", "running"):
+            return "running"
+        elif status in ("succeeded", "failed", "cancelled"):
+            return status
 
     def _upload_data(self, data: list[Datapoint], size: int) -> str:
         if len(data) < size:

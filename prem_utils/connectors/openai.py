@@ -295,10 +295,16 @@ class OpenAIConnector(BaseConnector):
             "model": job.fine_tuned_model,
             "created_at": job.created_at,
             "finished_at": job.finished_at,
-            "status": job.status,
+            "status": self._parse_job_status(job.status),
             "provider_name": "OpenAI",
             "provider_id": "openai",
         }
+
+    def _parse_job_status(self, status: str) -> str:
+        if status in ("validating_files", "running"):
+            return "running"
+        elif status in ("queued", "succeeded", "failed", "cancelled"):
+            return status
 
     def _upload_data(self, data: list[Datapoint], size: int) -> str:
         if len(data) < size:
