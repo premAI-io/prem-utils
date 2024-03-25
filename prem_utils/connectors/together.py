@@ -8,6 +8,8 @@ from prem_utils import errors
 from prem_utils.connectors import utils as connector_utils
 from prem_utils.connectors.base import BaseConnector
 
+# NOTE deprecated connector
+
 
 class TogetherConnector(BaseConnector):
     def __init__(self, api_key: str, prompt_template: str = None):

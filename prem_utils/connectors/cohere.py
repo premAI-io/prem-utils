@@ -12,6 +12,7 @@ class CohereConnector(BaseConnector):
     def __init__(self, api_key: str, prompt_template: str = None):
         super().__init__(prompt_template=prompt_template)
         self.client = cohere.Client(api_key)
+        self.async_client = cohere.AsyncClient(api_key)
         self.exception_mapping = {
             CohereAPIError: errors.PremProviderAPIErrror,
             CohereConnectionError: errors.PremProviderAPIConnectionError,
@@ -49,7 +50,7 @@ class CohereConnector(BaseConnector):
             ],
         }
 
-    def chat_completion(
+    async def chat_completion(
         self,
         model: str,
         messages: list[dict[str]],
@@ -66,19 +67,31 @@ class CohereConnector(BaseConnector):
     ):
         chat_history, message = self.preprocess_messages(messages)
         try:
+            if stream:
+                return await self.async_client.chat(
+                    chat_history=chat_history,
+                    max_tokens=max_tokens,
+                    message=message,
+                    model=model,
+                    p=top_p,
+                    temperature=temperature,
+                    stream=stream,
+                )
+
             response = self.client.chat(
                 chat_history=chat_history,
+                max_tokens=max_tokens,
                 message=message,
-                model="command",
+                model=model,
+                p=top_p,
                 temperature=temperature,
                 stream=stream,
             )
+
         except (CohereAPIError, CohereConnectionError) as error:
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="cohere", model=model, provider_message=str(error))
 
-        if stream:
-            return response
         plain_response = {
             "choices": [
                 {

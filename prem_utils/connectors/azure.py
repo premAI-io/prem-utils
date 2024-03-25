@@ -9,6 +9,7 @@ from openai import (
     APIResponseValidationError,
     APIStatusError,
     APITimeoutError,
+    AsyncAzureOpenAI,
     AuthenticationError,
     AzureOpenAI,
     BadRequestError,
@@ -24,6 +25,8 @@ from prem_utils import errors
 from prem_utils.connectors import utils as connector_utils
 from prem_utils.connectors.base import BaseConnector
 
+API_VERSION = "2023-10-01-preview"
+
 
 class AzureOpenAIConnector(BaseConnector):
     def __init__(self, api_key: str, base_url: str, prompt_template: str = None):
@@ -31,7 +34,12 @@ class AzureOpenAIConnector(BaseConnector):
         self.client = AzureOpenAI(
             api_key=api_key,
             azure_endpoint=base_url,
-            api_version="2023-10-01-preview",
+            api_version=API_VERSION,
+        )
+        self.async_client = AsyncAzureOpenAI(
+            api_key=api_key,
+            azure_endpoint=base_url,
+            api_version=API_VERSION,
         )
         self.exception_mapping = {
             APIError: errors.PremProviderAPIErrror,
@@ -67,7 +75,7 @@ class AzureOpenAIConnector(BaseConnector):
             ],
         }
 
-    def chat_completion(
+    async def chat_completion(
         self,
         model: str,
         messages: list[dict[str]],
@@ -82,19 +90,25 @@ class AzureOpenAIConnector(BaseConnector):
         temperature: float = 1,
         top_p: float = 1,
     ):
+        request_data = dict(
+            model=model,
+            messages=messages,
+            stream=stream,
+            max_tokens=max_tokens,
+            frequency_penalty=frequency_penalty,
+            presence_penalty=presence_penalty,
+            seed=seed,
+            stop=stop,
+            temperature=temperature,
+            top_p=top_p,
+            logprobs=log_probs,
+            logit_bias=logit_bias,
+        )
         try:
-            response = self.client.chat.completions.create(
-                model=model,
-                messages=messages,
-                stream=stream,
-                max_tokens=max_tokens,
-                frequency_penalty=frequency_penalty,
-                presence_penalty=presence_penalty,
-                seed=seed,
-                stop=stop,
-                temperature=temperature,
-                top_p=top_p,
-            )
+            if stream:
+                return await self.async_client.chat.completions.create(**request_data)
+
+            response = self.client.chat.completions.create(**request_data)
         except (
             NotFoundError,
             APIResponseValidationError,
@@ -112,8 +126,6 @@ class AzureOpenAIConnector(BaseConnector):
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="azure", model=model, provider_message=str(error))
 
-        if stream:
-            return response
         plain_response = {
             "choices": [
                 {
