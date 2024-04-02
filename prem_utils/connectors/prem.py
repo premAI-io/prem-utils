@@ -6,12 +6,11 @@ import threading
 from collections.abc import Generator
 from tempfile import NamedTemporaryFile
 from typing import Any
-from prem_utils.connectors import utils as connector_utils
-
 
 import httpx
 import requests
 
+from prem_utils.connectors import utils as connector_utils
 from prem_utils.connectors.base import BaseConnector
 
 
@@ -93,7 +92,6 @@ class PremConnector(BaseConnector):
                 "provider_name": "Prem",
                 "provider_id": "premai",
                 "usage": connector_utils.default_chatcompletions_usage(messages, response["choices"]),
-
             }
             return plain_response
 

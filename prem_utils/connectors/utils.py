@@ -26,7 +26,7 @@ def aggregate_tokens_count(token_collection: list[dict | str] | str) -> int:
             tokens = sum([default_count_tokens(h) for h in token_collection])
         elif len(token_collection) > 0 and isinstance(token_collection[0], dict):
             if "message" in token_collection[0].keys():
-                tokens = default_count_tokens( token_collection[0]["message"]["content"])
+                tokens = default_count_tokens(token_collection[0]["message"]["content"])
             else:
                 tokens = sum([default_count_tokens(h["content"]) for h in token_collection])
     return tokens
