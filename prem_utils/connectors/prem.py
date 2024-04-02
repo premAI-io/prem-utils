@@ -1,5 +1,6 @@
 import asyncio
 import json
+import os
 import queue
 import threading
 from collections.abc import Generator
@@ -17,11 +18,14 @@ class PremConnector(BaseConnector):
         self,
         api_key: str,
         base_url: str = "https://ml-development.prem.ninja/api/ml",
+        prem_ml_url: str = "https://ml.premai.io/api/ml/slm-completion/",
         prompt_template: str | None = None,
     ) -> None:
         super().__init__(prompt_template=prompt_template)
         self.base_url = base_url
         self._api_key = api_key
+        self.prem_ml_url = prem_ml_url
+        self.prem_ml_key = os.environ["PREM_ML_KEY"]  # To authenticate prem_ml slm completion
 
     def parse_chunk(self, chunk):
         return {
@@ -56,8 +60,6 @@ class PremConnector(BaseConnector):
         temperature: float = 0.1,
         top_p: float = 0.9,
     ) -> str | Generator[str, None, None]:
-        # URL of your endpoint
-        url = "http://localhost:8000/api/ml/slm-completion/"
         request_data = {
             "model": model,
             "messages": messages,
@@ -67,15 +69,17 @@ class PremConnector(BaseConnector):
             "top_p": top_p,
             # Add other parameters as needed
         }
+
         if stream:
-            return self._stream_generator_wrapper(url, request_data)
+            return self._stream_generator_wrapper(self.prem_ml_url, request_data)
+
         else:
-            return self._perform_request(url, request_data)
+            return self._perform_request(self.prem_ml_url, request_data)
 
     def _perform_request(self, url, request_data):
         request_headers = {"Authorization": f"Bearer {self._api_key}", "Content-Type": "application/json"}
         with httpx.Client() as client:
-            response = client.post(url, json=request_data, headers=request_headers, timeout=300)
+            response = client.post(url, json=request_data, headers=request_headers, timeout=600)
             return response.text
 
     def _stream_generator_wrapper(self, url, request_data):
@@ -83,35 +87,35 @@ class PremConnector(BaseConnector):
         Wraps the async streaming generator to be consumed like a synchronous generator.
         """
         # Queue to hold streamed chunks
-        q = queue.Queue()
+        chunk_queue = queue.Queue()
 
         def run_async():
-            asyncio.run(self._consume_streaming_endpoint(url, request_data, q))
+            asyncio.run(self._consume_streaming_endpoint(url, request_data, chunk_queue))
 
         # Start the asynchronous generator in a separate thread
         threading.Thread(target=run_async).start()
 
         # Yield from queue in the current (synchronous) thread
         while True:
-            chunk = q.get()
+            chunk = chunk_queue.get()
             if chunk is None:  # None is used as a signal to indicate completion
                 break
             yield chunk
 
-    async def _consume_streaming_endpoint(self, url, request_data, q):
+    async def _consume_streaming_endpoint(self, url, request_data, chunk_queue):
         """
         Asynchronous generator to consume a streaming endpoint and put the content into a queue.
         """
         request_headers = {"Authorization": f"Bearer {self._api_key}", "Content-Type": "application/json"}
         async with httpx.AsyncClient() as client:
-            async with client.stream("POST", url, json=request_data, headers=request_headers, timeout=300) as response:
+            async with client.stream("POST", url, json=request_data, headers=request_headers, timeout=600) as response:
                 async for chunk in response.aiter_text():
                     if len(chunk.strip()) != 0:
                         # Sometimes (randomly) chunks contains multiple lines
                         lines = chunk.strip().split("\n")
                         for line in lines:
-                            q.put(json.loads(line))
-        q.put(None)  # Signal completion
+                            chunk_queue.put(json.loads(line))
+        chunk_queue.put(None)  # Signal completion
 
     def _upload_data(self, data: list[dict]) -> str:
         try:
