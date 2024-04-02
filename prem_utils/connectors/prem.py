@@ -6,6 +6,7 @@ import threading
 from collections.abc import Generator
 from tempfile import NamedTemporaryFile
 from typing import Any
+import uuid
 
 import httpx
 import requests
@@ -30,7 +31,7 @@ class PremConnector(BaseConnector):
 
     def parse_chunk(self, chunk):
         return {
-            "id": chunk.get("id", ""),
+            "id": chunk.get("id", str(uuid.uuid4())),
             "model": chunk["model"],
             "created": chunk["created"],
             "choices": [
@@ -57,8 +58,8 @@ class PremConnector(BaseConnector):
         seed: int | None = None,
         stop: str | list[str] = None,
         stream: bool = False,
-        temperature: float = 0.1,
-        top_p: float = 0.9,
+        temperature: float = 1,
+        top_p: float = 1,
     ) -> str | Generator[str, None, None]:
         request_data = {
             "model": model,
