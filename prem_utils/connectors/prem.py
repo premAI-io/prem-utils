@@ -25,7 +25,7 @@ class PremConnector(BaseConnector):
         super().__init__(prompt_template=prompt_template)
         self.base_url = base_url
         self._api_key = api_key
-        self.prem_ml_key = os.environ["PREM_ML_KEY"]  # To authenticate prem_ml slm completion
+        self.prem_ml_key = os.environ["PREM_ML_API_KEY"]  # To authenticate prem_ml slm completion
 
     def parse_chunk(self, chunk):
         return {
