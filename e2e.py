@@ -93,23 +93,23 @@ def run_single_connector(connector_name: str) -> None:
     text2image_models = [model for model in connector["models"] if model["model_type"] == "text2image"]
 
     if len(text2text_models) > 0:
-        model_object = text2text_models[0]
+        for model_object in text2text_models:
+            parameters = {}
+            parameters["model"] = model_object["slug"]
 
-        parameters = {}
-        parameters["model"] = model_object["slug"]
+            messages = [{"role": "assistant", "content": "Hello"}]
+            messages.append({"role": "user", "content": "Tell me a joke!"})
+            parameters["messages"] = messages
 
-        messages = [{"role": "system", "content": "Behave like Rick Sanchez."}]
-        messages.append({"role": "user", "content": "Hello, how is it going?"})
-        parameters["messages"] = messages
+            print(f"Testing model {model_object['slug']} from {connector['provider']} connector \n\n\n")
+            response = connector_object.chat_completion(stream=False, **parameters)
+            print(response)
+            print(f"\n\n\n Model {model_object['slug']} succeeed 🚀 \n\n\n")
 
-        print(f"Testing model {model_object['slug']} from {connector['provider']} connector \n\n\n")
-        response = connector_object.chat_completion(stream=False, **parameters)
-        print(f"\n\n\n Model {model_object['slug']} succeeed 🚀 \n\n\n")
-
-        response = connector_object.chat_completion(stream=True, **parameters)
-        for text in response:
-            print(connector_object.parse_chunk(text))
-        print(f"\n\n\n Model {model_object['slug']} succeeed with streaming 🚀 \n\n\n")
+            response = connector_object.chat_completion(stream=True, **parameters)
+            for text in response:
+                print(connector_object.parse_chunk(text))
+            print(f"\n\n\n Model {model_object['slug']} succeeed with streaming 🚀 \n\n\n")
 
     if len(text2image_models) > 0:
         model_object = text2image_models[0]
