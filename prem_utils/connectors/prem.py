@@ -1,14 +1,12 @@
-import json
-import httpx
 import asyncio
-import threading
+import json
 import queue
-import uuid
+import threading
 from collections.abc import Generator
-from datetime import datetime
 from tempfile import NamedTemporaryFile
 from typing import Any
 
+import httpx
 import requests
 
 from prem_utils.connectors.base import BaseConnector
@@ -75,7 +73,7 @@ class PremConnector(BaseConnector):
             return self._perform_request(url, request_data)
 
     def _perform_request(self, url, request_data):
-        request_headers={"Authorization": f"Bearer {self._api_key}", "Content-Type": "application/json"}
+        request_headers = {"Authorization": f"Bearer {self._api_key}", "Content-Type": "application/json"}
         with httpx.Client() as client:
             response = client.post(url, json=request_data, headers=request_headers, timeout=300)
             return response.text
@@ -104,17 +102,16 @@ class PremConnector(BaseConnector):
         """
         Asynchronous generator to consume a streaming endpoint and put the content into a queue.
         """
-        request_headers={"Authorization": f"Bearer {self._api_key}", "Content-Type": "application/json"}
+        request_headers = {"Authorization": f"Bearer {self._api_key}", "Content-Type": "application/json"}
         async with httpx.AsyncClient() as client:
             async with client.stream("POST", url, json=request_data, headers=request_headers, timeout=300) as response:
                 async for chunk in response.aiter_text():
                     if len(chunk.strip()) != 0:
                         # Sometimes (randomly) chunks contains multiple lines
-                        lines = chunk.strip().split('\n')
+                        lines = chunk.strip().split("\n")
                         for line in lines:
                             q.put(json.loads(line))
         q.put(None)  # Signal completion
-
 
     def _upload_data(self, data: list[dict]) -> str:
         try:
