@@ -1,4 +1,8 @@
 import json
+import httpx
+import asyncio
+import threading
+import queue
 import uuid
 from collections.abc import Generator
 from datetime import datetime
@@ -19,45 +23,19 @@ class PremConnector(BaseConnector):
     ) -> None:
         super().__init__(prompt_template=prompt_template)
         self.base_url = base_url
-        self.url_mappings = {
-            "mamba": {
-                "generation": "https://premai-io--generate-mamba.modal.run",
-                "completion": "https://premai-io--completion-mamba.modal.run",
-            },
-            "phi2": {
-                "generation": "https://premai-io--generate-phi2.modal.run",
-                "completion": "https://premai-io--completion-phi2.modal.run",
-            },
-            "phi1-5": {
-                "generation": "https://premai-io--generate-phi1-5.modal.run",
-                "completion": "https://premai-io--completion-phi1-5.modal.run",
-            },
-            "stable_lm2": {
-                "generation": "https://premai-io--generate-stable-lm2-zephyr.modal.run",
-                "completion": "https://premai-io--completion-stable-lm2-zephyr.modal.run",
-            },
-            "tinyllama": {
-                "generation": "https://premai-io--generate-tinyllama.modal.run",
-                "completion": "https://premai-io--completion-tinyllama.modal.run",
-            },
-            "gemma": {
-                "generation": "https://premai-io--generate-gemma.modal.run",
-                "completion": "https://premai-io--completion-gemma.modal.run",
-            },
-        }
         self._api_key = api_key
 
     def parse_chunk(self, chunk):
         return {
-            "id": chunk["id"],
+            "id": chunk.get("id", ""),
             "model": chunk["model"],
-            "object": chunk["object"],
+            # "object": chunk["object"],
             "created": chunk["created"],
             "choices": [
                 {
                     "delta": {
-                        "content": choice["delta"]["content"],
-                        "role": choice["delta"]["role"],
+                        "content": choice["message"]["content"],
+                        "role": choice["message"]["role"],
                     },
                     "finish_reason": None,
                 }
@@ -65,64 +43,10 @@ class PremConnector(BaseConnector):
             ],
         }
 
-    def _chat_completion_stream(
-        self,
-        model: str,
-        messages: list[dict[str]],
-        max_tokens: int | None = 128,
-        temperature: float | None = 1.0,
-        top_p: float | None = 1.0,
-    ):
-        data = {"model": model, "temperature": temperature, "max_new_tokens": max_tokens, "top_p": top_p}
-
-        for message in messages:
-            data["prompt"] = message["content"]
-            try:
-                response = requests.post(self.url_mappings[model]["completion"], json=data, timeout=600, stream=True)
-                if response.status_code == 200:
-                    for line in response.iter_lines():
-                        token_to_sent = {
-                            "id": uuid.uuid4().hex,
-                            "model": model,
-                            "object": "prem.chat_completion",
-                            "created": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                            "choices": [
-                                {
-                                    "delta": {"content": line.decode("utf-8"), "role": message["role"]},
-                                    "finish_reason": None,
-                                }
-                            ],
-                        }
-                        yield token_to_sent
-                else:
-                    yield {"status": response.status_code}
-            except Exception as error:
-                raise error
-
-    def _chat_completion_generate(
-        self,
-        model: str,
-        messages: list[dict[str]],
-        max_tokens: int | None = 128,
-        temperature: float | None = 1.0,
-        top_p: float | None = 0.95,
-    ) -> dict:
-        data = {"model": model, "temperature": temperature, "max_new_tokens": max_tokens, "top_p": top_p}
-        responses = []
-        for message in messages:
-            data["prompt"] = message["content"]
-            try:
-                response = requests.post(self.url_mappings[model]["generation"], json=data, timeout=600).json()
-                responses.append(response)
-
-            except Exception as e:
-                responses.append({"status": 500, "error": str(e)})
-        return responses
-
     def chat_completion(
         self,
         model: str,
-        messages: list[dict[str]],
+        messages: list[dict[str, str]],
         max_tokens: int | None = 128,
         frequency_penalty: float = 0,
         log_probs: int = None,
@@ -131,28 +55,66 @@ class PremConnector(BaseConnector):
         seed: int | None = None,
         stop: str | list[str] = None,
         stream: bool = False,
-        temperature: float = 1,
-        top_p: float = 1,
+        temperature: float = 0.1,
+        top_p: float = 0.9,
     ) -> str | Generator[str, None, None]:
-        try:
-            if stream:
-                return self._chat_completion_stream(
-                    model=model,
-                    messages=messages,
-                    max_tokens=max_tokens,
-                    temperature=temperature,
-                    top_p=top_p,
-                )
-            else:
-                return self._chat_completion_generate(
-                    model=model,
-                    messages=messages,
-                    max_tokens=max_tokens,
-                    temperature=temperature,
-                    top_p=top_p,
-                )
-        except Exception as error:
-            raise error
+        # URL of your endpoint
+        url = "http://localhost:8000/api/ml/slm-completion/"
+        request_data = {
+            "model": model,
+            "messages": messages,
+            "max_tokens": max_tokens,
+            "stream": stream,
+            "temperature": temperature,
+            "top_p": top_p,
+            # Add other parameters as needed
+        }
+        if stream:
+            return self._stream_generator_wrapper(url, request_data)
+        else:
+            return self._perform_request(url, request_data)
+
+    def _perform_request(self, url, request_data):
+        request_headers={"Authorization": f"Bearer {self._api_key}", "Content-Type": "application/json"}
+        with httpx.Client() as client:
+            response = client.post(url, json=request_data, headers=request_headers, timeout=300)
+            return response.text
+
+    def _stream_generator_wrapper(self, url, request_data):
+        """
+        Wraps the async streaming generator to be consumed like a synchronous generator.
+        """
+        # Queue to hold streamed chunks
+        q = queue.Queue()
+
+        def run_async():
+            asyncio.run(self._consume_streaming_endpoint(url, request_data, q))
+
+        # Start the asynchronous generator in a separate thread
+        threading.Thread(target=run_async).start()
+
+        # Yield from queue in the current (synchronous) thread
+        while True:
+            chunk = q.get()
+            if chunk is None:  # None is used as a signal to indicate completion
+                break
+            yield chunk
+
+    async def _consume_streaming_endpoint(self, url, request_data, q):
+        """
+        Asynchronous generator to consume a streaming endpoint and put the content into a queue.
+        """
+        request_headers={"Authorization": f"Bearer {self._api_key}", "Content-Type": "application/json"}
+        async with httpx.AsyncClient() as client:
+            async with client.stream("POST", url, json=request_data, headers=request_headers, timeout=300) as response:
+                async for chunk in response.aiter_text():
+                    if len(chunk.strip()) != 0:
+                        # Sometimes (randomly) chunks contains multiple lines
+                        lines = chunk.strip().split('\n')
+                        for line in lines:
+                            q.put(json.loads(line))
+        q.put(None)  # Signal completion
+
 
     def _upload_data(self, data: list[dict]) -> str:
         try:
