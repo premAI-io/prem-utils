@@ -3,10 +3,10 @@ import json
 import os
 import queue
 import threading
+import uuid
 from collections.abc import Generator
 from tempfile import NamedTemporaryFile
 from typing import Any
-import uuid
 
 import httpx
 import requests
