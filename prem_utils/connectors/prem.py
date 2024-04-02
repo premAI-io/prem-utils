@@ -19,14 +19,12 @@ class PremConnector(BaseConnector):
     def __init__(
         self,
         api_key: str,
-        base_url: str = "https://ml-development.prem.ninja/api/ml",
-        prem_ml_url: str = "https://ml.premai.io/api/ml/slm-completion/",
+        base_url: str = "https://ml.premai.io/api/ml",
         prompt_template: str | None = None,
     ) -> None:
         super().__init__(prompt_template=prompt_template)
         self.base_url = base_url
         self._api_key = api_key
-        self.prem_ml_url = prem_ml_url
         self.prem_ml_key = os.environ["PREM_ML_KEY"]  # To authenticate prem_ml slm completion
 
     def parse_chunk(self, chunk):
@@ -71,11 +69,13 @@ class PremConnector(BaseConnector):
             # Add other parameters as needed
         }
 
+        prem_ml_url = f"{self.base_url}/slm-completion/"
+
         if stream:
-            return self._stream_generator_wrapper(self.prem_ml_url, request_data)
+            return self._stream_generator_wrapper(prem_ml_url, request_data)
 
         else:
-            response = self._perform_request(self.prem_ml_url, request_data)
+            response = self._perform_request(prem_ml_url, request_data)
             plain_response = {
                 "choices": [
                     {
