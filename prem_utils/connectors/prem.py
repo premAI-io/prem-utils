@@ -6,6 +6,8 @@ import threading
 from collections.abc import Generator
 from tempfile import NamedTemporaryFile
 from typing import Any
+from prem_utils.connectors import utils as connector_utils
+
 
 import httpx
 import requests
@@ -31,7 +33,6 @@ class PremConnector(BaseConnector):
         return {
             "id": chunk.get("id", ""),
             "model": chunk["model"],
-            # "object": chunk["object"],
             "created": chunk["created"],
             "choices": [
                 {
@@ -74,13 +75,33 @@ class PremConnector(BaseConnector):
             return self._stream_generator_wrapper(self.prem_ml_url, request_data)
 
         else:
-            return self._perform_request(self.prem_ml_url, request_data)
+            response = self._perform_request(self.prem_ml_url, request_data)
+            plain_response = {
+                "choices": [
+                    {
+                        "finish_reason": str(choice["finish_reason"]),
+                        "index": choice["index"],
+                        "message": {
+                            "content": choice["message"]["content"],
+                            "role": choice["message"]["role"],
+                        },
+                    }
+                    for choice in response["choices"]
+                ],
+                "created": connector_utils.default_chatcompletion_response_created(),
+                "model": response["model"],
+                "provider_name": "Prem",
+                "provider_id": "premai",
+                "usage": connector_utils.default_chatcompletions_usage(messages, response["choices"]),
+
+            }
+            return plain_response
 
     def _perform_request(self, url, request_data):
         request_headers = {"Authorization": f"Bearer {self._api_key}", "Content-Type": "application/json"}
         with httpx.Client() as client:
             response = client.post(url, json=request_data, headers=request_headers, timeout=600)
-            return response.text
+            return response.json()
 
     def _stream_generator_wrapper(self, url, request_data):
         """
