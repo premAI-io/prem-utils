@@ -49,6 +49,12 @@ class PremConnector(BaseConnector):
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 0.99,
+        frequency_penalty: float = 0,
+        log_probs: int = None,
+        logit_bias: dict[str, float] = None,
+        presence_penalty: float = 0,
+        seed: int | None = None,
+        stop: str | list[str] = None,
     ) -> str | asyncio.streams.StreamReader:
         request_data = {
             "model": model,
