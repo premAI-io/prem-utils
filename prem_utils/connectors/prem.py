@@ -25,7 +25,6 @@ class PremConnector(BaseConnector):
         self.prem_ml_key = os.environ["PREM_ML_API_KEY"]  # To authenticate prem_ml slm completion
 
     def parse_chunk(self, chunk):
-        print(f"CHUNK : ||{chunk}||")
         return {
             "id": chunk.get("id", str(uuid.uuid4())),
             "model": chunk["model"],
@@ -49,7 +48,7 @@ class PremConnector(BaseConnector):
         max_tokens: int | None = 128,
         stream: bool = False,
         temperature: float = 1,
-        top_p: float = 1,
+        top_p: float = 0.9,
     ) -> str | asyncio.streams.StreamReader:
         request_data = {
             "model": model,
@@ -86,7 +85,6 @@ class PremConnector(BaseConnector):
                     while "\n" in buffer:
                         line, buffer = buffer.split("\n", 1)
                         if line.strip():
-                            print(line)
                             yield json.loads(line)
 
     def _format_response(self, messages, response):
