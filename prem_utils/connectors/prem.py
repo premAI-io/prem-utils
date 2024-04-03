@@ -1,10 +1,7 @@
 import asyncio
 import json
 import os
-import queue
-import threading
 import uuid
-from collections.abc import Generator
 from tempfile import NamedTemporaryFile
 from typing import Any
 
@@ -28,6 +25,7 @@ class PremConnector(BaseConnector):
         self.prem_ml_key = os.environ["PREM_ML_API_KEY"]  # To authenticate prem_ml slm completion
 
     def parse_chunk(self, chunk):
+        print(f"CHUNK : ||{chunk}||")
         return {
             "id": chunk.get("id", str(uuid.uuid4())),
             "model": chunk["model"],
@@ -44,21 +42,15 @@ class PremConnector(BaseConnector):
             ],
         }
 
-    def chat_completion(
+    async def chat_completion(
         self,
         model: str,
         messages: list[dict[str, str]],
         max_tokens: int | None = 128,
-        frequency_penalty: float = 0,
-        log_probs: int = None,
-        logit_bias: dict[str, float] = None,
-        presence_penalty: float = 0,
-        seed: int | None = None,
-        stop: str | list[str] = None,
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 1,
-    ) -> str | Generator[str, None, None]:
+    ) -> str | asyncio.streams.StreamReader:
         request_data = {
             "model": model,
             "messages": messages,
@@ -66,76 +58,57 @@ class PremConnector(BaseConnector):
             "stream": stream,
             "temperature": temperature,
             "top_p": top_p,
-            # Add other parameters as needed
         }
-
         prem_ml_url = f"{self.base_url}/slm-completion/"
 
-        if stream:
-            return self._stream_generator_wrapper(prem_ml_url, request_data)
+        try:
+            if stream:
+                return self._stream_response(prem_ml_url, request_data)
+            else:
+                response = await self._perform_request(prem_ml_url, request_data)
+                return self._format_response(messages, response)
+        except Exception as e:
+            raise e
 
-        else:
-            response = self._perform_request(prem_ml_url, request_data)
-            plain_response = {
-                "choices": [
-                    {
-                        "finish_reason": str(choice["finish_reason"]),
-                        "index": choice["index"],
-                        "message": {
-                            "content": choice["message"]["content"],
-                            "role": choice["message"]["role"],
-                        },
-                    }
-                    for choice in response["choices"]
-                ],
-                "created": connector_utils.default_chatcompletion_response_created(),
-                "model": response["model"],
-                "provider_name": "Prem",
-                "provider_id": "premai",
-                "usage": connector_utils.default_chatcompletions_usage(messages, response["choices"]),
-            }
-            return plain_response
-
-    def _perform_request(self, url, request_data):
-        request_headers = {"Authorization": f"Bearer {self._api_key}", "Content-Type": "application/json"}
-        with httpx.Client() as client:
-            response = client.post(url, json=request_data, headers=request_headers, timeout=600)
-            return response.json()
-
-    def _stream_generator_wrapper(self, url, request_data):
-        """
-        Wraps the async streaming generator to be consumed like a synchronous generator.
-        """
-        # Queue to hold streamed chunks
-        chunk_queue = queue.Queue()
-
-        def run_async():
-            asyncio.run(self._consume_streaming_endpoint(url, request_data, chunk_queue))
-
-        # Start the asynchronous generator in a separate thread
-        threading.Thread(target=run_async).start()
-
-        # Yield from queue in the current (synchronous) thread
-        while True:
-            chunk = chunk_queue.get()
-            if chunk is None:  # None is used as a signal to indicate completion
-                break
-            yield chunk
-
-    async def _consume_streaming_endpoint(self, url, request_data, chunk_queue):
-        """
-        Asynchronous generator to consume a streaming endpoint and put the content into a queue.
-        """
-        request_headers = {"Authorization": f"Bearer {self._api_key}", "Content-Type": "application/json"}
+    async def _perform_request(self, url, request_data):
+        headers = {"Authorization": f"Bearer {self.prem_ml_key}", "Content-Type": "application/json"}
         async with httpx.AsyncClient() as client:
-            async with client.stream("POST", url, json=request_data, headers=request_headers, timeout=600) as response:
+            response = await client.post(url, json=request_data, headers=headers, timeout=600)
+        return response.json()
+
+    async def _stream_response(self, url, request_data):
+        headers = {"Authorization": f"Bearer {self.prem_ml_key}", "Content-Type": "application/json"}
+        async with httpx.AsyncClient() as client:
+            async with client.stream("POST", url, json=request_data, headers=headers, timeout=600) as response:
+                buffer = ""
                 async for chunk in response.aiter_text():
-                    if len(chunk.strip()) != 0:
-                        # Sometimes (randomly) chunks contains multiple lines
-                        lines = chunk.strip().split("\n")
-                        for line in lines:
-                            chunk_queue.put(json.loads(line))
-        chunk_queue.put(None)  # Signal completion
+                    buffer += chunk
+                    while "\n" in buffer:
+                        line, buffer = buffer.split("\n", 1)
+                        if line.strip():
+                            print(line)
+                            yield json.loads(line)
+
+    def _format_response(self, messages, response):
+        plain_response = {
+            "choices": [
+                {
+                    "finish_reason": str(choice["finish_reason"]),
+                    "index": choice["index"],
+                    "message": {
+                        "content": choice["message"]["content"],
+                        "role": choice["message"]["role"],
+                    },
+                }
+                for choice in response["choices"]
+            ],
+            "created": connector_utils.default_chatcompletion_response_created(),
+            "model": response["model"],
+            "provider_name": "Prem",
+            "provider_id": "premai",
+            "usage": connector_utils.default_chatcompletions_usage(messages, response["choices"]),
+        }
+        return plain_response
 
     def _upload_data(self, data: list[dict]) -> str:
         try:
