@@ -48,7 +48,7 @@ class PremConnector(BaseConnector):
         max_tokens: int | None = 128,
         stream: bool = False,
         temperature: float = 1,
-        top_p: float = 0.9,
+        top_p: float = 0.99,
     ) -> str | asyncio.streams.StreamReader:
         request_data = {
             "model": model,
