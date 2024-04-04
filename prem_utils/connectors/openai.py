@@ -84,6 +84,8 @@ class OpenAIConnector(BaseConnector):
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 1,
+        tools=None,
+        tool_choice=None,
     ):
         if self.prompt_template is not None:
             messages = self.apply_prompt_template(messages)
@@ -101,6 +103,8 @@ class OpenAIConnector(BaseConnector):
             top_p=top_p,
             logprobs=log_probs,
             logit_bias=logit_bias,
+            tool_choice=tool_choice,
+            tools=tools,
         )
         try:
             if stream:
@@ -131,7 +135,21 @@ class OpenAIConnector(BaseConnector):
                 {
                     "finish_reason": choice.finish_reason,
                     "index": choice.index,
-                    "message": {"content": choice.message.content, "role": choice.message.role},
+                    "message": {
+                        "content": choice.message.content,
+                        "role": choice.message.role,
+                        "tool_calls": [
+                            {
+                                "id": tool_call.id,
+                                "function": {
+                                    "arguments": tool_call.function.arguments,
+                                    "name": tool_call.function.name,
+                                },
+                                "type": tool_call.type,
+                            }
+                            for tool_call in choice.message.tool_calls
+                        ],
+                    },
                 }
                 for choice in response.choices
             ],
