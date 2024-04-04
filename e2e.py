@@ -100,7 +100,7 @@ async def run_single_connector(connector_name: str) -> None:
         parameters = {}
         parameters["model"] = model_object["slug"]
 
-        messages = [{"role": "system", "content": "Behave like Rick Sanchez."}]
+        messages = [{"role": "assistant", "content": "Behave like Rick Sanchez."}]
         messages.append({"role": "user", "content": "Hello, how is it going?"})
         parameters["messages"] = messages
 

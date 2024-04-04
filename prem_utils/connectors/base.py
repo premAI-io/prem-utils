@@ -52,7 +52,7 @@ class BaseConnector:
 
     def get_number_of_tokens_response(self, text: str):
         encoding = tiktoken.get_encoding("cl100k_base")
-        return len(encoding.encode(text))
+        return len(encoding.encode(text, disallowed_special=()))
 
     def embeddings(
         self,
