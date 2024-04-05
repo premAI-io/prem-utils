@@ -62,7 +62,7 @@ class TogetherConnector(BaseConnector):
                 response = together.Complete.create_streaming(
                     prompt=prompt,
                     model=model,
-                    max_tokens=max_tokens,
+                    max_tokens=max_tokens if max_tokens != 0 else None,
                     stop=stop,
                     temperature=temperature,
                     top_p=top_p,
@@ -73,7 +73,7 @@ class TogetherConnector(BaseConnector):
                 response = together.Complete.create(
                     prompt=prompt,
                     model=model,
-                    max_tokens=max_tokens,
+                    max_tokens=max_tokens if max_tokens != 0 else None,
                     stop=stop,
                     temperature=temperature,
                     top_p=top_p,

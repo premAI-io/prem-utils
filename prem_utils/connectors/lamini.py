@@ -58,7 +58,7 @@ class LaminiConnector(BaseConnector):
             output = llm.generate(
                 prompt=prompt,
                 model_name=model,
-                max_tokens=max_tokens,
+                max_tokens=max_tokens if max_tokens != 0 else None,
                 stop_tokens=stop,
             )
         except (

@@ -86,7 +86,7 @@ class FireworksAIConnector(BaseConnector):
             messages = self.apply_prompt_template(messages)
         messages = self.preprocess_messages(messages)
 
-        if max_tokens is None:
+        if max_tokens is None or max_tokens == 0:
             max_tokens = 10000
 
         try:

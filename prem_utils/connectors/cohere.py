@@ -82,7 +82,7 @@ class CohereConnector(BaseConnector):
             if stream:
                 return await self.async_client.chat(
                     chat_history=chat_history,
-                    max_tokens=max_tokens,
+                    max_tokens=max_tokens if max_tokens != 0 else None,
                     message=message,
                     model=model,
                     p=top_p,
@@ -92,7 +92,7 @@ class CohereConnector(BaseConnector):
 
             response = self.client.chat(
                 chat_history=chat_history,
-                max_tokens=max_tokens,
+                max_tokens=max_tokens if max_tokens != 0 else None,
                 message=message,
                 model=model,
                 p=top_p,

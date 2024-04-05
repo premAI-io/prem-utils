@@ -32,7 +32,7 @@ class OpenRouterConnector(OpenAIConnector):
             model=model,
             messages=messages,
             stream=stream,
-            max_tokens=max_tokens,
+            max_tokens=max_tokens if max_tokens != 0 else None,
             frequency_penalty=frequency_penalty,
             presence_penalty=presence_penalty,
             seed=seed,
