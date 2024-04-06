@@ -103,7 +103,7 @@ class AnthropicConnector(BaseConnector):
             max_tokens = 4096
 
         request_data = dict(
-            max_tokens=max_tokens,
+            max_tokens=max_tokens if max_tokens != 0 else None,
             system=system_prompt,
             messages=messages,
             model=model,

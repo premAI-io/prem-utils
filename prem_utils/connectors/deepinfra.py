@@ -33,6 +33,8 @@ class DeepInfraConnector(OpenAIConnector):
         if presence_penalty is None:
             presence_penalty = 0
 
+        max_tokens = max_tokens if max_tokens != 0 else None
+
         return super().chat_completion(
             model, messages, max_tokens, frequency_penalty, presence_penalty, seed, stop, stream, temperature, top_p
         )

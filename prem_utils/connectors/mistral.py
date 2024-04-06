@@ -66,7 +66,7 @@ class MistralConnector(BaseConnector):
         request_data = dict(
             model=model,
             messages=messages,
-            max_tokens=max_tokens,
+            max_tokens=max_tokens if max_tokens != 0 else None,
             temperature=temperature,
             top_p=top_p,
             random_seed=seed,
