@@ -148,7 +148,9 @@ class OpenAIConnector(BaseConnector):
                                 "type": tool_call.type,
                             }
                             for tool_call in choice.message.tool_calls
-                        ],
+                        ]
+                        if choice.message.tool_calls
+                        else None,
                     },
                 }
                 for choice in response.choices
