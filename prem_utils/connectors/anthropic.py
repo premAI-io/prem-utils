@@ -99,11 +99,11 @@ class AnthropicConnector(BaseConnector):
     ):
         system_prompt, messages = self.preprocess_messages(messages)
 
-        if max_tokens is None:
+        if max_tokens is None or max_tokens == 0:
             max_tokens = 4096
 
         request_data = dict(
-            max_tokens=max_tokens if max_tokens != 0 else None,
+            max_tokens=max_tokens,
             system=system_prompt,
             messages=messages,
             model=model,

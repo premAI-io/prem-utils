@@ -117,9 +117,9 @@ class CohereConnector(BaseConnector):
             "provider_name": "Cohere",
             "provider_id": "cohere",
             "usage": {
-                "completion_tokens": response.token_count["prompt_tokens"],
-                "prompt_tokens": response.token_count["response_tokens"],
-                "total_tokens": response.token_count["total_tokens"],
+                "completion_tokens": response.token_count.get("prompt_tokens", None) if response.token_count else None,
+                "prompt_tokens": response.token_count.get("response_tokens", None) if response.token_count else None,
+                "total_tokens": response.token_count.get("total_tokens", None) if response.token_count else None,
             },
         }
         return plain_response

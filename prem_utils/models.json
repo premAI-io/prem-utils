@@ -144,7 +144,7 @@
                     "input_cost_per_token": 0.0000003,
                     "output_cost_per_token": 0.0000006,
                     "alias": "command-light",
-                    "group": "others",
+                    "group": "command",
                     "finetuning": true,
                     "parameters":
                     {
@@ -182,7 +182,7 @@
                     "input_cost_per_token": 0.0000003,
                     "output_cost_per_token": 0.0000006,
                     "alias": "command",
-                    "group": "others",
+                    "group": "command",
                     "finetuning": true,
                     "parameters":
                     {
@@ -220,7 +220,7 @@
                     "input_cost_per_token": 0.0000005,
                     "output_cost_per_token": 0.0000015,
                     "alias": "command-r",
-                    "group": "others",
+                    "group": "command",
                     "finetuning": true,
                     "parameters":
                     {
@@ -250,6 +250,16 @@
                             "max": 1.0
                         }
                     }
+                },
+                {
+                    "slug": "command-r-plus",
+                    "model_type": "text2text",
+                    "context_window": 128000,
+                    "input_cost_per_token": 0.000003,
+                    "output_cost_per_token": 0.000015,
+                    "alias": "command-r-plus",
+                    "group": "command",
+                    "finetuning": true
                 },
                 {
                     "slug": "embed-english-v3.0",
