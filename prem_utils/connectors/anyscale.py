@@ -45,6 +45,7 @@ class AnyscaleEndpointsConnector(OpenAIConnector):
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 1,
+        tool_choice: str = "none",
     ):
         if "anyscale" in model:
             model = model.replace("anyscale/", "", 1)
@@ -60,6 +61,7 @@ class AnyscaleEndpointsConnector(OpenAIConnector):
             stop=stop,
             temperature=temperature,
             top_p=top_p,
+            tool_choice=tool_choice,
         )
 
     def embeddings(
