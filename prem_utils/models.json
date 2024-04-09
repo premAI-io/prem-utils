@@ -259,7 +259,35 @@
                     "output_cost_per_token": 0.000015,
                     "alias": "command-r-plus",
                     "group": "command",
-                    "finetuning": true
+                    "finetuning": true,
+                    "parameters":
+                    {
+                        "temperature": {
+                            "default": 0.5,
+                            "min": 0.0,
+                            "max": 1.0
+                        },
+                        "max_tokens": {
+                            "default": 4000,
+                            "min": 0,
+                            "max": 4000
+                        },
+                        "top_p": {
+                            "default": 0.0,
+                            "min": 0.0,
+                            "max": 1.0
+                        },
+                        "frequency_penalty": {
+                            "default": 0.0,
+                            "min": 0.0,
+                            "max": 1.0
+                        },
+                        "presence_penalty": {
+                            "default": 0.0,
+                            "min": 0.0,
+                            "max": 1.0
+                        }
+                    }
                 },
                 {
                     "slug": "embed-english-v3.0",
@@ -312,7 +340,7 @@
                             "max": 1.0
                         },
                         "max_tokens": {
-                            "default": 8192,
+                            "default": 32768,
                             "min": 0,
                             "max": 32768
                         },
@@ -344,7 +372,7 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 8192,
+                            "default": 32768,
                             "min": 0,
                             "max": 32768
                         },
@@ -398,7 +426,7 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 4096,
+                            "default": 16385,
                             "min": 0,
                             "max": 16385
                         },
@@ -511,7 +539,7 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 4096,
+                            "default": 16385,
                             "min": 0,
                             "max": 16385
                         },
@@ -1287,7 +1315,7 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 4096,
+                            "default": 128000,
                             "min": 0,
                             "max": 128000
                         },
@@ -1322,7 +1350,7 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 4096,
+                            "default": 128000,
                             "min": 0,
                             "max": 128000
                         },
@@ -1358,7 +1386,7 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 4096,
+                            "default": 128000,
                             "min": 0,
                             "max": 128000
                         },
@@ -1454,7 +1482,7 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 4096,
+                            "default": 128000,
                             "min": 0,
                             "max": 128000
                         },
@@ -1501,7 +1529,7 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 4096,
+                            "default": 128000,
                             "min": 0,
                             "max": 128000
                         },
@@ -1549,7 +1577,7 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 4096,
+                            "default": 128000,
                             "min": 0,
                             "max": 128000
                         },
@@ -1615,7 +1643,7 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 4096,
+                            "default": 128000,
                             "min": 0,
                             "max": 128000
                         },
@@ -1674,7 +1702,7 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 4096,
+                            "default": 128000,
                             "min": 0,
                             "max": 128000
                         },
@@ -1728,7 +1756,7 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 4096,
+                            "default": 128000,
                             "min": 0,
                             "max": 128000
                         },
@@ -1781,7 +1809,7 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 4096,
+                            "default": 128000,
                             "min": 0,
                             "max": 128000
                         },
@@ -1817,7 +1845,7 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 4096,
+                            "default": 128000,
                             "min": 0,
                             "max": 128000
                         },
@@ -1905,7 +1933,7 @@
                             "max": 1.99
                         },
                         "max_tokens": {
-                            "default": 4096,
+                            "default": 8192,
                             "min": 0,
                             "max": 8192
                         },
@@ -1940,7 +1968,7 @@
                             "max": 1.99
                         },
                         "max_tokens": {
-                            "default": 4096,
+                            "default": 8192,
                             "min": 0,
                             "max": 8192
                         },
@@ -1975,7 +2003,7 @@
                             "max": 1.99
                         },
                         "max_tokens": {
-                            "default": 4096,
+                            "default": 8192,
                             "min": 0,
                             "max": 8192
                         },
@@ -2010,7 +2038,7 @@
                             "max": 1.99
                         },
                         "max_tokens": {
-                            "default": 4096,
+                            "default": 8192,
                             "min": 0,
                             "max": 8192
                         },
@@ -2194,7 +2222,7 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 4096,
+                            "default": 16384,
                             "min": 0,
                             "max": 16384
                         },
@@ -2230,7 +2258,7 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 8192,
+                            "default": 32768,
                             "min": 0,
                             "max": 32768
                         },
@@ -2265,7 +2293,7 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 4096,
+                            "default": 8192,
                             "min": 0,
                             "max": 8192
                         },
@@ -2350,7 +2378,7 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 8192,
+                            "default": 32768,
                             "min": 0,
                             "max": 32768
                         },
