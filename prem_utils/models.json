@@ -40,9 +40,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -82,9 +82,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -124,9 +124,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -190,9 +190,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -233,9 +233,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -276,9 +276,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -319,9 +319,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -329,9 +329,9 @@
                     "model_type": "text2vector",
                     "output_cost_per_token": 0.0000001,
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -339,9 +339,9 @@
                     "model_type": "text2vector",
                     "output_cost_per_token": 0.0000001,
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -349,9 +349,9 @@
                     "model_type": "text2vector",
                     "output_cost_per_token": 0.0000001,
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -359,9 +359,9 @@
                     "model_type": "text2vector",
                     "output_cost_per_token": 0.0000001,
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -406,9 +406,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 }
             ]
@@ -453,9 +453,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -512,9 +512,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 }
             ]
@@ -559,9 +559,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -634,9 +634,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -655,9 +655,9 @@
                     "output_cost_per_token": 0.00000002,
                     "output_dimension": 1536,
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -668,9 +668,9 @@
                     "output_cost_per_token": 0.00000013,
                     "output_dimension": 3072,
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -681,9 +681,9 @@
                     "output_cost_per_token": 0.0000001,
                     "output_dimension": 1536,
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -691,9 +691,9 @@
                     "model_type": "text2image",
                     "cost_per_image": 0.120,
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 }
             ]
@@ -724,9 +724,9 @@
                     "model_type": "text2vector",
                     "context_window": 512,
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -734,9 +734,9 @@
                     "model_type": "text2vector",
                     "context_window": 512,
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -744,9 +744,9 @@
                     "model_type": "text2vector",
                     "context_window": 512,
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -1031,9 +1031,9 @@
                     "slug": "replicate/all-mpnet-base-v2:b6b7585c9640cd7a9572c6e129c9549d79c9c31f0d3fdce7baac7c67ca38f305",
                     "model_type": "text2vector",
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 }
             ]
@@ -1179,9 +1179,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -1221,9 +1221,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -1263,9 +1263,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -1274,9 +1274,9 @@
                     "context_window": 4096,
                     "input_cost_per_token": 0.00000001,
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 }
             ]
@@ -1290,7 +1290,7 @@
                     "context_window": 2048,
                     "group": "slm",
                     "environment": [
-                        "dev"
+                        "development"
                     ]
                 },
                 {
@@ -1299,7 +1299,7 @@
                     "context_window": 2048,
                     "group": "slm",
                     "environment": [
-                        "dev"
+                        "development"
                     ]
                 },
                 {
@@ -1308,7 +1308,7 @@
                     "context_window": 2048,
                     "group": "slm",
                     "environment": [
-                        "dev"
+                        "development"
                     ]
                 },
                 {
@@ -1317,7 +1317,7 @@
                     "context_window": 128,
                     "group": "slm",
                     "environment": [
-                        "dev"
+                        "development"
                     ]
                 },
                 {
@@ -1326,7 +1326,7 @@
                     "context_window": 2048,
                     "group": "slm",
                     "environment": [
-                        "dev"
+                        "development"
                     ]
                 },
                 {
@@ -1335,7 +1335,7 @@
                     "context_window": 2048,
                     "group": "slm",
                     "environment": [
-                        "dev"
+                        "development"
                     ]
                 },
                 {
@@ -1344,7 +1344,7 @@
                     "coming_soon": true,
                     "group": "slm",
                     "environment": [
-                        "dev"
+                        "development"
                     ]
                 },
                 {
@@ -1353,7 +1353,7 @@
                     "coming_soon": true,
                     "group": "slm",
                     "environment": [
-                        "dev"
+                        "development"
                     ]
                 },
                 {
@@ -1362,7 +1362,7 @@
                     "coming_soon": true,
                     "group": "slm",
                     "environment": [
-                        "dev"
+                        "development"
                     ]
                 }
             ]
@@ -1502,9 +1502,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -1578,9 +1578,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -1679,9 +1679,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -1731,9 +1731,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -1784,9 +1784,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -1855,9 +1855,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -1919,9 +1919,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -1978,9 +1978,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -2036,9 +2036,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -2077,9 +2077,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -2170,9 +2170,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -2210,9 +2210,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -2250,9 +2250,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -2290,9 +2290,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 }
             ]
@@ -2335,9 +2335,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -2376,9 +2376,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -2417,9 +2417,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -2457,9 +2457,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -2498,9 +2498,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -2539,9 +2539,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -2579,9 +2579,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -2589,9 +2589,9 @@
                     "model_type": "text2vector",
                     "context_window": 512,
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -2599,9 +2599,9 @@
                     "model_type": "text2vector",
                     "context_window": 512,
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 }
             ]
@@ -2644,9 +2644,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -2684,9 +2684,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 },
                 {
@@ -2724,9 +2724,9 @@
                         }
                     },
                     "environment": [
-                        "dev",
+                        "development",
                         "staging",
-                        "prod"
+                        "production"
                     ]
                 }
             ]
