@@ -38,7 +38,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "claude-3-sonnet-20240229",
@@ -75,7 +80,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "claude-3-haiku-20240307",
@@ -112,7 +122,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "claude-2",
@@ -173,7 +188,12 @@
                             "min": 0.0,
                             "max": 1.0
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "command",
@@ -211,7 +231,12 @@
                             "min": 0.0,
                             "max": 1.0
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "command-r",
@@ -249,7 +274,12 @@
                             "min": 0.0,
                             "max": 1.0
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "command-r-plus",
@@ -287,27 +317,52 @@
                             "min": 0.0,
                             "max": 1.0
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "embed-english-v3.0",
                     "model_type": "text2vector",
-                    "output_cost_per_token": 0.0000001
+                    "output_cost_per_token": 0.0000001,
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "embed-english-light-v3.0",
                     "model_type": "text2vector",
-                    "output_cost_per_token": 0.0000001
+                    "output_cost_per_token": 0.0000001,
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "embed-multilingual-v3.0",
                     "model_type": "text2vector",
-                    "output_cost_per_token": 0.0000001
+                    "output_cost_per_token": 0.0000001,
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "embed-multilingual-light-v3.0",
                     "model_type": "text2vector",
-                    "output_cost_per_token": 0.0000001
+                    "output_cost_per_token": 0.0000001,
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "coral",
@@ -349,7 +404,12 @@
                             "min": 0.0,
                             "max": 1.0
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 }
             ]
         },
@@ -391,7 +451,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "gpt-4-azure",
@@ -445,8 +510,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
-
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 }
             ]
         },
@@ -488,7 +557,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "gpt-4-0125-preview",
@@ -558,7 +632,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "gpt-3.5-turbo-16k",
@@ -574,7 +653,12 @@
                     "context_window": 8191,
                     "input_cost_per_token": 0.00000002,
                     "output_cost_per_token": 0.00000002,
-                    "output_dimension": 1536
+                    "output_dimension": 1536,
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "text-embedding-3-large",
@@ -582,7 +666,12 @@
                     "context_window": 8191,
                     "input_cost_per_token": 0.00000013,
                     "output_cost_per_token": 0.00000013,
-                    "output_dimension": 3072
+                    "output_dimension": 3072,
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "text-embedding-ada-002",
@@ -590,12 +679,22 @@
                     "context_window": 8191,
                     "input_cost_per_token": 0.0000001,
                     "output_cost_per_token": 0.0000001,
-                    "output_dimension": 1536
+                    "output_dimension": 1536,
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "dall-e-3",
                     "model_type": "text2image",
-                    "cost_per_image": 0.120
+                    "cost_per_image": 0.120,
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 }
             ]
         },
@@ -623,17 +722,32 @@
                 {
                     "slug": "@cf/baai/bge-base-en-v1.5",
                     "model_type": "text2vector",
-                    "context_window": 512
+                    "context_window": 512,
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "@cf/baai/bge-large-en-v1.5",
                     "model_type": "text2vector",
-                    "context_window": 512
+                    "context_window": 512,
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "@cf/baai/bge-small-en-v1.5",
                     "model_type": "text2vector",
-                    "context_window": 512
+                    "context_window": 512,
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "@hf/thebloke/llamaguard-7b-awq",
@@ -915,7 +1029,12 @@
                 },
                 {
                     "slug": "replicate/all-mpnet-base-v2:b6b7585c9640cd7a9572c6e129c9549d79c9c31f0d3fdce7baac7c67ca38f305",
-                    "model_type": "text2vector"
+                    "model_type": "text2vector",
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 }
             ]
         },
@@ -1058,7 +1177,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "mistral-small",
@@ -1095,7 +1219,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "mistral-medium",
@@ -1132,13 +1261,23 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "mistral-embed",
                     "model_type": "text2vector",
                     "context_window": 4096,
-                    "input_cost_per_token": 0.00000001
+                    "input_cost_per_token": 0.00000001,
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 }
             ]
         },
@@ -1149,55 +1288,82 @@
                     "slug": "phi1_5",
                     "model_type": "text2text",
                     "context_window": 2048,
-                    "group": "slm"
+                    "group": "slm",
+                    "environment": [
+                        "dev"
+                    ]
                 },
                 {
                     "slug": "phi2",
                     "model_type": "text2text",
                     "context_window": 2048,
-                    "group": "slm"
+                    "group": "slm",
+                    "environment": [
+                        "dev"
+                    ]
                 },
                 {
                     "slug": "tiny_llama",
                     "model_type": "text2text",
                     "context_window": 2048,
-                    "group": "slm"
+                    "group": "slm",
+                    "environment": [
+                        "dev"
+                    ]
                 },
                 {
                     "slug": "mamba",
                     "model_type": "text2text",
                     "context_window": 128,
-                    "group": "slm"
+                    "group": "slm",
+                    "environment": [
+                        "dev"
+                    ]
                 },
                 {
                     "slug": "stable_lm2",
                     "model_type": "text2text",
                     "context_window": 2048,
-                    "group": "slm"
+                    "group": "slm",
+                    "environment": [
+                        "dev"
+                    ]
                 },
                 {
                     "slug": "gemma",
                     "model_type": "text2text",
                     "context_window": 2048,
-                    "group": "slm"
+                    "group": "slm",
+                    "environment": [
+                        "dev"
+                    ]
                 },
                 {
                     "slug": "prem-1b-chat",
                     "model_type": "text2text",
                     "coming_soon": true,
-                    "group": "slm"
+                    "group": "slm",
+                    "environment": [
+                        "dev"
+                    ]
                 },
                 {
                     "slug": "prem-1b-json",
                     "model_type": "text2text",
                     "coming_soon": true,
-                    "group": "slm"
+                    "group": "slm",
+                    "environment": [
+                        "dev"
+                    ]
                 },
                 {
                     "slug": "prem-1b-sum",
                     "model_type": "text2text",
                     "coming_soon": true,
-                    "group": "slm"
+                    "group": "slm",
+                    "environment": [
+                        "dev"
+                    ]
                 }
             ]
         },
@@ -1334,7 +1500,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "openrouter/undi95/remm-slerp-l2-13b-6k",
@@ -1405,7 +1576,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "openrouter/xwin-lm/xwin-lm-70b",
@@ -1501,7 +1677,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "openrouter/undi95/toppy-m-7b",
@@ -1548,7 +1729,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "openrouter/01-ai/yi-34b",
@@ -1596,7 +1782,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "openrouter/togethercomputer/stripedhyena-hessian-7b",
@@ -1662,7 +1853,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "openrouter/google/palm-2-chat-bison",
@@ -1721,7 +1917,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "openrouter/meta-llama/llama-2-70b-chat",
@@ -1775,7 +1976,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "openrouter/mistralai/mistral-7b-instruct",
@@ -1828,7 +2034,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "openrouter/rwkv/rwkv-5-world-3b",
@@ -1864,7 +2075,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "openrouter/recursal/rwkv-5-3b-ai-town",
@@ -1952,7 +2168,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "perplexity/pplx-70b-chat",
@@ -1987,7 +2208,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "perplexity/pplx-7b-online",
@@ -2022,7 +2248,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "perplexity/pplx-70b-online",
@@ -2057,7 +2288,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 }
             ]
         },
@@ -2097,7 +2333,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "anyscale/meta-llama/Llama-2-13b-chat-hf",
@@ -2133,7 +2374,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "anyscale/meta-llama/Llama-2-70b-chat-hf",
@@ -2169,7 +2415,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "anyscale/codellama/CodeLlama-70b-Instruct-hf",
@@ -2204,7 +2455,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "anyscale/mistralai/Mistral-7B-Instruct-v0.1",
@@ -2214,8 +2470,7 @@
                     "uncensored": true,
                     "group": "mistral",
                     "finetuning": true,
-                    "parameters":
-                    {
+                    "parameters": {
                         "temperature": {
                             "default": 1.0,
                             "min": 0.0,
@@ -2241,7 +2496,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "anyscale/mistralai/Mixtral-8x7B-Instruct-v0.1",
@@ -2277,7 +2537,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "anyscale/google/gemma-7b-it",
@@ -2312,17 +2577,32 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "anyscale/thenlper/gte-large",
                     "model_type": "text2vector",
-                    "context_window": 512
+                    "context_window": 512,
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "anyscale/BAAI/bge-large-en-v1.5",
                     "model_type": "text2vector",
-                    "context_window": 512
+                    "context_window": 512,
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 }
             ]
         },
@@ -2362,7 +2642,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "groq/mixtral-8x7b-32768",
@@ -2397,7 +2682,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 },
                 {
                     "slug": "groq/gemma-7b-it",
@@ -2432,7 +2722,12 @@
                             "min": -2,
                             "max": 2
                         }
-                    }
+                    },
+                    "environment": [
+                        "dev",
+                        "staging",
+                        "prod"
+                    ]
                 }
             ]
         }
