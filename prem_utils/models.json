@@ -2182,6 +2182,7 @@
                     "context_window": 8192,
                     "alias": "pplx-7b-chat",
                     "group": "mistral",
+                    "deprecated": true,
                     "parameters":
                     {
                         "temperature": {
@@ -2222,6 +2223,7 @@
                     "context_window": 8192,
                     "alias": "pplx-70b-chat",
                     "group": "llama",
+                    "deprecated": true,
                     "parameters":
                     {
                         "temperature": {
@@ -2262,6 +2264,7 @@
                     "context_window": 8192,
                     "alias": "pplx-7b-online",
                     "group": "mistral",
+                    "deprecated": true,
                     "parameters":
                     {
                         "temperature": {
@@ -2302,6 +2305,7 @@
                     "context_window": 8192,
                     "alias": "pplx-70b-online",
                     "group": "llama",
+                    "deprecated": true,
                     "parameters":
                     {
                         "temperature": {
