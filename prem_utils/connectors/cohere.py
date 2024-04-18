@@ -180,7 +180,7 @@ class CohereConnector(BaseConnector):
     def _get_finetuning_job(self, model: CustomModel) -> dict[str, any]:
         return {
             "id": model.id,
-            "fine_tuned_model": model.model_id,
+            "model": model.model_id,
             "created_at": int(model.created_at.timestamp()),
             "finished_at": int(model.completed_at.timestamp()) if model.completed_at else None,
             "status": self._parse_job_status(model.status),
