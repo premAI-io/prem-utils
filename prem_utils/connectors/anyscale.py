@@ -83,6 +83,9 @@ class AnyscaleEndpointsConnector(OpenAIConnector):
         validation_dataset: list[Datapoint] | None = None,
         num_epochs: int = 3,
     ) -> str:
+        if "anyscale" in model:
+            model = model.replace("anyscale/", "", 1)
+
         training_file_id = self._upload_data(training_dataset, size=20)
 
         validation_file_id = None
