@@ -134,8 +134,8 @@ class GroqConnector(BaseConnector):
             ],
             "created": response.created,
             "model": response.model,
-            "provider_name": "OpenAI",
-            "provider_id": "openai",
+            "provider_name": "Groq",
+            "provider_id": "groq",
             "usage": {
                 "completion_tokens": response.usage.completion_tokens,
                 "prompt_tokens": response.usage.prompt_tokens,
