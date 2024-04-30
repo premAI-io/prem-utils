@@ -536,6 +536,11 @@
                     "slug": "mamba-chat",
                     "model_type": "text2text",
                     "context_window": 2048
+                },
+                {
+                    "slud": "prem_1b_chat",
+                    "model_type": "text2text",
+                    "context_window": 8192
                 }
             ]
         }
