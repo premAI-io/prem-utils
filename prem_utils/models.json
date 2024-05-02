@@ -613,9 +613,9 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 16385,
+                            "default": 4096,
                             "min": 0,
-                            "max": 16385
+                            "max": 4096
                         },
                         "top_p": {
                             "default": 0.5,
