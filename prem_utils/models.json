@@ -2433,6 +2433,7 @@
                     "context_window": 4096,
                     "alias": "llama-2-7b-chat",
                     "group": "llama",
+                    "deprecated": true,
                     "parameters":
                     {
                         "temperature": {
@@ -2474,6 +2475,7 @@
                     "alias": "llama-2-13b-chat",
                     "group": "llama",
                     "finetuning": true,
+                    "deprecated": true,
                     "parameters":
                     {
                         "temperature": {
@@ -2515,6 +2517,7 @@
                     "alias": "llama-2-70b-chat",
                     "group": "llama",
                     "finetuning": true,
+                    "deprecated": true,
                     "parameters":
                     {
                         "temperature": {
@@ -2822,6 +2825,7 @@
                     "context_window": 4096,
                     "alias": "llama-2-70b-fast",
                     "group": "llama",
+                    "deprecated": true,
                     "parameters":
                     {
                         "temperature": {
