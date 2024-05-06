@@ -335,6 +335,7 @@
                     "slug": "embed-english-v3.0",
                     "model_type": "text2vector",
                     "output_cost_per_token": 0.0000001,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -345,6 +346,7 @@
                     "slug": "embed-english-light-v3.0",
                     "model_type": "text2vector",
                     "output_cost_per_token": 0.0000001,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -355,6 +357,7 @@
                     "slug": "embed-multilingual-v3.0",
                     "model_type": "text2vector",
                     "output_cost_per_token": 0.0000001,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -365,6 +368,7 @@
                     "slug": "embed-multilingual-light-v3.0",
                     "model_type": "text2vector",
                     "output_cost_per_token": 0.0000001,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -666,6 +670,7 @@
                     "input_cost_per_token": 0.00000002,
                     "output_cost_per_token": 0.00000002,
                     "output_dimension": 1536,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -679,6 +684,7 @@
                     "input_cost_per_token": 0.00000013,
                     "output_cost_per_token": 0.00000013,
                     "output_dimension": 3072,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -692,6 +698,7 @@
                     "input_cost_per_token": 0.0000001,
                     "output_cost_per_token": 0.0000001,
                     "output_dimension": 1536,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -735,6 +742,7 @@
                     "slug": "@cf/baai/bge-base-en-v1.5",
                     "model_type": "text2vector",
                     "context_window": 512,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -745,6 +753,7 @@
                     "slug": "@cf/baai/bge-large-en-v1.5",
                     "model_type": "text2vector",
                     "context_window": 512,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -755,6 +764,7 @@
                     "slug": "@cf/baai/bge-small-en-v1.5",
                     "model_type": "text2vector",
                     "context_window": 512,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -1042,6 +1052,7 @@
                 {
                     "slug": "replicate/all-mpnet-base-v2:b6b7585c9640cd7a9572c6e129c9549d79c9c31f0d3fdce7baac7c67ca38f305",
                     "model_type": "text2vector",
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -1287,6 +1298,7 @@
                     "slug": "mistral-embed",
                     "model_type": "text2vector",
                     "context_window": 4096,
+                    "available_on_free_plan": true,
                     "input_cost_per_token": 0.00000001,
                     "environment": [
                         "development",
@@ -2749,6 +2761,7 @@
                     "slug": "anyscale/thenlper/gte-large",
                     "model_type": "text2vector",
                     "context_window": 512,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -2759,6 +2772,7 @@
                     "slug": "anyscale/BAAI/bge-large-en-v1.5",
                     "model_type": "text2vector",
                     "context_window": 512,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
