@@ -11,6 +11,7 @@
                     "input_cost_per_token": 0.000015,
                     "output_cost_per_token": 0.000075,
                     "group": "claude",
+                    "available_on_free_plan": false,
                     "parameters":
                     {
                         "temperature": {
@@ -53,6 +54,7 @@
                     "input_cost_per_token": 0.000003,
                     "output_cost_per_token": 0.000015,
                     "group": "claude",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -95,6 +97,7 @@
                     "input_cost_per_token": 0.00000025,
                     "output_cost_per_token": 0.00000125,
                     "group": "claude",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -161,6 +164,7 @@
                     "alias": "command-light",
                     "group": "command",
                     "finetuning": true,
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -204,6 +208,7 @@
                     "alias": "command",
                     "group": "command",
                     "finetuning": true,
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -247,6 +252,7 @@
                     "alias": "command-r",
                     "group": "command",
                     "finetuning": true,
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -290,6 +296,7 @@
                     "alias": "command-r-plus",
                     "group": "command",
                     "finetuning": true,
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -328,6 +335,7 @@
                     "slug": "embed-english-v3.0",
                     "model_type": "text2vector",
                     "output_cost_per_token": 0.0000001,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -338,6 +346,7 @@
                     "slug": "embed-english-light-v3.0",
                     "model_type": "text2vector",
                     "output_cost_per_token": 0.0000001,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -348,6 +357,7 @@
                     "slug": "embed-multilingual-v3.0",
                     "model_type": "text2vector",
                     "output_cost_per_token": 0.0000001,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -358,6 +368,7 @@
                     "slug": "embed-multilingual-light-v3.0",
                     "model_type": "text2vector",
                     "output_cost_per_token": 0.0000001,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -387,6 +398,7 @@
                     "output_cost_per_token": 0.00012,
                     "alias": "mistral-large",
                     "group": "mistral",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -424,6 +436,7 @@
                     "output_cost_per_token": 0.00012,
                     "alias": "gpt-4-eu",
                     "group": "gpt",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -483,6 +496,7 @@
                     "alias": "gpt-3.5-turbo-eu",
                     "group": "gpt",
                     "finetuning": true,
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -530,6 +544,7 @@
                     "output_cost_per_token": 0.00003,
                     "alias": "gpt-4-turbo",
                     "group": "gpt",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -605,6 +620,7 @@
                     "alias": "gpt-3.5-turbo",
                     "group": "gpt",
                     "finetuning": true,
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -654,6 +670,7 @@
                     "input_cost_per_token": 0.00000002,
                     "output_cost_per_token": 0.00000002,
                     "output_dimension": 1536,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -667,6 +684,7 @@
                     "input_cost_per_token": 0.00000013,
                     "output_cost_per_token": 0.00000013,
                     "output_dimension": 3072,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -680,6 +698,7 @@
                     "input_cost_per_token": 0.0000001,
                     "output_cost_per_token": 0.0000001,
                     "output_dimension": 1536,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -723,6 +742,7 @@
                     "slug": "@cf/baai/bge-base-en-v1.5",
                     "model_type": "text2vector",
                     "context_window": 512,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -733,6 +753,7 @@
                     "slug": "@cf/baai/bge-large-en-v1.5",
                     "model_type": "text2vector",
                     "context_window": 512,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -743,6 +764,7 @@
                     "slug": "@cf/baai/bge-small-en-v1.5",
                     "model_type": "text2vector",
                     "context_window": 512,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -1030,6 +1052,7 @@
                 {
                     "slug": "replicate/all-mpnet-base-v2:b6b7585c9640cd7a9572c6e129c9549d79c9c31f0d3fdce7baac7c67ca38f305",
                     "model_type": "text2vector",
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -1150,6 +1173,7 @@
                     "output_cost_per_token": 0.00000042,
                     "alias": "mistral-tiny",
                     "group": "mistral",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -1192,6 +1216,7 @@
                     "output_cost_per_token": 0.0000018,
                     "alias": "mistral-small",
                     "group": "mistral",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -1234,6 +1259,7 @@
                     "output_cost_per_token": 0.0000075,
                     "alias": "mistral-medium",
                     "group": "mistral",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -1272,6 +1298,7 @@
                     "slug": "mistral-embed",
                     "model_type": "text2vector",
                     "context_window": 4096,
+                    "available_on_free_plan": true,
                     "input_cost_per_token": 0.00000001,
                     "environment": [
                         "development",
@@ -1377,6 +1404,7 @@
                     "alias": "llama-3-8b-instruct",
                     "uncensored": false,
                     "group": "llama",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -1418,6 +1446,7 @@
                     "alias": "llama-3-70b-instruct",
                     "uncensored": false,
                     "group": "llama",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -1555,6 +1584,7 @@
                     "alias": "mythalion-13b",
                     "uncensored": true,
                     "group": "uncensored",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -1631,6 +1661,7 @@
                     "alias": "mythomax-l2-13b",
                     "uncensored": true,
                     "group": "uncensored",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -1732,6 +1763,7 @@
                     "alias": "remm-slerp-l2-13b",
                     "uncensored": true,
                     "group": "uncensored",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -1784,6 +1816,7 @@
                     "context_window": 4096,
                     "alias": "yi-34-chat",
                     "group": "others",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -1837,6 +1870,7 @@
                     "alias": "stripedhyena-nous-7b",
                     "uncensored": true,
                     "group": "uncensored",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -1908,6 +1942,7 @@
                     "alias": "zephyr-7b-beta",
                     "uncensored": true,
                     "group": "uncensored",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -1972,6 +2007,7 @@
                     "context_window": 91728,
                     "alias": "gemini-pro",
                     "group": "gemini",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -2031,6 +2067,7 @@
                     "alias": "chronos-hermes-13b",
                     "uncensored": true,
                     "group": "uncensored",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -2072,6 +2109,7 @@
                     "alias": "mixtral-8x22b",
                     "uncensored": false,
                     "group": "mistral",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -2130,6 +2168,7 @@
                     "context_window": 32769,
                     "alias": "dolphin-mixtral-8x7b",
                     "group": "mistral",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -2171,6 +2210,7 @@
                     "alias": "rwkv-5-world-3b",
                     "uncensored": true,
                     "group": "uncensored",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -2558,6 +2598,7 @@
                     "context_window": 4096,
                     "alias": "codellama-70b-instruct",
                     "group": "llama",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -2640,6 +2681,7 @@
                     "alias": "mixtral-8x7b-instruct-v0.1",
                     "group": "mistral",
                     "finetuning": true,
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -2680,6 +2722,7 @@
                     "context_window": 8192,
                     "alias": "gemma-7b-it",
                     "group": "gemini",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -2718,6 +2761,7 @@
                     "slug": "anyscale/thenlper/gte-large",
                     "model_type": "text2vector",
                     "context_window": 512,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -2728,6 +2772,7 @@
                     "slug": "anyscale/BAAI/bge-large-en-v1.5",
                     "model_type": "text2vector",
                     "context_window": 512,
+                    "available_on_free_plan": true,
                     "environment": [
                         "development",
                         "staging",
@@ -2745,6 +2790,7 @@
                     "context_window": 8192,
                     "alias": "llama-3-8b-fast",
                     "group": "llama",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -2785,6 +2831,7 @@
                     "context_window": 8192,
                     "alias": "llama-3-70b-fast",
                     "group": "llama",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -2866,6 +2913,7 @@
                     "context_window": 32768,
                     "alias": "mixtral-8x7b-fast",
                     "group": "mistral",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -2906,6 +2954,7 @@
                     "context_window": 8192,
                     "alias": "gemma-7b-it-fast",
                     "group": "gemini",
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
