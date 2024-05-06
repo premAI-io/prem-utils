@@ -613,9 +613,9 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 16385,
+                            "default": 4096,
                             "min": 0,
-                            "max": 16385
+                            "max": 4096
                         },
                         "top_p": {
                             "default": 0.5,
@@ -1373,7 +1373,7 @@
                 {
                     "slug": "openrouter/meta-llama/llama-3-8b-instruct",
                     "model_type": "text2text",
-                    "context_tokens": 8192,
+                    "context_window": 8192,
                     "alias": "llama-3-8b-instruct",
                     "uncensored": false,
                     "group": "llama",
@@ -1414,7 +1414,7 @@
                 {
                     "slug": "openrouter/meta-llama/llama-3-70b-instruct",
                     "model_type": "text2text",
-                    "context_tokens": 8192,
+                    "context_window": 8192,
                     "alias": "llama-3-70b-instruct",
                     "uncensored": false,
                     "group": "llama",
@@ -1455,103 +1455,103 @@
                 {
                     "slug": "openrouter/openrouter/auto",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/jondurbin/bagel-34b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/jebcarter/psyfighter-13b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/koboldai/psyfighter-13b-2",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/neversleep/noromaid-mixtral-8x7b-instruct",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/nousresearch/nous-hermes-llama2-13b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/meta-llama/codellama-34b-instruct",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/phind/phind-codellama-34b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/intel/neural-chat-7b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/mistralai/mixtral-8x7b-instruct",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/nousresearch/nous-hermes-2-mixtral-8x7b-dpo",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/nousresearch/nous-hermes-2-mixtral-8x7b-sft",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/haotian-liu/llava-13b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/nousresearch/nous-hermes-2-vision-7b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/meta-llama/llama-2-13b-chat",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/migtissera/synthia-70b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/pygmalionai/mythalion-13b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 8192,
                     "alias": "mythalion-13b",
                     "uncensored": true,
                     "group": "uncensored",
@@ -1563,9 +1563,9 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 128000,
+                            "default": 400,
                             "min": 0,
-                            "max": 128000
+                            "max": 400
                         },
                         "top_p": {
                             "default": 0.5,
@@ -1592,7 +1592,7 @@
                 {
                     "slug": "openrouter/undi95/remm-slerp-l2-13b-6k",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true,
                     "group": "others",
                     "parameters":
@@ -1627,7 +1627,7 @@
                 {
                     "slug": "openrouter/gryphe/mythomax-l2-13b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 4096,
                     "alias": "mythomax-l2-13b",
                     "uncensored": true,
                     "group": "uncensored",
@@ -1639,9 +1639,9 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 128000,
+                            "default": 4096,
                             "min": 0,
-                            "max": 128000
+                            "max": 4096
                         },
                         "top_p": {
                             "default": 0.5,
@@ -1668,67 +1668,67 @@
                 {
                     "slug": "openrouter/xwin-lm/xwin-lm-70b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/gryphe/mythomax-l2-13b-8k",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/alpindale/goliath-120b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/neversleep/noromaid-20b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/gryphe/mythomist-7b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/mancer/weaver",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/nousresearch/nous-capybara-7b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/codellama/codellama-70b-instruct",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/teknium/openhermes-2-mistral-7b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/teknium/openhermes-2.5-mistral-7b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/undi95/remm-slerp-l2-13b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 4096,
                     "alias": "remm-slerp-l2-13b",
                     "uncensored": true,
                     "group": "uncensored",
@@ -1740,9 +1740,9 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 128000,
+                            "default": 4096,
                             "min": 0,
-                            "max": 128000
+                            "max": 4096
                         },
                         "top_p": {
                             "default": 0.5,
@@ -1769,19 +1769,19 @@
                 {
                     "slug": "openrouter/undi95/toppy-m-7b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/openrouter/cinematika-7b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/01-ai/yi-34b-chat",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 4096,
                     "alias": "yi-34-chat",
                     "group": "others",
                     "parameters":
@@ -1792,9 +1792,9 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 128000,
+                            "default": 4096,
                             "min": 0,
-                            "max": 128000
+                            "max": 4096
                         },
                         "top_p": {
                             "default": 0.5,
@@ -1821,19 +1821,19 @@
                 {
                     "slug": "openrouter/01-ai/yi-34b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/01-ai/yi-6b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/togethercomputer/stripedhyena-nous-7b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 32768,
                     "alias": "stripedhyena-nous-7b",
                     "uncensored": true,
                     "group": "uncensored",
@@ -1845,9 +1845,9 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 128000,
+                            "default": 32768,
                             "min": 0,
-                            "max": 128000
+                            "max": 32768
                         },
                         "top_p": {
                             "default": 0.5,
@@ -1874,37 +1874,37 @@
                 {
                     "slug": "openrouter/togethercomputer/stripedhyena-hessian-7b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/mistralai/mixtral-8x7b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/nousresearch/nous-hermes-yi-34b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/nousresearch/nous-hermes-2-mistral-7b-dpo",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/open-orca/mistral-7b-openorca",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/huggingfaceh4/zephyr-7b-beta",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 4096,
                     "alias": "zephyr-7b-beta",
                     "uncensored": true,
                     "group": "uncensored",
@@ -1916,9 +1916,9 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 128000,
+                            "default": 4096,
                             "min": 0,
-                            "max": 128000
+                            "max": 4096
                         },
                         "top_p": {
                             "default": 0.5,
@@ -1945,31 +1945,31 @@
                 {
                     "slug": "openrouter/google/palm-2-chat-bison",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/google/palm-2-codechat-bison",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/google/palm-2-chat-bison-32k",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/google/palm-2-codechat-bison-32k",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/google/gemini-pro",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 91728,
                     "alias": "gemini-pro",
                     "group": "gemini",
                     "parameters":
@@ -1980,9 +1980,9 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 128000,
+                            "default": 22937,
                             "min": 0,
-                            "max": 128000
+                            "max": 22937
                         },
                         "top_p": {
                             "default": 0.5,
@@ -2009,25 +2009,25 @@
                 {
                     "slug": "openrouter/meta-llama/llama-2-70b-chat",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/nousresearch/nous-capybara-34b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/jondurbin/airoboros-l2-70b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/austism/chronos-hermes-13b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 4096,
                     "alias": "chronos-hermes-13b",
                     "uncensored": true,
                     "group": "uncensored",
@@ -2039,9 +2039,9 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 128000,
+                            "default": 4096,
                             "min": 0,
-                            "max": 128000
+                            "max": 4096
                         },
                         "top_p": {
                             "default": 0.5,
@@ -2068,7 +2068,7 @@
                 {
                     "slug": "openrouter/mistralai/mixtral-8x22b",
                     "model_type": "text2text",
-                    "context_tokens": 64000,
+                    "context_window": 65536,
                     "alias": "mixtral-8x22b",
                     "uncensored": false,
                     "group": "mistral",
@@ -2080,9 +2080,9 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 64000,
+                            "default": 65536,
                             "min": 0,
-                            "max": 64000
+                            "max": 65536
                         },
                         "top_p": {
                             "default": 0.5,
@@ -2109,25 +2109,25 @@
                 {
                     "slug": "openrouter/mistralai/mistral-7b-instruct",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/openchat/openchat-7b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/lizpreciatior/lzlv-70b-fp16-hf",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/cognitivecomputations/dolphin-mixtral-8x7b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 32769,
                     "alias": "dolphin-mixtral-8x7b",
                     "group": "mistral",
                     "parameters":
@@ -2138,9 +2138,9 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 128000,
+                            "default": 32769,
                             "min": 0,
-                            "max": 128000
+                            "max": 32769
                         },
                         "top_p": {
                             "default": 0.5,
@@ -2167,7 +2167,7 @@
                 {
                     "slug": "openrouter/rwkv/rwkv-5-world-3b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 10000,
                     "alias": "rwkv-5-world-3b",
                     "uncensored": true,
                     "group": "uncensored",
@@ -2179,9 +2179,9 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 128000,
+                            "default": 10000,
                             "min": 0,
-                            "max": 128000
+                            "max": 10000
                         },
                         "top_p": {
                             "default": 0.5,
@@ -2208,19 +2208,19 @@
                 {
                     "slug": "openrouter/recursal/rwkv-5-3b-ai-town",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/recursal/eagle-7b",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 },
                 {
                     "slug": "openrouter/google/gemma-7b-it",
                     "model_type": "text2text",
-                    "context_tokens": 128000,
+                    "context_window": 128000,
                     "deprecated": true
                 }
             ]
@@ -2433,6 +2433,7 @@
                     "context_window": 4096,
                     "alias": "llama-2-7b-chat",
                     "group": "llama",
+                    "deprecated": true,
                     "parameters":
                     {
                         "temperature": {
@@ -2474,6 +2475,7 @@
                     "alias": "llama-2-13b-chat",
                     "group": "llama",
                     "finetuning": true,
+                    "deprecated": true,
                     "parameters":
                     {
                         "temperature": {
@@ -2515,6 +2517,7 @@
                     "alias": "llama-2-70b-chat",
                     "group": "llama",
                     "finetuning": true,
+                    "deprecated": true,
                     "parameters":
                     {
                         "temperature": {
@@ -2822,6 +2825,7 @@
                     "context_window": 4096,
                     "alias": "llama-2-70b-fast",
                     "group": "llama",
+                    "deprecated": true,
                     "parameters":
                     {
                         "temperature": {
@@ -2899,7 +2903,7 @@
                 {
                     "slug": "groq/gemma-7b-it",
                     "model_type": "text2text",
-                    "context_window": 4096,
+                    "context_window": 8192,
                     "alias": "gemma-7b-it-fast",
                     "group": "gemini",
                     "parameters":
@@ -2910,9 +2914,9 @@
                             "max": 2.0
                         },
                         "max_tokens": {
-                            "default": 4096,
+                            "default": 8192,
                             "min": 0,
-                            "max": 4096
+                            "max": 8192
                         },
                         "top_p": {
                             "default": 0.5,
