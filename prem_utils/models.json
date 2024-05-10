@@ -12,7 +12,6 @@
                     "output_cost_per_token": 0.000075,
                     "group": "claude",
                     "available_on_free_plan": false,
-                    "deprecated": true,
                     "parameters":
                     {
                         "temperature": {
