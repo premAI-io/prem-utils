@@ -167,6 +167,7 @@
                     "output_cost_per_token": 0.0000006,
                     "alias": "command-light",
                     "group": "command",
+                    "deprecated": true,
                     "finetuning": true,
                     "available_on_free_plan": true,
                     "parameters":
@@ -212,6 +213,7 @@
                     "output_cost_per_token": 0.0000006,
                     "alias": "command",
                     "group": "command",
+                    "deprecated": true,
                     "finetuning": true,
                     "available_on_free_plan": true,
                     "parameters":
