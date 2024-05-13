@@ -407,8 +407,8 @@
                     "slug": "mistral-large",
                     "model_type": "text2text",
                     "context_window": 32768,
-                    "input_cost_per_token": 0.00006,
-                    "output_cost_per_token": 0.00012,
+                    "input_cost_per_token": 0.000004,
+                    "output_cost_per_token": 0.000012,
                     "alias": "mistral-large",
                     "group": "mistral",
                     "available_on_free_plan": false,
@@ -506,8 +506,8 @@
                     "slug": "gpt-35-turbo-16k-azure",
                     "model_type": "text2text",
                     "context_window": 16385,
-                    "input_cost_per_token": 0.0000015,
-                    "output_cost_per_token": 0.000002,
+                    "input_cost_per_token": 0.0000005,
+                    "output_cost_per_token": 0.0000015,
                     "alias": "gpt-3.5-turbo-eu",
                     "group": "gpt",
                     "finetuning": true,
@@ -686,7 +686,6 @@
                     "model_type": "text2vector",
                     "context_window": 8191,
                     "input_cost_per_token": 0.00000002,
-                    "output_cost_per_token": 0.00000002,
                     "output_dimension": 1536,
                     "available_on_free_plan": true,
                     "environment": [
@@ -701,7 +700,6 @@
                     "model_type": "text2vector",
                     "context_window": 8191,
                     "input_cost_per_token": 0.00000013,
-                    "output_cost_per_token": 0.00000013,
                     "output_dimension": 3072,
                     "available_on_free_plan": true,
                     "environment": [
@@ -716,7 +714,6 @@
                     "model_type": "text2vector",
                     "context_window": 8191,
                     "input_cost_per_token": 0.0000001,
-                    "output_cost_per_token": 0.0000001,
                     "output_dimension": 1536,
                     "available_on_free_plan": true,
                     "environment": [
@@ -2842,6 +2839,8 @@
                     "context_window": 8192,
                     "alias": "llama-3-8b-fast",
                     "group": "llama",
+                    "input_cost_per_token": 0.00000005,
+                    "output_cost_per_token": 0.0000001,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -2883,6 +2882,8 @@
                     "model_type": "text2text",
                     "context_window": 8192,
                     "alias": "llama-3-70b-fast",
+                    "input_cost_per_token": 0.00000059,
+                    "output_cost_per_token": 0.00000079,
                     "group": "llama",
                     "available_on_free_plan": true,
                     "parameters":
@@ -2967,6 +2968,8 @@
                     "context_window": 32768,
                     "alias": "mixtral-8x7b-fast",
                     "group": "mistral",
+                    "input_cost_per_token": 0.00000027,
+                    "output_cost_per_token": 0.00000027,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -3009,6 +3012,8 @@
                     "context_window": 8192,
                     "alias": "gemma-7b-it-fast",
                     "group": "gemini",
+                    "input_cost_per_token": 0.0000001,
+                    "output_cost_per_token": 0.0000001,
                     "available_on_free_plan": true,
                     "parameters":
                     {
