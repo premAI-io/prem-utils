@@ -1194,6 +1194,7 @@
                     "output_cost_per_token": 0.00000025,
                     "alias": "mistral-tiny",
                     "group": "mistral",
+                    "deprecated": true,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -1282,6 +1283,7 @@
                     "output_cost_per_token": 0.0000081,
                     "alias": "mistral-medium",
                     "group": "mistral",
+                    "deprecated": true,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -1853,6 +1855,8 @@
                     "context_window": 4096,
                     "alias": "yi-34-chat",
                     "group": "others",
+                    "input_cost_per_token": 0.00000072,
+                    "output_cost_per_token": 0.00000072,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -1908,6 +1912,8 @@
                     "alias": "stripedhyena-nous-7b",
                     "uncensored": true,
                     "group": "uncensored",
+                    "input_cost_per_token": 0.00000018,
+                    "output_cost_per_token": 0.00000018,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -1981,6 +1987,8 @@
                     "alias": "zephyr-7b-beta",
                     "uncensored": true,
                     "group": "uncensored",
+                    "input_cost_per_token": 0.0000002,
+                    "output_cost_per_token": 0.0000002,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -2047,6 +2055,8 @@
                     "context_window": 91728,
                     "alias": "gemini-pro",
                     "group": "gemini",
+                    "input_cost_per_token": 0.000000125,
+                    "output_cost_per_token": 0.000000375,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -2108,6 +2118,8 @@
                     "alias": "chronos-hermes-13b",
                     "uncensored": true,
                     "group": "uncensored",
+                    "input_cost_per_token": 0.00000013,
+                    "output_cost_per_token": 0.00000013,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -2254,6 +2266,8 @@
                     "alias": "rwkv-5-world-3b",
                     "uncensored": true,
                     "group": "uncensored",
+                    "input_cost_per_token": 0.0,
+                    "output_cost_per_token": 0.0,
                     "available_on_free_plan": true,
                     "parameters":
                     {
