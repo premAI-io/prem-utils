@@ -167,6 +167,7 @@
                     "output_cost_per_token": 0.0000006,
                     "alias": "command-light",
                     "group": "command",
+                    "deprecated": true,
                     "finetuning": true,
                     "available_on_free_plan": true,
                     "parameters":
@@ -212,6 +213,7 @@
                     "output_cost_per_token": 0.0000006,
                     "alias": "command",
                     "group": "command",
+                    "deprecated": true,
                     "finetuning": true,
                     "available_on_free_plan": true,
                     "parameters":
@@ -403,15 +405,15 @@
             "provider": "azure-mistral",
             "models": [
                 {
-                    "tier": "high",
+                    "tier": "medium",
                     "slug": "mistral-large",
                     "model_type": "text2text",
                     "context_window": 32768,
-                    "input_cost_per_token": 0.00006,
-                    "output_cost_per_token": 0.00012,
+                    "input_cost_per_token": 0.000004,
+                    "output_cost_per_token": 0.000012,
                     "alias": "mistral-large",
                     "group": "mistral",
-                    "available_on_free_plan": false,
+                    "available_on_free_plan": true,
                     "parameters":
                     {
                         "temperature": {
@@ -506,8 +508,8 @@
                     "slug": "gpt-35-turbo-16k-azure",
                     "model_type": "text2text",
                     "context_window": 16385,
-                    "input_cost_per_token": 0.0000015,
-                    "output_cost_per_token": 0.000002,
+                    "input_cost_per_token": 0.0000005,
+                    "output_cost_per_token": 0.0000015,
                     "alias": "gpt-3.5-turbo-eu",
                     "group": "gpt",
                     "finetuning": true,
@@ -730,7 +732,6 @@
                     "model_type": "text2vector",
                     "context_window": 8191,
                     "input_cost_per_token": 0.00000002,
-                    "output_cost_per_token": 0.00000002,
                     "output_dimension": 1536,
                     "available_on_free_plan": true,
                     "environment": [
@@ -745,7 +746,6 @@
                     "model_type": "text2vector",
                     "context_window": 8191,
                     "input_cost_per_token": 0.00000013,
-                    "output_cost_per_token": 0.00000013,
                     "output_dimension": 3072,
                     "available_on_free_plan": true,
                     "environment": [
@@ -760,7 +760,6 @@
                     "model_type": "text2vector",
                     "context_window": 8191,
                     "input_cost_per_token": 0.0000001,
-                    "output_cost_per_token": 0.0000001,
                     "output_dimension": 1536,
                     "available_on_free_plan": true,
                     "environment": [
@@ -1234,11 +1233,12 @@
                     "tier": "low",
                     "slug": "mistral-tiny",
                     "model_type": "text2text",
-                    "context_window": 4096,
-                    "input_cost_per_token": 0.00000014,
-                    "output_cost_per_token": 0.00000042,
+                    "context_window": 32000,
+                    "input_cost_per_token": 0.00000025,
+                    "output_cost_per_token": 0.00000025,
                     "alias": "mistral-tiny",
                     "group": "mistral",
+                    "deprecated": true,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -1276,11 +1276,11 @@
                 },
                 {
                     "tier": "low",
-                    "slug": "mistral-small",
+                    "slug": "mistral-small-latest",
                     "model_type": "text2text",
-                    "context_window": 4096,
-                    "input_cost_per_token": 0.0000006,
-                    "output_cost_per_token": 0.0000018,
+                    "context_window": 32000,
+                    "input_cost_per_token": 0.000001,
+                    "output_cost_per_token": 0.000003,
                     "alias": "mistral-small",
                     "group": "mistral",
                     "available_on_free_plan": true,
@@ -1322,11 +1322,12 @@
                     "tier": "low",
                     "slug": "mistral-medium",
                     "model_type": "text2text",
-                    "context_window": 4096,
-                    "input_cost_per_token": 0.0000025,
-                    "output_cost_per_token": 0.0000075,
+                    "context_window": 32000,
+                    "input_cost_per_token": 0.0000027,
+                    "output_cost_per_token": 0.0000081,
                     "alias": "mistral-medium",
                     "group": "mistral",
+                    "deprecated": true,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -1368,7 +1369,7 @@
                     "model_type": "text2vector",
                     "context_window": 4096,
                     "available_on_free_plan": true,
-                    "input_cost_per_token": 0.00000001,
+                    "input_cost_per_token": 0.0000001,
                     "environment": [
                         "development",
                         "staging",
@@ -1481,6 +1482,8 @@
                     "alias": "llama-3-8b-instruct",
                     "uncensored": false,
                     "group": "llama",
+                    "input_cost_per_token": 0.00000017,
+                    "output_cost_per_token": 0.0000007,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -1524,6 +1527,8 @@
                     "alias": "llama-3-70b-instruct",
                     "uncensored": false,
                     "group": "llama",
+                    "input_cost_per_token": 0.0000007,
+                    "output_cost_per_token": 0.0000007,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -1663,6 +1668,8 @@
                     "alias": "mythalion-13b",
                     "uncensored": true,
                     "group": "uncensored",
+                    "input_cost_per_token": 0.0000013,
+                    "output_cost_per_token": 0.0000013,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -1740,6 +1747,8 @@
                     "context_window": 4096,
                     "alias": "mythomax-l2-13b",
                     "uncensored": true,
+                    "input_cost_per_token": 0.00000035,
+                    "output_cost_per_token": 0.00000035,
                     "group": "uncensored",
                     "available_on_free_plan": true,
                     "parameters":
@@ -1844,6 +1853,8 @@
                     "alias": "remm-slerp-l2-13b",
                     "uncensored": true,
                     "group": "uncensored",
+                    "input_cost_per_token": 0.00000097,
+                    "output_cost_per_token": 0.00000097,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -1898,6 +1909,8 @@
                     "context_window": 4096,
                     "alias": "yi-34-chat",
                     "group": "others",
+                    "input_cost_per_token": 0.00000072,
+                    "output_cost_per_token": 0.00000072,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -1953,6 +1966,8 @@
                     "alias": "stripedhyena-nous-7b",
                     "uncensored": true,
                     "group": "uncensored",
+                    "input_cost_per_token": 0.00000018,
+                    "output_cost_per_token": 0.00000018,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -2026,6 +2041,8 @@
                     "alias": "zephyr-7b-beta",
                     "uncensored": true,
                     "group": "uncensored",
+                    "input_cost_per_token": 0.0000002,
+                    "output_cost_per_token": 0.0000002,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -2086,12 +2103,14 @@
                     "deprecated": true
                 },
                 {
-                    "tier": "low",
+                    "tier": "medium",
                     "slug": "openrouter/google/gemini-pro",
                     "model_type": "text2text",
                     "context_window": 91728,
                     "alias": "gemini-pro",
                     "group": "gemini",
+                    "input_cost_per_token": 0.000000125,
+                    "output_cost_per_token": 0.000000375,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -2153,6 +2172,8 @@
                     "alias": "chronos-hermes-13b",
                     "uncensored": true,
                     "group": "uncensored",
+                    "input_cost_per_token": 0.00000013,
+                    "output_cost_per_token": 0.00000013,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -2195,6 +2216,8 @@
                     "context_window": 65536,
                     "alias": "mixtral-8x22b",
                     "uncensored": false,
+                    "input_cost_per_token": 0.00000099,
+                    "output_cost_per_token": 0.00000099,
                     "group": "mistral",
                     "available_on_free_plan": true,
                     "parameters":
@@ -2256,6 +2279,8 @@
                     "context_window": 32769,
                     "alias": "dolphin-mixtral-8x7b",
                     "group": "mistral",
+                    "input_cost_per_token": 0.00000037,
+                    "output_cost_per_token": 0.00000037,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -2299,6 +2324,8 @@
                     "alias": "rwkv-5-world-3b",
                     "uncensored": true,
                     "group": "uncensored",
+                    "input_cost_per_token": 0.0,
+                    "output_cost_per_token": 0.0,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -2886,6 +2913,8 @@
                     "context_window": 8192,
                     "alias": "llama-3-8b-fast",
                     "group": "llama",
+                    "input_cost_per_token": 0.00000005,
+                    "output_cost_per_token": 0.0000001,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -2927,6 +2956,8 @@
                     "model_type": "text2text",
                     "context_window": 8192,
                     "alias": "llama-3-70b-fast",
+                    "input_cost_per_token": 0.00000059,
+                    "output_cost_per_token": 0.00000079,
                     "group": "llama",
                     "available_on_free_plan": true,
                     "parameters":
@@ -3011,6 +3042,8 @@
                     "context_window": 32768,
                     "alias": "mixtral-8x7b-fast",
                     "group": "mistral",
+                    "input_cost_per_token": 0.00000027,
+                    "output_cost_per_token": 0.00000027,
                     "available_on_free_plan": true,
                     "parameters":
                     {
@@ -3053,6 +3086,8 @@
                     "context_window": 8192,
                     "alias": "gemma-7b-it-fast",
                     "group": "gemini",
+                    "input_cost_per_token": 0.0000001,
+                    "output_cost_per_token": 0.0000001,
                     "available_on_free_plan": true,
                     "parameters":
                     {
