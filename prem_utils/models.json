@@ -598,6 +598,50 @@
                     ]
                 },
                 {
+                    "tier": "medium",
+                    "slug": "gpt-4o",
+                    "model_type": "text2text",
+                    "context_window": 128000,
+                    "input_cost_per_token": 0.000005,
+                    "output_cost_per_token": 0.000015,
+                    "alias": "gpt-4o",
+                    "group": "gpt",
+                    "available_on_free_plan": true,
+                    "parameters":
+                    {
+                        "temperature": {
+                            "default": 1.0,
+                            "min": 0.0,
+                            "max": 2.0
+                        },
+                        "max_tokens": {
+                            "default": 4096,
+                            "min": 0,
+                            "max": 4096
+                        },
+                        "top_p": {
+                            "default": 0.5,
+                            "min": 0.0,
+                            "max": 1.0
+                        },
+                        "frequency_penalty": {
+                            "default": 0.0,
+                            "min": -2,
+                            "max": 2
+                        },
+                        "presence_penalty": {
+                            "default": 0.0,
+                            "min": -2,
+                            "max": 2
+                        }
+                    },
+                    "environment": [
+                        "development",
+                        "staging",
+                        "production"
+                    ]
+                },
+                {
                     "slug": "gpt-4-0125-preview",
                     "model_type": "text2text",
                     "context_window": 128000,
