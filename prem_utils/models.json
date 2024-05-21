@@ -344,6 +344,7 @@
                     "tier": "low",
                     "slug": "embed-english-v3.0",
                     "model_type": "text2vector",
+                    "alias": "embed-english",
                     "output_cost_per_token": 0.0000001,
                     "available_on_free_plan": true,
                     "environment": [
@@ -356,6 +357,7 @@
                     "tier": "low",
                     "slug": "embed-english-light-v3.0",
                     "model_type": "text2vector",
+                    "alias": "embed-english-light",
                     "output_cost_per_token": 0.0000001,
                     "available_on_free_plan": true,
                     "environment": [
@@ -368,6 +370,7 @@
                     "tier": "low",
                     "slug": "embed-multilingual-v3.0",
                     "model_type": "text2vector",
+                    "alias": "embed-multilingual",
                     "output_cost_per_token": 0.0000001,
                     "available_on_free_plan": true,
                     "environment": [
@@ -380,6 +383,7 @@
                     "tier": "low",
                     "slug": "embed-multilingual-light-v3.0",
                     "model_type": "text2vector",
+                    "alias": "embed-multilingual-light",
                     "output_cost_per_token": 0.0000001,
                     "available_on_free_plan": true,
                     "environment": [
@@ -730,6 +734,7 @@
                     "tier": "low",
                     "slug": "text-embedding-3-small",
                     "model_type": "text2vector",
+                    "alias": "text-embedding-3-small",
                     "context_window": 8191,
                     "input_cost_per_token": 0.00000002,
                     "output_dimension": 1536,
@@ -744,6 +749,7 @@
                     "tier": "low",
                     "slug": "text-embedding-3-large",
                     "model_type": "text2vector",
+                    "alias": "text-embedding-3-large",
                     "context_window": 8191,
                     "input_cost_per_token": 0.00000013,
                     "output_dimension": 3072,
@@ -758,6 +764,7 @@
                     "tier": "low",
                     "slug": "text-embedding-ada-002",
                     "model_type": "text2vector",
+                    "alias": "text-embedding-ada-002",
                     "context_window": 8191,
                     "input_cost_per_token": 0.0000001,
                     "output_dimension": 1536,
@@ -805,6 +812,7 @@
                 {
                     "slug": "@cf/baai/bge-base-en-v1.5",
                     "model_type": "text2vector",
+                    "alias": "bge-base-en",
                     "context_window": 512,
                     "available_on_free_plan": true,
                     "environment": [
@@ -816,6 +824,7 @@
                 {
                     "slug": "@cf/baai/bge-large-en-v1.5",
                     "model_type": "text2vector",
+                    "alias": "bge-large-en",
                     "context_window": 512,
                     "available_on_free_plan": true,
                     "environment": [
@@ -827,6 +836,7 @@
                 {
                     "slug": "@cf/baai/bge-small-en-v1.5",
                     "model_type": "text2vector",
+                    "alias": "bge-small-en",
                     "context_window": 512,
                     "available_on_free_plan": true,
                     "environment": [
@@ -1116,6 +1126,7 @@
                 {
                     "slug": "replicate/all-mpnet-base-v2:b6b7585c9640cd7a9572c6e129c9549d79c9c31f0d3fdce7baac7c67ca38f305",
                     "model_type": "text2vector",
+                    "alias": "all-mpnet-base-v2",
                     "available_on_free_plan": true,
                     "environment": [
                         "development",
@@ -1367,6 +1378,7 @@
                     "tier": "low",
                     "slug": "mistral-embed",
                     "model_type": "text2vector",
+                    "alias": "mistral-embed",
                     "context_window": 4096,
                     "available_on_free_plan": true,
                     "input_cost_per_token": 0.0000001,
@@ -2882,6 +2894,7 @@
                 {
                     "slug": "anyscale/thenlper/gte-large",
                     "model_type": "text2vector",
+                    "alias": "gte-large",
                     "context_window": 512,
                     "available_on_free_plan": true,
                     "environment": [
@@ -2893,6 +2906,7 @@
                 {
                     "slug": "anyscale/BAAI/bge-large-en-v1.5",
                     "model_type": "text2vector",
+                    "alias": "bge-large-en-v1.5",
                     "context_window": 512,
                     "available_on_free_plan": true,
                     "environment": [
