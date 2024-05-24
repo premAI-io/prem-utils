@@ -11,6 +11,8 @@ import requests
 from prem_utils.connectors import utils as connector_utils
 from prem_utils.connectors.base import BaseConnector
 
+DEFAULT_MAX_NEW_TOKENS = 1024
+
 
 class PremConnector(BaseConnector):
     def __init__(
@@ -45,7 +47,7 @@ class PremConnector(BaseConnector):
         self,
         model: str,
         messages: list[dict[str, str]],
-        max_tokens: int | None = 128,
+        max_tokens: int | None = DEFAULT_MAX_NEW_TOKENS,
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 0.99,
