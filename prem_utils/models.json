@@ -1430,6 +1430,7 @@
                     ]
                 },
                 {
+                    "tier": "low",
                     "slug": "mamba",
                     "model_type": "text2text",
                     "context_window": 128,
@@ -1441,6 +1442,7 @@
                     ]
                 },
                 {
+                    "tier": "low",
                     "slug": "stable_lm2",
                     "model_type": "text2text",
                     "context_window": 2048,
