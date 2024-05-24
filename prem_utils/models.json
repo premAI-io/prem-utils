@@ -1452,10 +1452,11 @@
                     ]
                 },
                 {
+
                     "tier": "low",
                     "slug": "prem-1b-chat",
                     "model_type": "text2text",
-                    "coming_soon": true,
+                    "context_window": 8192,
                     "group": "slm",
                     "environment": [
                         "development"
