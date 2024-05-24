@@ -1398,9 +1398,11 @@
                     "slug": "phi1_5",
                     "model_type": "text2text",
                     "context_window": 2048,
+                    "available_on_free_plan": true,
                     "group": "slm",
                     "environment": [
-                        "development"
+                        "development",
+                        "staging"
                     ]
                 },
                 {
@@ -1408,9 +1410,11 @@
                     "slug": "phi2",
                     "model_type": "text2text",
                     "context_window": 2048,
+                    "available_on_free_plan": true,
                     "group": "slm",
                     "environment": [
-                        "development"
+                        "development",
+                        "staging"
                     ]
                 },
                 {
@@ -1418,27 +1422,35 @@
                     "slug": "tiny_llama",
                     "model_type": "text2text",
                     "context_window": 2048,
+                    "available_on_free_plan": true,
                     "group": "slm",
                     "environment": [
-                        "development"
+                        "development",
+                        "staging"
                     ]
                 },
                 {
+                    "tier": "low",
                     "slug": "mamba",
                     "model_type": "text2text",
                     "context_window": 128,
+                    "available_on_free_plan": true,
                     "group": "slm",
                     "environment": [
-                        "development"
+                        "development",
+                        "staging"
                     ]
                 },
                 {
+                    "tier": "low",
                     "slug": "stable_lm2",
                     "model_type": "text2text",
                     "context_window": 2048,
+                    "available_on_free_plan": true,
                     "group": "slm",
                     "environment": [
-                        "development"
+                        "development",
+                        "staging"
                     ]
                 },
                 {
@@ -1446,25 +1458,29 @@
                     "slug": "gemma",
                     "model_type": "text2text",
                     "context_window": 2048,
+                    "available_on_free_plan": true,
                     "group": "slm",
                     "environment": [
-                        "development"
+                        "development",
+                        "staging"
                     ]
                 },
                 {
 
                     "tier": "low",
-                    "slug": "prem-1b-chat",
+                    "slug": "prem_1b_chat",
                     "model_type": "text2text",
                     "context_window": 8192,
+                    "available_on_free_plan": true,
                     "group": "slm",
                     "environment": [
-                        "development"
+                        "development",
+                        "staging"
                     ]
                 },
                 {
                     "tier": "low",
-                    "slug": "prem-1b-json",
+                    "slug": "prem_1b_json",
                     "model_type": "text2text",
                     "coming_soon": true,
                     "group": "slm",
@@ -1474,7 +1490,7 @@
                 },
                 {
                     "tier": "low",
-                    "slug": "prem-1b-sum",
+                    "slug": "prem_1b_sum",
                     "model_type": "text2text",
                     "coming_soon": true,
                     "group": "slm",
