@@ -1490,7 +1490,7 @@
                 },
                 {
                     "tier": "low",
-                    "slug": "prem_1sum",
+                    "slug": "prem_1b_sum",
                     "model_type": "text2text",
                     "coming_soon": true,
                     "group": "slm",
