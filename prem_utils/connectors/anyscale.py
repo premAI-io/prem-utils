@@ -46,7 +46,15 @@ class AnyscaleEndpointsConnector(OpenAIConnector):
         temperature: float = 1,
         top_p: float = 1,
         tool_choice: str = "none",
+        tools=None,
     ):
+        if tools is not None and stream:
+            raise errors.PremProviderError(
+                "Cannot use tools with stream=True",
+                provider="anyscale",
+                model=model,
+                provider_message="Cannot use tools with stream=True",
+            )
         if "anyscale" in model:
             model = model.replace("anyscale/", "", 1)
 
@@ -61,7 +69,7 @@ class AnyscaleEndpointsConnector(OpenAIConnector):
             stop=stop,
             temperature=temperature,
             top_p=top_p,
-            tool_choice=tool_choice,
+            tools=tools,
         )
 
     def embeddings(
