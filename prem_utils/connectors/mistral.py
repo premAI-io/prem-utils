@@ -60,7 +60,15 @@ class MistralConnector(BaseConnector):
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 1,
+        tools=None,
     ):
+        if tools is not None and stream:
+            raise errors.PremProviderError(
+                "Cannot use tools with stream=True",
+                provider="mistralai",
+                model=model,
+                provider_message="Cannot use tools with stream=True",
+            )
         messages = self.build_messages(messages)
 
         request_data = dict(
@@ -70,6 +78,7 @@ class MistralConnector(BaseConnector):
             temperature=temperature,
             top_p=top_p,
             random_seed=seed,
+            tools=tools,
         )
         try:
             if stream:
@@ -82,11 +91,24 @@ class MistralConnector(BaseConnector):
             plain_response = {
                 "choices": [
                     {
-                        "finish_reason": str(choice.finish_reason),
+                        "finish_reason": choice.finish_reason.value if choice.finish_reason else None,
                         "index": choice.index,
                         "message": {
                             "content": choice.message.content,
                             "role": choice.message.role,
+                            "tool_calls": [
+                                {
+                                    "id": tool_call.id,
+                                    "function": {
+                                        "arguments": tool_call.function.arguments,
+                                        "name": tool_call.function.name,
+                                    },
+                                    "type": tool_call.type.value if tool_call.type else None,
+                                }
+                                for tool_call in choice.message.tool_calls
+                            ]
+                            if choice.message.tool_calls
+                            else None,
                         },
                     }
                     for choice in response.choices

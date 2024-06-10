@@ -77,6 +77,12 @@ class AzureOpenAIConnector(BaseConnector):
             ],
         }
 
+    def _get_arguments(self, arguments):
+        try:
+            return json.loads(arguments)
+        except json.JSONDecodeError:
+            return None
+
     async def chat_completion(
         self,
         model: str,
@@ -91,7 +97,15 @@ class AzureOpenAIConnector(BaseConnector):
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 1,
+        tools=None,
     ):
+        if tools is not None and stream:
+            raise errors.PremProviderError(
+                "Cannot use tools with stream=True",
+                provider="azure_openai",
+                model=model,
+                provider_message="Cannot use tools with stream=True",
+            )
         request_data = dict(
             model=model,
             messages=messages,
@@ -105,6 +119,7 @@ class AzureOpenAIConnector(BaseConnector):
             top_p=top_p,
             logprobs=log_probs,
             logit_bias=logit_bias,
+            tools=tools,
         )
         try:
             if stream:
@@ -136,6 +151,19 @@ class AzureOpenAIConnector(BaseConnector):
                     "message": {
                         "content": choice.message.content,
                         "role": choice.message.role,
+                        "tool_calls": [
+                            {
+                                "id": tool_call.id,
+                                "function": {
+                                    "arguments": self._get_arguments(tool_call.function.arguments),
+                                    "name": tool_call.function.name,
+                                },
+                                "type": tool_call.type,
+                            }
+                            for tool_call in choice.message.tool_calls
+                        ]
+                        if choice.message.tool_calls
+                        else None,
                     },
                 }
                 for choice in response.choices

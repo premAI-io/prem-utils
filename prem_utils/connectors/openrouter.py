@@ -1,6 +1,7 @@
 from collections.abc import Sequence
 from typing import Any
 
+from prem_utils import errors
 from prem_utils.connectors.openai import OpenAIConnector
 
 
@@ -24,7 +25,15 @@ class OpenRouterConnector(OpenAIConnector):
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 1,
+        tools=None,
     ):
+        if tools is not None:
+            raise errors.PremProviderError(
+                "Tools are not supported for this model",
+                provider="openrouter",
+                model=model,
+                provider_message="Tools are not supported for this model",
+            )
         if "openrouter" in model:
             model = model.replace("openrouter/", "", 1)
 

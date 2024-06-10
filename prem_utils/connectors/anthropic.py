@@ -1,4 +1,5 @@
 from collections.abc import Sequence
+from uuid import uuid4
 
 from anthropic import (
     Anthropic,
@@ -82,6 +83,41 @@ class AnthropicConnector(BaseConnector):
                 filtered_messages.append(message)
         return system_prompt, filtered_messages
 
+    def _get_content(self, response, tools=False):
+        if not tools:
+            return {"content": response.content[0].text, "role": "assistant", "tool_calls": []}
+        tool_messages = filter(lambda x: hasattr(x, "input") and hasattr(x, "name"), response.content)
+        return {
+            "content": "",
+            "role": "assistant",
+            "tool_calls": [
+                {
+                    "id": str(uuid4()),
+                    "function": {
+                        "arguments": tool_message.input,
+                        "name": tool_message.name,
+                    },
+                    "type": "function",
+                }
+                for tool_message in tool_messages
+            ],
+        }
+
+    def _parse_tools(self, tools: list[dict[str, any]]):
+        if not tools:
+            return []
+        parsed_tools = []
+
+        for tool in tools:
+            transformed_tool = {
+                "name": tool["function"]["name"],
+                "description": tool["function"].get("description", None),
+                "input_schema": tool["function"]["parameters"],
+            }
+            parsed_tools.append(transformed_tool)
+
+        return parsed_tools
+
     async def chat_completion(
         self,
         model: str,
@@ -96,7 +132,16 @@ class AnthropicConnector(BaseConnector):
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 1,
+        tools=None,
     ):
+        tools = self._parse_tools(tools)
+        if tools != [] and stream:
+            raise errors.PremProviderError(
+                "Cannot use tools with stream=True",
+                provider="anthropic",
+                model=model,
+                provider_message="Cannot use tools with stream=True",
+            )
         system_prompt, messages = self.preprocess_messages(messages)
 
         if max_tokens is None or max_tokens == 0:
@@ -111,6 +156,7 @@ class AnthropicConnector(BaseConnector):
             temperature=temperature,
             stream=stream,
             stop_sequences=stop,
+            tools=tools,
         )
         try:
             if stream:
@@ -133,20 +179,21 @@ class AnthropicConnector(BaseConnector):
         ) as error:
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="anthropic", model=model, provider_message=str(error))
-
         plain_response = {
             "choices": [
                 {
                     "finish_reason": response.stop_reason,
                     "index": 0,
-                    "message": {"content": response.content[0].text, "role": "assistant"},
+                    "message": self._get_content(response, tools=len(tools) > 0),
                 }
             ],
             "created": connector_utils.default_chatcompletion_response_created(),
             "model": response.model,
             "provider_name": "Anthropic",
             "provider_id": "anthropic",
-            "usage": connector_utils.default_chatcompletions_usage(messages, response.content[0].text),
+            "usage": connector_utils.default_chatcompletions_usage(
+                messages, response.content[0].text if len(tools) < 1 else ""
+            ),
         }
         return plain_response
 
