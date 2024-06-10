@@ -64,8 +64,10 @@ for connector_dict in connectors:
     print("NO tools")
     response = asyncio.run(connector.chat_completion(model=model, messages=messages))
     print(response)
+    print("Stream")
     if not isinstance(connector, CohereConnector):
-        print("Stream")
         response = asyncio.run(connector.chat_completion(model=model, messages=messages, stream=True))
-        print(response)
+    else:
+        response = connector.chat_completion(model=model, messages=messages, stream=True)
+    print(response)
     print("\n", "-" * 50, "\n")
