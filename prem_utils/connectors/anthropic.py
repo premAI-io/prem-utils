@@ -82,6 +82,17 @@ class AnthropicConnector(BaseConnector):
                 filtered_messages.append(message)
         return system_prompt, filtered_messages
 
+    def _get_content(self, response, tools=False):
+        if tools:
+            return {"content": response.content[0].text, "role": "assistant", "tools": []}
+        else:
+            tool_messages = filter(lambda x: "input" in x.__dir__() and "name" in x.__dir__(), response.content)
+            return {
+                "content": "",
+                "role": "assistant",
+                "tools": [{"input": tool_message.input, "name": tool_message.name} for tool_message in tool_messages],
+            }
+
     async def chat_completion(
         self,
         model: str,
@@ -96,7 +107,15 @@ class AnthropicConnector(BaseConnector):
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 1,
+        tools=[],
     ):
+        if tools != [] and stream:
+            raise errors.PremProviderError(
+                "Cannot use tools with stream=True",
+                provider="anthropic",
+                model=model,
+                provider_message="Cannot use tools with stream=True",
+            )
         system_prompt, messages = self.preprocess_messages(messages)
 
         if max_tokens is None or max_tokens == 0:
@@ -111,6 +130,7 @@ class AnthropicConnector(BaseConnector):
             temperature=temperature,
             stream=stream,
             stop_sequences=stop,
+            tools=tools,
         )
         try:
             if stream:
@@ -133,20 +153,21 @@ class AnthropicConnector(BaseConnector):
         ) as error:
             custom_exception = self.exception_mapping.get(type(error), errors.PremProviderError)
             raise custom_exception(error, provider="anthropic", model=model, provider_message=str(error))
-
         plain_response = {
             "choices": [
                 {
                     "finish_reason": response.stop_reason,
                     "index": 0,
-                    "message": {"content": response.content[0].text, "role": "assistant"},
+                    "message": self._get_content(response, tools=len(tools) > 1),
                 }
             ],
             "created": connector_utils.default_chatcompletion_response_created(),
             "model": response.model,
             "provider_name": "Anthropic",
             "provider_id": "anthropic",
-            "usage": connector_utils.default_chatcompletions_usage(messages, response.content[0].text),
+            "usage": connector_utils.default_chatcompletions_usage(
+                messages, response.content[0].text if len(tools) > 1 else ""
+            ),
         }
         return plain_response
 
