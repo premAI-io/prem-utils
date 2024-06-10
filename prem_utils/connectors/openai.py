@@ -70,6 +70,12 @@ class OpenAIConnector(BaseConnector):
             ],
         }
 
+    def _get_arguments(self, arguments):
+        try:
+            return json.loads(arguments)
+        except json.JSONDecodeError:
+            return None
+
     async def chat_completion(
         self,
         model: str,
@@ -148,7 +154,7 @@ class OpenAIConnector(BaseConnector):
                             {
                                 "id": tool_call.id,
                                 "function": {
-                                    "arguments": tool_call.function.arguments,
+                                    "arguments": self._get_arguments(tool_call.function.arguments),
                                     "name": tool_call.function.name,
                                 },
                                 "type": tool_call.type,
