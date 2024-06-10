@@ -84,23 +84,24 @@ class AnthropicConnector(BaseConnector):
         return system_prompt, filtered_messages
 
     def _get_content(self, response, tools=False):
-        if tools:
+        if not tools:
             return {"content": response.content[0].text, "role": "assistant", "tool_calls": []}
-        else:
-            tool_messages = filter(lambda x: "input" in x.__dir__() and "name" in x.__dir__(), response.content)
-            return {
-                "content": "",
-                "role": "assistant",
-                "tool_calls": [
-                    {
-                        "function_arguments": tool_message.input,
+        tool_messages = filter(lambda x: hasattr(x, "input") and hasattr(x, "name"), response.content)
+        return {
+            "content": "",
+            "role": "assistant",
+            "tool_calls": [
+                {
+                    "id": str(uuid4()),
+                    "function": {
+                        "arguments": tool_message.input,
                         "name": tool_message.name,
-                        "type": "function",
-                        "id": str(uuid4()),
-                    }
-                    for tool_message in tool_messages
-                ],
-            }
+                    },
+                    "type": "function",
+                }
+                for tool_message in tool_messages
+            ],
+        }
 
     def _parse_tools(self, tools: list[dict[str, any]]):
         if not tools:
@@ -110,7 +111,7 @@ class AnthropicConnector(BaseConnector):
         for tool in tools:
             transformed_tool = {
                 "name": tool["function"]["name"],
-                "description": tool["function"]["description"],
+                "description": tool["function"].get("description", None),
                 "input_schema": tool["function"]["parameters"],
             }
             parsed_tools.append(transformed_tool)
@@ -183,7 +184,7 @@ class AnthropicConnector(BaseConnector):
                 {
                     "finish_reason": response.stop_reason,
                     "index": 0,
-                    "message": self._get_content(response, tools=len(tools) > 1),
+                    "message": self._get_content(response, tools=len(tools) > 0),
                 }
             ],
             "created": connector_utils.default_chatcompletion_response_created(),
@@ -191,7 +192,7 @@ class AnthropicConnector(BaseConnector):
             "provider_name": "Anthropic",
             "provider_id": "anthropic",
             "usage": connector_utils.default_chatcompletions_usage(
-                messages, response.content[0].text if len(tools) > 1 else ""
+                messages, response.content[0].text if len(tools) < 1 else ""
             ),
         }
         return plain_response

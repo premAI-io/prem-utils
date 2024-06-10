@@ -73,14 +73,14 @@ class CohereConnector(BaseConnector):
 
             for param, details in parameters["properties"].items():
                 parameter_definitions[param] = {
-                    "description": details["description"],
+                    "description": details.get("description", None),
                     "type": details["type"],
                     "required": param in parameters.get("required", []),
                 }
 
             transformed_tool = {
                 "name": tool["function"]["name"],
-                "description": tool["function"]["description"],
+                "description": tool["function"].get("description", None),
                 "parameter_definitions": parameter_definitions,
             }
 
