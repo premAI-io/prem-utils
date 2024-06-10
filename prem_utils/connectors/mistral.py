@@ -1,3 +1,4 @@
+import json
 from collections.abc import Sequence
 
 from mistralai.async_client import MistralAsyncClient
@@ -45,6 +46,12 @@ class MistralConnector(BaseConnector):
                 chat_message = ChatMessage(content=message["content"], role=message["role"])
                 chat_messages.append(chat_message)
         return chat_messages
+
+    def _get_arguments(self, arguments):
+        try:
+            return json.loads(arguments)
+        except json.JSONDecodeError:
+            return None
 
     async def chat_completion(
         self,
@@ -100,7 +107,7 @@ class MistralConnector(BaseConnector):
                                 {
                                     "id": tool_call.id,
                                     "function": {
-                                        "arguments": tool_call.function.arguments,
+                                        "arguments": self._get_arguments(tool_call.function.arguments),
                                         "name": tool_call.function.name,
                                     },
                                     "type": tool_call.type.value if tool_call.type else None,

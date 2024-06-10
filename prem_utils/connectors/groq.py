@@ -1,3 +1,4 @@
+import json
 import logging
 
 from groq import AsyncGroq, Groq
@@ -62,6 +63,12 @@ class GroqConnector(BaseConnector):
                 for choice in chunk.choices
             ],
         }
+
+    def _get_arguments(self, arguments):
+        try:
+            return json.loads(arguments)
+        except json.JSONDecodeError:
+            return None
 
     async def chat_completion(
         self,
@@ -144,7 +151,7 @@ class GroqConnector(BaseConnector):
                             {
                                 "id": tool_call.id,
                                 "function": {
-                                    "arguments": tool_call.function.arguments,
+                                    "arguments": self._get_arguments(tool_call.function.arguments),
                                     "name": tool_call.function.name,
                                 },
                                 "type": tool_call.type,
