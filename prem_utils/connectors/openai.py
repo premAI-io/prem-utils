@@ -85,8 +85,15 @@ class OpenAIConnector(BaseConnector):
         temperature: float = 1,
         top_p: float = 1,
         tools=None,
-        tool_choice=None,
     ):
+        if tools is not None and stream:
+            raise errors.PremProviderError(
+                "Cannot use tools with stream=True",
+                provider="openai",
+                model=model,
+                provider_message="Cannot use tools with stream=True",
+            )
+
         if self.prompt_template is not None:
             messages = self.apply_prompt_template(messages)
 
@@ -103,7 +110,6 @@ class OpenAIConnector(BaseConnector):
             top_p=top_p,
             logprobs=log_probs,
             logit_bias=logit_bias,
-            tool_choice=tool_choice,
             tools=tools,
         )
         try:

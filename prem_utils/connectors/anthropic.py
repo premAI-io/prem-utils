@@ -84,14 +84,32 @@ class AnthropicConnector(BaseConnector):
 
     def _get_content(self, response, tools=False):
         if tools:
-            return {"content": response.content[0].text, "role": "assistant", "tools": []}
+            return {"content": response.content[0].text, "role": "assistant", "tool_calls": []}
         else:
             tool_messages = filter(lambda x: "input" in x.__dir__() and "name" in x.__dir__(), response.content)
             return {
                 "content": "",
                 "role": "assistant",
-                "tools": [{"input": tool_message.input, "name": tool_message.name} for tool_message in tool_messages],
+                "tool_calls": [
+                    {"function_arguments": tool_message.input, "name": tool_message.name, "type": "function"}
+                    for tool_message in tool_messages
+                ],
             }
+
+    def _parse_tools(self, tools: list[dict[str, any]]):
+        if not tools:
+            return []
+        parsed_tools = []
+
+        for tool in tools:
+            transformed_tool = {
+                "name": tool["function"]["name"],
+                "description": tool["function"]["description"],
+                "input_schema": tool["function"]["parameters"],
+            }
+            parsed_tools.append(transformed_tool)
+
+        return parsed_tools
 
     async def chat_completion(
         self,
@@ -107,8 +125,9 @@ class AnthropicConnector(BaseConnector):
         stream: bool = False,
         temperature: float = 1,
         top_p: float = 1,
-        tools=[],
+        tools=None,
     ):
+        tools = self._parse_tools(tools)
         if tools != [] and stream:
             raise errors.PremProviderError(
                 "Cannot use tools with stream=True",
