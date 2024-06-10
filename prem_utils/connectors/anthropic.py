@@ -1,4 +1,5 @@
 from collections.abc import Sequence
+from uuid import uuid4
 
 from anthropic import (
     Anthropic,
@@ -91,7 +92,12 @@ class AnthropicConnector(BaseConnector):
                 "content": "",
                 "role": "assistant",
                 "tool_calls": [
-                    {"function_arguments": tool_message.input, "name": tool_message.name, "type": "function"}
+                    {
+                        "function_arguments": tool_message.input,
+                        "name": tool_message.name,
+                        "type": "function",
+                        "id": str(uuid4()),
+                    }
                     for tool_message in tool_messages
                 ],
             }
